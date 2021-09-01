@@ -111,5 +111,18 @@
   <ItemGroup>
     <Folder Include="UcControl\" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Hong\img\closeBtn_default.png" />
+    <Resource Include="Hong\img\closeBtn_MouseOver.png" />
+    <Resource Include="Hong\img\img_background.png" />
+    <Resource Include="Hong\img\img_contact.png" />
+    <Resource Include="Hong\img\img_home.png" />
+    <Resource Include="Hong\img\img_map.png" />
+    <Resource Include="Hong\img\img_message.png" />
+    <Resource Include="Hong\img\img_setting.png" />
+    <Resource Include="Hong\img\img_signout.png" />
+    <Resource Include="Hong\img\tgBtn_default.png" />
+    <Resource Include="Hong\img\tgBtn_MouseOver.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
