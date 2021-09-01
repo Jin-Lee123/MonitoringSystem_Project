@@ -74,14 +74,49 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="JIN\Page1.xaml">
+    <Page Include="JIN\Line_Monitoring.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="JIN\Logs.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="JIN\MainPage1.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="JIN\Settings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="JIN\UC_Conveyor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="JIN\UC_Robotic_Arm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="JIN\Page1.xaml.cs">
-      <DependentUpon>Page1.xaml</DependentUpon>
+    <Compile Include="JIN\Line_Monitoring.xaml.cs">
+      <DependentUpon>Line_Monitoring.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="JIN\Logs.xaml.cs">
+      <DependentUpon>Logs.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="JIN\MainPage1.xaml.cs">
+      <DependentUpon>MainPage1.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="JIN\Settings.xaml.cs">
+      <DependentUpon>Settings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="JIN\UC_Conveyor.xaml.cs">
+      <DependentUpon>UC_Conveyor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="JIN\UC_Robotic_Arm.xaml.cs">
+      <DependentUpon>UC_Robotic_Arm.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -109,7 +144,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="UcControl\" />
+    <Folder Include="Jang\UcControl\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="379361_belt_conveyor_icon %282%29.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Hong\img\closeBtn_default.png" />

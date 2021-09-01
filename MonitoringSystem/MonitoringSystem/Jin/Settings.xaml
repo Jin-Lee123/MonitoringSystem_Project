@@ -1,0 +1,66 @@
+﻿<Page x:Class="MonitoringSystem.JIN.Settings"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:MonitoringSystem.JIN"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="Settings">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="30"/>
+        </Grid.RowDefinitions>
+
+        <!-- (1행.1열) 화면-->
+        <Label Content="기준 설정값" Grid.Row="0" Grid.Column="0"  Foreground="Black" FontSize="20" FontFamily="Arial Black"/>
+
+        <!-- (2행.1열) 화면-->
+        <Label Content="공 장" Grid.Row="1" Grid.Column="0"  Foreground="Black" FontSize="15" FontFamily="Arial Black"/>
+        <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Vertical" Background="AliceBlue" Margin="20,30,20,20">
+            <Label Content="온     도 :"/>
+            <Label Content="습     도 :"/>
+            <Label Content="미세먼지 : "/>
+        </StackPanel>
+
+        <!-- (3행.1열) 화면-->
+        <Label Content="LINE 설비" Grid.Row="2" Grid.Column="0"  Foreground="Black" FontSize="15" FontFamily="Arial Black"/>
+        <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Vertical" Background="AliceBlue" Margin="20,30,20,20">
+            <Label Content="컨베이어 :"/>
+            <Label Content="로봇  팔 :"/>
+        </StackPanel>
+
+        <!-- (4행.1열) 화면-->
+        <Label Content="PUMP 설비" Grid.Row="3" Grid.Column="0"  Foreground="Black" FontSize="15" FontFamily="Arial Black"/>
+        <StackPanel Grid.Row="3" Grid.Column="0" Orientation="Vertical" Background="AliceBlue" Margin="20,30,20,20">
+            <Label Content="온 도 :"/>
+            <Label Content="유 량 :"/>
+            <Label Content="밀 도 : "/>
+        </StackPanel>
+        <!-- (5행.1열) 화면-->
+        <Button Content="저장" Grid.Row="4" Grid.Column="0"  Foreground="Black" FontSize="15" FontFamily="Arial Black" Margin="300,0,20,5"/>
+
+        <!-- (1행.2열) 화면-->
+        <Label Content="회원 정보 관리" Grid.Row="0" Grid.Column="1"  Foreground="Black" FontSize="20" FontFamily="Arial Black"/>
+
+        <!-- (5행.1열) 화면-->
+        <Button Content="삭제" Grid.Row="4" Grid.Column="1"  Foreground="Black" FontSize="15" FontFamily="Arial Black" Margin="200,0,120,5"/>
+        <Button Content="저장" Grid.Row="4" Grid.Column="1"  Foreground="Black" FontSize="15" FontFamily="Arial Black" Margin="300,0,20,5"/>
+
+        <!-- (5행.3열) 화면-->
+        <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Vertical" Background="AliceBlue" Margin="20,30,20,20" Grid.RowSpan="3">
+
+        </StackPanel>
+
+
+    </Grid>
+</Page>
