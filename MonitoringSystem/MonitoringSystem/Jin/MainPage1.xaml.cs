@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace MonitoringSystem
+namespace MonitoringSystem.JIN
 {
     /// <summary>
-    /// Page1.xaml에 대한 상호 작용 논리
+    /// MainPage1.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class Page1 : Page
+    public partial class MainPage1 : Page
     {
-        public Page1()
+        public MainPage1()
         {
             InitializeComponent();
         }
