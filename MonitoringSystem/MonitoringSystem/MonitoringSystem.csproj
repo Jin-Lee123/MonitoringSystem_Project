@@ -55,7 +55,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Jang\UcTank.xaml.cs">
+    <Compile Include="Jang\Tank.xaml.cs">
+      <DependentUpon>Tank.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Jang\UcControl\UcPipe.xaml.cs">
+      <DependentUpon>UcPipe.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Jang\UcControl\UcPipe2.xaml.cs">
+      <DependentUpon>UcPipe2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Jang\UcControl\UcTank.xaml.cs">
       <DependentUpon>UcTank.xaml</DependentUpon>
     </Compile>
     <Page Include="Hong\MainWindow.xaml">
@@ -70,7 +79,23 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Jang\UcTank.xaml">
+    <Page Include="Jang\Tank.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Jang\UcControl\UcPipe.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Jang\UcControl\UcPipe2.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Jang\UcControl\UcTank.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Jang\UcControl\UcValve.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -100,6 +125,9 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Jang\UcControl\UcValve.xaml.cs">
+      <DependentUpon>UcValve.xaml</DependentUpon>
+    </Compile>
     <Compile Include="JIN\Line_Monitoring.xaml.cs">
       <DependentUpon>Line_Monitoring.xaml</DependentUpon>
     </Compile>
@@ -144,7 +172,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Jang\UcControl\" />
+    <Resource Include="7037898_cable_sea_ocean_pipe_connector_icon.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="379361_belt_conveyor_icon %282%29.png" />
@@ -161,6 +189,8 @@
     <Resource Include="Hong\img\img_signout.png" />
     <Resource Include="Hong\img\tgBtn_default.png" />
     <Resource Include="Hong\img\tgBtn_MouseOver.png" />
+
+    <Resource Include="4137152_building_construction_industry_pipe_icon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
