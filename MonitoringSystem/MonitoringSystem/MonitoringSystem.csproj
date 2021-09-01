@@ -55,6 +55,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Hong\Login.xaml.cs">
+      <DependentUpon>Login.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Jang\Tank.xaml.cs">
       <DependentUpon>Tank.xaml</DependentUpon>
     </Compile>
@@ -67,6 +70,10 @@
     <Compile Include="Jang\UcControl\UcTank.xaml.cs">
       <DependentUpon>UcTank.xaml</DependentUpon>
     </Compile>
+    <Page Include="Hong\Login.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Hong\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -189,7 +196,6 @@
     <Resource Include="Hong\img\img_signout.png" />
     <Resource Include="Hong\img\tgBtn_default.png" />
     <Resource Include="Hong\img\tgBtn_MouseOver.png" />
-
     <Resource Include="4137152_building_construction_industry_pipe_icon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
