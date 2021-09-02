@@ -81,7 +81,7 @@
                 </local:UcPipe2.RenderTransform>
             </local:UcPipe2>
 
-            <Grid HorizontalAlignment="Center" Height="64" VerticalAlignment="Center" Width="200" Background="#FF8FC6DA" Grid.ColumnSpan="2" Grid.Row="1" Canvas.Top="32" >
+            <Grid HorizontalAlignment="Center" Height="64" VerticalAlignment="Center" Width="190" Background="#FF8FC6DA" Grid.ColumnSpan="2" Grid.Row="1" Canvas.Top="32" Canvas.Left="10" >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1*"/>
                     <ColumnDefinition Width="1*"/>

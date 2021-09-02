@@ -70,6 +70,11 @@
     <Compile Include="Jang\UcControl\UcTank.xaml.cs">
       <DependentUpon>UcTank.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\LineViewModel.cs" />
+    <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\RelayCommand.cs" />
+    <Compile Include="ViewModels\TankViews.cs" />
+    <Compile Include="ViewModels\ViewModelBase.cs" />
     <Page Include="Hong\Login.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
