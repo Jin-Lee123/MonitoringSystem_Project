@@ -36,6 +36,8 @@ namespace MonitoringSystem.ViewModels
                 MessageBox.Show($"예외발생 : {ex.Message}");
             }
         }
+
+
         #endregion
     }
 }

@@ -11,7 +11,8 @@
         Width="1200"
         Topmost="True"
         WindowStyle="None"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen"
+        WindowState="Maximized">
 
     <Window.Resources>
 
@@ -181,6 +182,15 @@
                     <RowDefinition Height="60"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
+                <!-- // Page를 띄울 Frame // -->
+
+                <Frame x:Name="MainWindowFrame" 
+                       Grid.Row="2" 
+                       Grid.Column="0" 
+                       Grid.ColumnSpan="3" 
+                       Margin="225,0,0.2,0" 
+                       NavigationUIVisibility="Hidden"/>
+
                 <Button x:Name="CloseBtn"
                         Grid.Column="1"
                         Grid.Row="1"
@@ -198,8 +208,6 @@
                     </Button.Background>
 
                 </Button>
-
-                <Hong:Login HorizontalAlignment="Left" Height="487" Margin="254,23,0,0" Grid.Row="2" VerticalAlignment="Top" Width="823"/>
 
             </Grid>
 
@@ -219,14 +227,14 @@
 
                         <!--// Menu title text //-->
 
-                        <TextBlock  Grid.Row="1"
+                        <TextBlock
                                     Grid.Column="0"
-                                    Margin="100,-20,0,0"
-                                    Text="M E N U"
+                                    Margin="36,29,40.4,35"
+                                    Text="통합관제시스템"
                                     Foreground="White"
                                     FontSize="22"
                                     Background="Transparent"
-                                    HorizontalAlignment="Left"
+                                    HorizontalAlignment="Center"
                                     VerticalAlignment="Center"
                                     Style="{StaticResource font_style}">
                             
@@ -245,74 +253,6 @@
 
                         <!--// Toggle Button //-->
 
-                        <ToggleButton x:Name="Tg_Btn"
-                                      Grid.Column="0"
-                                      VerticalAlignment="Center"
-                                      HorizontalAlignment="Left"
-                                      Margin="18,-20,0,0"
-                                      Height="30"
-                                      Width="30"
-                                      BorderThickness="0"
-                                      Style="{StaticResource tb_style}">
-
-                            <!--// Toggle button default background image //-->
-
-                            <ToggleButton.Background>
-
-                                <ImageBrush ImageSource="/Hong/img/tgBtn_default.png"
-                                            Stretch="None"/>
-
-                            </ToggleButton.Background>
-
-                            <!--// Toggle Button - Checked, Unchecked events //-->
-
-                            <ToggleButton.Triggers>
-
-                                <EventTrigger RoutedEvent="ToggleButton.Unchecked">
-
-                                    <BeginStoryboard>
-
-                                        <Storyboard x:Name="HideStackPanel">
-
-                                            <DoubleAnimation    
-                                                
-                                                Storyboard.TargetName="nav_pnl"
-                                                Storyboard.TargetProperty="Width"
-                                                BeginTime="0:0:0"
-                                                From="230" To="80"
-                                                Duration="0:0:0.2"/>
-
-                                        </Storyboard>
-
-                                    </BeginStoryboard>
-
-                                </EventTrigger>
-
-                                <EventTrigger RoutedEvent="ToggleButton.Checked">
-
-                                    <BeginStoryboard>
-
-                                        <Storyboard x:Name="ShowStackPanel">
-
-                                            <DoubleAnimation
-                                                
-                                                Storyboard.TargetName="nav_pnl"
-                                                Storyboard.TargetProperty="Width"
-                                                BeginTime="0:0:0"
-                                                From="80" To="230"
-                                                Duration="0:0:0.3"/>
-
-                                        </Storyboard>
-
-                                    </BeginStoryboard>
-
-                                </EventTrigger>
-
-                            </ToggleButton.Triggers>
-
-
-                        </ToggleButton>
-
                     </Grid>
 
                     <!--// ListView with menu list items //-->
@@ -326,235 +266,18 @@
                             Foreground="Yellow"
                             Margin="49,-10,-29,9.8"/>
                     </Grid>
-                    <ListView  x:Name="LV"
-                               Background="Transparent"
-                               BorderBrush="Transparent"
-                               ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-
-
-
-                        <!--// Listview items style template //-->
-
-                        <ListView.ItemContainerStyle>
-
-                            <Style TargetType="{x:Type ListViewItem}">
-
-                                <Setter Property="Template">
-
-                                    <Setter.Value>
-
-                                        <ControlTemplate TargetType="{x:Type ListViewItem}">
-
-                                            <Border x:Name="Bd"
-                                                    Height="50"
-                                                    BorderBrush="{TemplateBinding BorderBrush}"
-                                                    BorderThickness="{TemplateBinding BorderThickness}"
-                                                    Background="{TemplateBinding Background}"
-                                                    Padding="{TemplateBinding Padding}"
-                                                    SnapsToDevicePixels="True">
-
-                                                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                                  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-
-                                            </Border>
-
-                                            <ControlTemplate.Triggers>
-
-                                                <MultiTrigger>
-
-                                                    <MultiTrigger.Conditions>
-
-                                                        <Condition Property="IsMouseOver" Value="True"/>
-
-                                                    </MultiTrigger.Conditions>
-
-                                                    <Setter Property="Background"
-                                                            TargetName="Bd"
-                                                            Value="#404D5B"/>
-
-                                                    <Setter Property="BorderBrush"
-                                                            TargetName="Bd"
-                                                            Value="#404D5B"/>
-
-                                                </MultiTrigger>
-
-                                            </ControlTemplate.Triggers>
-
-                                        </ControlTemplate>
-
-                                    </Setter.Value>
-
-                                </Setter>
-
-                            </Style>
-
-                        </ListView.ItemContainerStyle>
-
-                        <!--// Monitoring //-->
-
-                        <ListViewItem HorizontalAlignment="Left"
-                                      Margin="0,0,0,15" MouseEnter="ListViewItem_MouseEnter"
-                                      >
-
-                            <!--// Tooltip //-->
-
-                            <ListViewItem.ToolTip>
-
-                                <ToolTip x:Name="tt_home"
-                                         Content="Home"
-                                         Style="{StaticResource tt_style}"/>
-
-                            </ListViewItem.ToolTip>
-
-                            <StackPanel Orientation="Horizontal"
-                                        Width="230">
-
-                                <Image Source= "/Hong/img/img_home.png"
-                                       Stretch="None"
-                                       Margin="20,0,0,0"/>
-
-                                <TextBlock Text="Mornitoring"
-                                           Margin="40,0,0,0"
-                                           Style="{StaticResource font_style}"/>
-
-                            </StackPanel>
-
-                        </ListViewItem>
-
-                        <!--// Contacts //-->
-
-                        <ListViewItem HorizontalAlignment="Left"
-                                      Margin="0,0,0,15" MouseEnter="ListViewItem_MouseEnter"
-                                      >
-
-                            <!--// Tooltip //-->
-
-                            <ListViewItem.ToolTip>
-
-                                <ToolTip x:Name="tt_contacts"
-                                         Content="Contacts"
-                                         Style="{StaticResource tt_style}"/>
-
-                            </ListViewItem.ToolTip>
-
-                            <StackPanel Orientation="Horizontal"
-                                        Width="230">
-
-                                <Image Source="/Hong/img/img_contact.png"
-
-                                       Stretch="None"
-                                       Margin="20,0,0,0"/>
-
-                                <TextBlock Text="Containers"
-                                           Margin="40,0,0,0"
-                                           Style="{StaticResource font_style}"/>
-
-                            </StackPanel>
-
-                        </ListViewItem>
-
-                        <!--// Messages //-->
-
-                        <ListViewItem HorizontalAlignment="Left"
-                                      Margin="0,0,0,15" MouseEnter="ListViewItem_MouseEnter"
-                                      >
-
-                            <!--// Tooltip //-->
-
-                            <ListViewItem.ToolTip>
-
-                                <ToolTip x:Name="tt_messages"
-                                         Content="Messages"
-                                         Style="{StaticResource tt_style}"/>
-
-                            </ListViewItem.ToolTip>
-
-                            <StackPanel Orientation="Horizontal"
-                                        Width="230">
-
-                                <Image Source="/Hong/img/img_message.png"
-
-                                       Stretch="None"
-                                       Margin="20,0,0,0"/>
-
-                                <TextBlock Text="Pumps"
-                                           Margin="40,0,0,0"
-                                           Style="{StaticResource font_style}"/>
-
-                            </StackPanel>
-
-                        </ListViewItem>
-
-                        <!--// Maps //-->
-
-                        <ListViewItem HorizontalAlignment="Left"
-                                      Margin="0,0,0,15" MouseEnter="ListViewItem_MouseEnter"
-                                      >
-
-                            <!--// Tooltip //-->
-
-                            <ListViewItem.ToolTip>
-
-                                <ToolTip x:Name="tt_maps"
-                                         Content="Maps"
-                                         Style="{StaticResource tt_style}"/>
-
-                            </ListViewItem.ToolTip>
-
-                            <StackPanel Orientation="Horizontal"
-                                        Width="230">
-
-                                <Image Source="/Hong/img/img_map.png"
-
-                                       Stretch="None"
-                                       Margin="20,0,0,0"/>
-
-                                <TextBlock Text="Logs"
-                                           Margin="40,0,0,0"
-                                           Style="{StaticResource font_style}"/>
-
-                            </StackPanel>
-
-                        </ListViewItem>
-
-                        <!--// Settings //-->
-
-                        <ListViewItem HorizontalAlignment="Left"
-                                      Margin="0,0,0,15" MouseEnter="ListViewItem_MouseEnter"
-                                      >
-
-                            <!--// Tooltip //-->
-
-                            <ListViewItem.ToolTip>
-
-                                <ToolTip x:Name="tt_settings"
-                                         Content="Settings"
-                                         Style="{StaticResource tt_style}"/>
-
-                            </ListViewItem.ToolTip>
-
-                            <StackPanel Orientation="Horizontal"
-                                        Width="230">
-
-                                <Image Source="/Hong/img/img_setting.png"
-
-                                       Stretch="None"
-                                       Margin="20,0,0,0"/>
-
-                                <TextBlock Text="Settings"
-                                           Margin="40,0,0,0"
-                                           Style="{StaticResource font_style}"/>
-
-                            </StackPanel>
-
-                        </ListViewItem>
-
-
-
-                    </ListView>
 
                 </StackPanel>
+                <Hong:MenuWithSubMenuControl HorizontalAlignment="Left" Height="660" Margin="-5,135,0,-1.4" VerticalAlignment="Top" Width="235" RenderTransformOrigin="0.5,0.5">
+                    <Hong:MenuWithSubMenuControl.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="0.039"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Hong:MenuWithSubMenuControl.RenderTransform>
+                </Hong:MenuWithSubMenuControl>
 
 
             </Grid>

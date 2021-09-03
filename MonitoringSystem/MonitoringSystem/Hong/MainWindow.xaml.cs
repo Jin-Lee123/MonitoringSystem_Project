@@ -35,7 +35,7 @@ namespace MonitoringSystem
             DisplayDateTextBlock.Text = DateTime.Now.ToString(@"HH:mm");
         }
 
-        private void ListViewItem_MouseEnter(object sender, MouseEventArgs e)
+/*        private void ListViewItem_MouseEnter(object sender, MouseEventArgs e)
         {
             // Set tooltip visibility
 
@@ -55,7 +55,7 @@ namespace MonitoringSystem
                 tt_maps.Visibility = Visibility.Visible;
                 tt_settings.Visibility = Visibility.Visible;
             }
-        }
+        }*/
 
         /*        private void Tg_Btn_Unchecked(object sender, RoutedEventArgs e)
                 {
@@ -67,11 +67,11 @@ namespace MonitoringSystem
                     img_bg.Opacity = 0.3;
                 }
         */
-        private void BG_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+/*        private void BG_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             Tg_Btn.IsChecked = false;
         }
-
+*/
         private void CloseBtn_Click(object sender, RoutedEventArgs e)
         {
             Close();
