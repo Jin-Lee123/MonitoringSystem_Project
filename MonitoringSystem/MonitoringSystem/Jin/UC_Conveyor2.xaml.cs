@@ -33,7 +33,7 @@ namespace MonitoringSystem.JIN
 
         private void StartAnimation()
         {
-            // 애니메이션
+            // 애니메이션 gg
             DoubleAnimation da = new DoubleAnimation();
             da.From = 0;
             da.To = 360;
