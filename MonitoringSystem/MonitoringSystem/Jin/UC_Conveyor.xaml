@@ -7,7 +7,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <Image Margin="20" Source="/MonitoringSystem;component/379361_belt_conveyor_icon (2).png" Stretch="Fill"/>
-
+        <Image Margin="20,20,571,319" Source="/MonitoringSystem;component/379361_belt_conveyor_icon (2).png" Stretch="Fill"/>
     </Grid>
 </UserControl>

@@ -73,6 +73,9 @@
     <Compile Include="Jang\UcControl\UcTank.xaml.cs">
       <DependentUpon>UcTank.xaml</DependentUpon>
     </Compile>
+    <Compile Include="JIN\UC_Conveyor2.xaml.cs">
+      <DependentUpon>UC_Conveyor2.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\Mornitoring.xaml.cs">
       <DependentUpon>Mornitoring.xaml</DependentUpon>
     </Compile>
@@ -144,6 +147,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="JIN\UC_Conveyor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="JIN\UC_Conveyor2.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
