@@ -61,6 +61,9 @@
     <Compile Include="Hong\MenuWithSubMenuControl.xaml.cs">
       <DependentUpon>MenuWithSubMenuControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="JIN\UC_Robotc_Arm2.xaml.cs">
+      <DependentUpon>UC_Robotc_Arm2.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\Tank.xaml.cs">
       <DependentUpon>Tank.xaml</DependentUpon>
     </Compile>
@@ -110,6 +113,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Hong\MenuWithSubMenuControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="JIN\UC_Robotc_Arm2.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

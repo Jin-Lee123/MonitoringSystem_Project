@@ -45,6 +45,10 @@ namespace MonitoringSystem.JIN
             Motor1.RenderTransformOrigin = new Point(0.5, 0.5);
             Motor2.RenderTransform = rt;
             Motor2.RenderTransformOrigin = new Point(0.5, 0.5);
+            Motor3.RenderTransform = rt;
+            Motor3.RenderTransformOrigin = new Point(0.5, 0.5);
+            Motor4.RenderTransform = rt;
+            Motor4.RenderTransformOrigin = new Point(0.5, 0.5);
 
             rt.BeginAnimation(RotateTransform.AngleProperty, da);
         }

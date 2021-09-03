@@ -25,10 +25,14 @@
                     <Ellipse Fill="#FFC7C7C7" Margin="0,0,118,0" />
                     <Ellipse Fill="#FFC7C7C7" Margin="118,0,0,0" />
                     <Rectangle Fill="#FFC7C7C7" Margin="14,0" />
+                    
                 </Grid>
             </Viewbox>
             <local:UC_Motor x:Name="Motor1" Height="26" Canvas.Left="10" Canvas.Top="7" Width="26"/>
-            <local:UC_Motor x:Name="Motor2" Height="26" Canvas.Left="126" Canvas.Top="7" Width="26"/>
+            <local:UC_Motor x:Name="Motor2" Height="26" Canvas.Left="125" Canvas.Top="7" Width="26"/>
+            <local:UC_Motor x:Name="Motor3" Height="26" Canvas.Left="45" Canvas.Top="7" Width="26"/>
+            <local:UC_Motor x:Name="Motor4" Height="26" Canvas.Left="90" Canvas.Top="7" Width="26"/>
+
         </Canvas>
     </Viewbox>
 </UserControl>
