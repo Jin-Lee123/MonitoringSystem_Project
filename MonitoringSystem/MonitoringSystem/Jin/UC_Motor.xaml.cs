@@ -9,7 +9,6 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -17,15 +16,13 @@ using System.Windows.Shapes;
 namespace MonitoringSystem.JIN
 {
     /// <summary>
-    /// MainPage1.xaml에 대한 상호 작용 논리
+    /// UC_Motor.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class MainPage1 : Page
+    public partial class UC_Motor : UserControl
     {
-        public MainPage1()
+        public UC_Motor()
         {
             InitializeComponent();
         }
-
-       
     }
 }
