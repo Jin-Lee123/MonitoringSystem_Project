@@ -100,7 +100,6 @@
     <Compile Include="Views\Setting.xaml.cs">
       <DependentUpon>Setting.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Tank.xaml.cs">
     <Compile Include="JIN\UC_Robotc_Arm2.xaml.cs">
       <DependentUpon>UC_Robotc_Arm2.xaml</DependentUpon>
     </Compile>
