@@ -35,8 +35,36 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Caliburn.Micro.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Caliburn.Micro.Core.4.0.173\lib\netstandard2.0\Caliburn.Micro.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Caliburn.Micro.Platform, Version=4.0.0.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Caliburn.Micro.4.0.173\lib\net461\Caliburn.Micro.Platform.dll</HintPath>
+    </Reference>
+    <Reference Include="Caliburn.Micro.Platform.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Caliburn.Micro.4.0.173\lib\net461\Caliburn.Micro.Platform.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="ControlzEx, Version=4.0.0.0, Culture=neutral, PublicKeyToken=69f1c32f803d307e, processorArchitecture=MSIL">
+      <HintPath>..\packages\ControlzEx.4.4.0\lib\net462\ControlzEx.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro, Version=2.0.0.0, Culture=neutral, PublicKeyToken=51482d6f650b2b3f, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.2.4.7\lib\net47\MahApps.Metro.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Xaml.Behaviors, Version=1.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Xaml.Behaviors.Wpf.1.1.19\lib\net45\Microsoft.Xaml.Behaviors.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Runtime.Serialization.Primitives, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.Serialization.Primitives.4.3.0\lib\net46\System.Runtime.Serialization.Primitives.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -55,13 +83,24 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Bootstrapper.cs" />
     <Compile Include="Hong\Login.xaml.cs">
       <DependentUpon>Login.xaml</DependentUpon>
     </Compile>
     <Compile Include="Hong\MenuWithSubMenuControl.xaml.cs">
       <DependentUpon>MenuWithSubMenuControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\Tank.xaml.cs">
+    <Compile Include="Models\Common.cs" />
+    <Compile Include="Models\TB_Employees.cs" />
+    <Compile Include="Models\TB_Log.cs" />
+    <Compile Include="Models\TB_SET.cs" />
+    <Compile Include="Views\Log.xaml.cs">
+      <DependentUpon>Log.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Setting.xaml.cs">
+      <DependentUpon>Setting.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Tank.xaml.cs">
       <DependentUpon>Tank.xaml</DependentUpon>
     </Compile>
     <Compile Include="Jang\UcControl\UcPipe.xaml.cs">
@@ -76,16 +115,21 @@
     <Compile Include="JIN\UC_Conveyor2.xaml.cs">
       <DependentUpon>UC_Conveyor2.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\Mornitoring.xaml.cs">
+    <Compile Include="Views\Mornitoring.xaml.cs">
       <DependentUpon>Mornitoring.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\CommandViewModel.cs" />
     <Compile Include="ViewModels\LineViewModel.cs" />
+    <Compile Include="ViewModels\LogViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\RelayCommand.cs" />
+    <Compile Include="ViewModels\SettingViewModel.cs" />
     <Compile Include="ViewModels\SubMenuViewModel.cs" />
     <Compile Include="ViewModels\TankViews.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
+    <Compile Include="Views\MainView.xaml.cs">
+      <DependentUpon>MainView.xaml</DependentUpon>
+    </Compile>
     <Page Include="Hong\img\IconDictonary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -94,23 +138,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Hong\MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Hong\MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Hong\MenuWithSubMenuControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\Tank.xaml">
+    <Page Include="Views\Log.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Setting.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Tank.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -134,15 +178,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="JIN\Logs.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="JIN\MainPage1.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="JIN\Settings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -158,7 +194,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\Mornitoring.xaml">
+    <Page Include="Views\Mornitoring.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MainView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -170,14 +210,8 @@
     <Compile Include="JIN\Line_Monitoring.xaml.cs">
       <DependentUpon>Line_Monitoring.xaml</DependentUpon>
     </Compile>
-    <Compile Include="JIN\Logs.xaml.cs">
-      <DependentUpon>Logs.xaml</DependentUpon>
-    </Compile>
     <Compile Include="JIN\MainPage1.xaml.cs">
       <DependentUpon>MainPage1.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="JIN\Settings.xaml.cs">
-      <DependentUpon>Settings.xaml</DependentUpon>
     </Compile>
     <Compile Include="JIN\UC_Conveyor.xaml.cs">
       <DependentUpon>UC_Conveyor.xaml</DependentUpon>
@@ -202,6 +236,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

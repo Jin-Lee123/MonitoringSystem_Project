@@ -1,18 +1,20 @@
 ﻿<Window
+        x:Class="MonitoringSystem.Views.MainView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MonitoringSystem"
-        xmlns:Jang="clr-namespace:MonitoringSystem.Jang" xmlns:Hong="clr-namespace:MonitoringSystem.Hong" x:Class="MonitoringSystem.MainWindow"
+        xmlns:View="clr-namespace:MonitoringSystem.ViewModels" 
+        xmlns:Hong="clr-namespace:MonitoringSystem.Hong" 
         mc:Ignorable="d"
        Title="Window" 
         Height="800" 
         Width="1200"
         Topmost="True"
-        WindowStyle="None"
+        WindowStyle="ThreeDBorderWindow"
         WindowStartupLocation="CenterScreen"
-        WindowState="Maximized">
+        WindowState="Normal">
 
     <Window.Resources>
 
@@ -43,6 +45,7 @@
 
             <Setter Property="FontSize"
                     Value="20"/>
+
 
         </Style>
 
@@ -160,10 +163,14 @@
     </Window.Resources>
 
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="65*"/>
+            <ColumnDefinition Width="1129*"/>
+        </Grid.ColumnDefinitions>
 
         <!--// Background Color //-->
 
-        <Grid Background="White">
+        <Grid Background="White" Grid.ColumnSpan="2" Margin="0,0,-0.4,0.4">
 
             <!--// Background Image //-->
 
@@ -263,8 +270,8 @@
                             Text="" 
                             FontSize="30" 
                             FontWeight="Bold" 
-                            Foreground="Yellow"
-                            Margin="49,-10,-29,9.8"/>
+                            Foreground="White"
+                            HorizontalAlignment="Center"/>
                     </Grid>
 
                 </StackPanel>

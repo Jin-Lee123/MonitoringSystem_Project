@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
+using MonitoringSystem.Views;
+using MonitoringSystem.ViewModels;
 
 namespace MonitoringSystem.ViewModels
 {
@@ -15,7 +17,7 @@ namespace MonitoringSystem.ViewModels
         ResourceDictionary dict = Application.LoadComponent(new Uri("/MonitoringSystem;component/Hong/img/IconDictonary.xaml", UriKind.RelativeOrAbsolute)) as ResourceDictionary;
 
 
-        //Our Source List for Menu Items
+        // Source 추가
         public List<MenuItemsData> MenuList
         {
             get
@@ -29,9 +31,9 @@ namespace MonitoringSystem.ViewModels
 
                     new MenuItemsData(){ PathData= (PathGeometry)dict["icon_message"], MenuText="Containers"},
 
-                    new MenuItemsData(){ PathData= (PathGeometry)dict["icon_map"], MenuText="Logs"},
+                    new MenuItemsData(){ PathData= (PathGeometry)dict["icon_map"], MenuText="Log"},
 
-                    new MenuItemsData(){ PathData= (PathGeometry)dict["icon_setting"], MenuText="Settings"}
+                    new MenuItemsData(){ PathData= (PathGeometry)dict["icon_setting"], MenuText="Setting"}
 
                 };
             }
@@ -44,7 +46,7 @@ namespace MonitoringSystem.ViewModels
         public PathGeometry PathData { get; set; }
         public string MenuText { get; set; }
 
-        //To Add click event to our Buttons we will use ICommand here to switch pages when specific button is clicked
+        // 클릭 이벤트 구현
         public MenuItemsData()
         {
             Command = new CommandViewModel(Execute);
@@ -62,13 +64,12 @@ namespace MonitoringSystem.ViewModels
 
         private void navigateToPage(string Menu)
         {
-            //We will search for our Main Window in open windows and then will access the frame inside it to set the navigation to desired page..
-            //lets see how... ;)
+            // Frame 안에 들어갈 Page를 찾기
             foreach (Window window in Application.Current.Windows)
             {
-                if (window.GetType() == typeof(MainWindow))
+                if (window.GetType() == typeof(MainView))
                 {
-                    (window as MainWindow).MainWindowFrame.Navigate(new Uri(string.Format("{0}{1}{2}", "Pages/", Menu, ".xaml"), UriKind.RelativeOrAbsolute));
+                    (window as MainView).MainWindowFrame.Navigate(new Uri(string.Format("{0}{1}{2}", "Views/", Menu, ".xaml"), UriKind.RelativeOrAbsolute));
                 }
             }
         }

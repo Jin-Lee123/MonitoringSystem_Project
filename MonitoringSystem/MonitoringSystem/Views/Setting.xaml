@@ -1,0 +1,163 @@
+﻿<Page x:Class="MonitoringSystem.Pages.Setting"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+      xmlns:local="clr-namespace:MonitoringSystem.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="Setting">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+
+        </Grid.ColumnDefinitions>
+        <Grid Margin="25">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="2*" />
+            </Grid.ColumnDefinitions>
+            <Label Grid.Row="0" Grid.Column="0" Content="공장" VerticalAlignment="Center"
+                   FontWeight="Bold"
+                   FontSize="20"
+                   Style="{StaticResource MahApps.Styles.Label}"/>
+
+            <Label Grid.Row="1" Grid.Column="0" Content="온도" VerticalAlignment="Center"
+                   FontWeight="Bold"
+                   Style="{StaticResource MahApps.Styles.Label}"/>
+            <TextBox x:Name="PlantT" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center"
+                     mah:TextBoxHelper.Watermark="값 입력"  
+                     mah:TextBoxHelper.UseFloatingWatermark="True"
+                     mah:TextBoxHelper.ClearTextButton="True"
+            Style="{StaticResource MahApps.Styles.TextBox}"/>
+
+            <Label Grid.Row="2" Grid.Column="0" Content="습도" VerticalAlignment="Center"
+                   FontWeight="Bold"
+                   Style="{StaticResource MahApps.Styles.Label}"/>
+            <TextBox x:Name="PlantH" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center"
+                     mah:TextBoxHelper.Watermark="값 입력"
+                     mah:TextBoxHelper.UseFloatingWatermark="True"
+                     mah:TextBoxHelper.ClearTextButton="True"
+                     Style="{StaticResource MahApps.Styles.TextBox}"/>
+
+            <Label Grid.Row="3" Grid.Column="0" Content="라인설비" VerticalAlignment="Center"
+                   FontWeight="Bold"
+                   FontSize="20"
+                   Style="{StaticResource MahApps.Styles.Label}"/>
+
+            <Label Grid.Row="4" Grid.Column="0" Content="로봇팔" VerticalAlignment="Center"
+                   FontWeight="Bold"
+                   Style="{StaticResource MahApps.Styles.Label}"/>
+            <TextBox x:Name="RobotArm" Grid.Row="4" Grid.Column="1" VerticalAlignment="Center"
+                     mah:TextBoxHelper.Watermark="값 입력"
+                     mah:TextBoxHelper.UseFloatingWatermark="True"
+                     mah:TextBoxHelper.ClearTextButton="True"
+                     Style="{StaticResource MahApps.Styles.TextBox}"/>
+
+            <Label Grid.Row="5" Grid.Column="0" Content="컨베이어" VerticalAlignment="Center"
+                   FontWeight="Bold"
+                   Style="{StaticResource MahApps.Styles.Label}"/>
+            <TextBox x:Name="Conveyor" Grid.Row="5" Grid.Column="1" VerticalAlignment="Center"
+                     mah:TextBoxHelper.Watermark="값 입력"
+                     mah:TextBoxHelper.UseFloatingWatermark="True"
+                     mah:TextBoxHelper.ClearTextButton="True"
+                     Style="{StaticResource MahApps.Styles.TextBox}"/>
+
+            <Label Grid.Row="6" Grid.Column="0" Content="펌프" VerticalAlignment="Center"
+                   FontWeight="Bold"
+                   FontSize="20"
+                   Style="{StaticResource MahApps.Styles.Label}"/>
+
+            <Label Grid.Row="7" Grid.Column="0" Content="온도" VerticalAlignment="Center"
+                   FontWeight="Bold"
+                   Style="{StaticResource MahApps.Styles.Label}"/>
+            <TextBox x:Name="PumpT" Grid.Row="7" Grid.Column="1" VerticalAlignment="Center"
+                     mah:TextBoxHelper.Watermark="값 입력"
+                     mah:TextBoxHelper.UseFloatingWatermark="True"
+                     mah:TextBoxHelper.ClearTextButton="True"
+                     Style="{StaticResource MahApps.Styles.TextBox}"/>
+
+            <Label Grid.Row="8" Grid.Column="0" Content="유량" VerticalAlignment="Center"
+                   FontWeight="Bold"
+                   Style="{StaticResource MahApps.Styles.Label}"/>
+            <TextBox x:Name="FlowRate" Grid.Row="8" Grid.Column="1" VerticalAlignment="Center"
+                     mah:TextBoxHelper.Watermark="값 입력"
+                     mah:TextBoxHelper.UseFloatingWatermark="True"
+                     mah:TextBoxHelper.ClearTextButton="True"
+                     Style="{StaticResource MahApps.Styles.TextBox}"/>
+
+            <Label Grid.Row="9" Grid.Column="0" Content="밀도" VerticalAlignment="Center"
+                   FontWeight="Bold"
+                   Style="{StaticResource MahApps.Styles.Label}"/>
+            <TextBox x:Name="Density" Grid.Row="9" Grid.Column="1" VerticalAlignment="Center"
+                     mah:TextBoxHelper.Watermark="값 입력"
+                     mah:TextBoxHelper.UseFloatingWatermark="True"
+                     mah:TextBoxHelper.ClearTextButton="True"
+                     Style="{StaticResource MahApps.Styles.TextBox}"/>
+
+
+
+            <StackPanel Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="2"
+                        Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button x:Name="NewSetting" Content="신규"
+                        Width="90" Height="40" ToolTip="신규"
+                        Style="{StaticResource MahApps.Styles.Button}" />
+                <Button x:Name="SaveSetting" Content="저장"
+                    Width="90" Height="40" ToolTip="저장"
+                    Style="{StaticResource MahApps.Styles.Button.Square.Accent}"/>
+                <Button x:Name="DelSetting" Content="삭제"
+                        Width="90" Height="40" ToolTip="삭제"
+                        Style="{StaticResource MahApps.Styles.Button.Dialogs.AccentHighlight}" />
+            </StackPanel>
+
+        </Grid>
+        <Grid Grid.Row="0" Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="4*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="5*" />
+                <RowDefinition Height="1*" />
+            </Grid.RowDefinitions>
+
+            <Label Grid.Row="0" Grid.Column="1" Content="회원 정보 관리"
+                   HorizontalAlignment="Center" VerticalAlignment="Center"
+                   FontWeight="Bold" FontSize="20"
+                   Style="{StaticResource MahApps.Styles.Label}" Margin="48,14,128,14"/>
+
+            <DataGrid x:Name="TB_Employees" Grid.Row="1" Grid.Column="0"
+                      Style="{StaticResource MahApps.Styles.DataGrid.Azure}"
+                      AutoGenerateColumns="False" IsReadOnly="True"
+                      SelectedItem="{Binding SelectedEmployee}" Grid.ColumnSpan="2" Margin="0,0,0,63.6" Grid.RowSpan="2">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="아이디" Binding="{Binding Id}"       Width="*"/>
+                    <DataGridTextColumn Header="사원명" Binding="{Binding EmpName}"  Width="*"/>
+                    <DataGridTextColumn Header="부서명" Binding="{Binding DeptName}" Width="*"/>
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <Button x:Name="GetEmployees" Grid.Row="2" Grid.Column="1" Content="조회"
+                    Width="120" Height="40" ToolTip="조회"
+                    Style="{StaticResource MahApps.Styles.Button.Square.Accent}" Margin="60,12.4,140,11.6"/>
+        </Grid>
+
+    </Grid>
+</Page>
