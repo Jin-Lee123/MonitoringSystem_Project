@@ -103,9 +103,6 @@
     <Compile Include="JIN\UC_Robotc_Arm2.xaml.cs">
       <DependentUpon>UC_Robotc_Arm2.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\Tank.xaml.cs">
-      <DependentUpon>Tank.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Jang\UcControl\UcPipe.xaml.cs">
       <DependentUpon>UcPipe.xaml</DependentUpon>
     </Compile>
@@ -136,6 +133,9 @@
     <Compile Include="Views\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Tank.xaml.cs">
+      <DependentUpon>Tank.xaml</DependentUpon>
+    </Compile>
     <Page Include="Hong\img\IconDictonary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -149,10 +149,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Hong\MenuWithSubMenuControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Pages\Tank.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -192,9 +188,17 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="JIN\UC_Robotc_Arm2.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="JIN\UC_Robotic_Arm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Log.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Mornitoring.xaml">
       <SubType>Designer</SubType>
@@ -203,6 +207,14 @@
     <Page Include="Views\MainView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Setting.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Tank.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>
