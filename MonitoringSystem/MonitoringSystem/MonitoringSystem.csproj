@@ -101,6 +101,10 @@
       <DependentUpon>Setting.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Tank.xaml.cs">
+    <Compile Include="JIN\UC_Robotc_Arm2.xaml.cs">
+      <DependentUpon>UC_Robotc_Arm2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Tank.xaml.cs">
       <DependentUpon>Tank.xaml</DependentUpon>
     </Compile>
     <Compile Include="Jang\UcControl\UcPipe.xaml.cs">
@@ -119,6 +123,9 @@
       <DependentUpon>Mornitoring.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\CommandViewModel.cs" />
+    <Compile Include="JIN\UC_Motor.xaml.cs">
+      <DependentUpon>UC_Motor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\LineViewModel.cs" />
     <Compile Include="ViewModels\LogViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
@@ -146,15 +153,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Log.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Setting.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Tank.xaml">
+    <Page Include="Pages\Tank.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -187,6 +186,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="JIN\UC_Conveyor2.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="JIN\UC_Motor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

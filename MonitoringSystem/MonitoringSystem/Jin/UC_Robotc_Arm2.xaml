@@ -1,0 +1,55 @@
+﻿<UserControl x:Class="MonitoringSystem.JIN.UC_Robotc_Arm2"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MonitoringSystem.JIN"
+             mc:Ignorable="d" Height="196.5" Width="909.5">
+    <Viewbox>
+        <Canvas Width="120" Height="25">
+            <Rectangle Stretch="Fill" StrokeThickness="1" StrokeMiterLimit="2.75" Stroke="Black" HorizontalAlignment="Left" Width="80" Height="25" VerticalAlignment="Top">
+                <Rectangle.Fill>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,0.5" SpreadMethod="Reflect">
+                        <GradientStop Color="#FF071923" Offset="0" />
+                        <GradientStop Color="White" Offset="1" />
+                    </LinearGradientBrush>
+                </Rectangle.Fill>
+            </Rectangle>
+
+            <Rectangle Stretch="Fill" StrokeThickness="1" StrokeMiterLimit="2.75" Stroke="Black" RenderTransformOrigin="-0.127,0.506" Width="40" Height="10" Margin="80,0,680,440" >
+                <Rectangle.Fill>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,0.5" SpreadMethod="Reflect">
+                        <GradientStop Color="#FF071923" Offset="0" />
+                        <GradientStop Color="White" Offset="1" />
+                    </LinearGradientBrush>
+                </Rectangle.Fill>
+            </Rectangle>
+            <Rectangle Stretch="Fill" StrokeThickness="1" StrokeMiterLimit="2.75" Stroke="Black" RenderTransformOrigin="-0.127,0.506"  Width="40" Height="10" Margin="80,15,680,425" >
+                <Rectangle.Fill>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,0.5" SpreadMethod="Reflect">
+                        <GradientStop Color="#FF071923" Offset="0" />
+                        <GradientStop Color="White" Offset="1" />
+                    </LinearGradientBrush>
+                </Rectangle.Fill>
+            </Rectangle>
+            <Ellipse StrokeThickness="0.5" Stroke="Gray" Width="25" Height="25" Margin="67,0,708,425">
+                <Ellipse.Fill>
+                    <LinearGradientBrush  StartPoint="1,0.5" EndPoint="0,1" SpreadMethod="Pad">
+                        <GradientStop Color="#FF071923" Offset="0" />
+                        <GradientStop Color="White" Offset="1" />
+                    </LinearGradientBrush>
+                </Ellipse.Fill>
+            </Ellipse>
+            <Ellipse StrokeThickness="0.5" Stroke="Gray" Width="10" Height="10" Margin="74,7,716,433">
+                <Ellipse.Fill>
+                    <LinearGradientBrush  StartPoint="1,0.5" EndPoint="0,1" SpreadMethod="Pad">
+                        <GradientStop Color="#FF071923" Offset="0" />
+                        <GradientStop Color="White" Offset="1" />
+                    </LinearGradientBrush>
+                </Ellipse.Fill>
+            </Ellipse>
+
+
+        </Canvas>
+    </Viewbox>
+</UserControl>

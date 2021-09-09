@@ -4,62 +4,35 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MonitoringSystem.JIN"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             mc:Ignorable="d" Width="161" Height="52"
+             d:DesignHeight="161" d:DesignWidth="52" Loaded="UserControl_Loaded">
     <Viewbox>
-        <Canvas Width="200" Height="100">
-            <Rectangle Fill="Black" Height="10" Canvas.Left="150" Width="5" Canvas.Top="70" RadiusY="2" RadiusX="2"/>
-            <Rectangle Fill="Black" Height="13" Canvas.Left="140" Width="8" Canvas.Top="70" RadiusY="2" RadiusX="2"/>
-            <Rectangle Fill="Black" Height="10" Canvas.Left="50" Width="5" Canvas.Top="70" RadiusY="2" RadiusX="2"/>
-            <Rectangle Fill="Black" Height="13" Canvas.Left="40" Width="8" Canvas.Top="70" RadiusY="2" RadiusX="2" />
-            <Canvas Height="40" Canvas.Left="20" Canvas.Top="32.25" Width="160">
-                <Ellipse Fill="#FFB6B4B4" Height="40" Width="40" />
-                <Ellipse Fill="#FFB6B4B4" Height="40" Width="40" Canvas.Left="120" />
-                <Rectangle Fill="#FFB6B4B4" Height="40" Canvas.Left="20" Width="120" />
-            </Canvas>
-            <Canvas Height="40" Canvas.Left="20" Canvas.Top="32.25" Width="160">
-                <Ellipse Fill="#FFC7C7C7" Height="30" Width="30" Canvas.Top="5" Canvas.Left="6" />
-                <Ellipse Fill="#FFC7C7C7" Height="30" Width="30" Canvas.Left="124" Canvas.Top="5" />
-                <Rectangle Fill="#FFC7C7C7" Height="30" Canvas.Left="20" Width="120" Canvas.Top="5" />
-            </Canvas>
-            <Ellipse Fill="White" Height="20" Width="20" Canvas.Top="42" Canvas.Left="70" />
-            <Ellipse Fill="White" Height="20" Width="20" Canvas.Top="42" Canvas.Left="110" />
-            <Ellipse Fill="White" Height="20" Width="20" Canvas.Top="42" Canvas.Left="150" />
-            <Ellipse Fill="Gray" Height="10" Width="10" Canvas.Top="47" Canvas.Left="75" />
-            <Ellipse Fill="Gray" Height="10" Width="10" Canvas.Top="47" Canvas.Left="115" />
-            <Ellipse Fill="Gray" Height="10" Width="10" Canvas.Top="47" Canvas.Left="155" />
+        <Canvas Width="161" Height="52">
+            <Rectangle Fill="Black" Height="10" Canvas.Left="126" Width="5" Canvas.Top="38" RadiusY="2" RadiusX="2"/>
+            <Rectangle Fill="Black" Height="13" Canvas.Left="115" Width="8" Canvas.Top="38" RadiusY="2" RadiusX="2"/>
+            <Rectangle Fill="Black" Height="10" Canvas.Left="41" Width="5" Canvas.Top="38" RadiusY="2" RadiusX="2"/>
+            <Rectangle Fill="Black" Height="13" Canvas.Left="28" Width="8" Canvas.Top="38" RadiusY="2" RadiusX="2" />
 
-            <Rectangle Fill="Gray" Height="13" Canvas.Left="37" Width="5" Canvas.Top="37" RadiusY="3" RadiusX="3" />
-            <Rectangle Fill="Gray" Height="13" Canvas.Left="37" Width="5" Canvas.Top="54" RadiusY="3" RadiusX="3" />
-            <Rectangle Fill="Gray" Height="5" Canvas.Left="42" Width="13" Canvas.Top="50" RadiusY="3" RadiusX="3" />
-            <Rectangle Fill="Gray" Height="5" Canvas.Left="26" Width="13" Canvas.Top="50" RadiusY="3" RadiusX="3" />
-            <Rectangle Fill="Gray" Height="5" Canvas.Left="28" Width="13" Canvas.Top="44" RadiusY="3" RadiusX="3" RenderTransformOrigin="0.5,0.5" >
-                <Rectangle.RenderTransform>
-                    <TransformGroup>
-                        <ScaleTransform/>
-                        <SkewTransform/>
-                        <RotateTransform Angle="40.536"/>
-                        <TranslateTransform/>
-                    </TransformGroup>
-                </Rectangle.RenderTransform>
-            </Rectangle>
-            <Rectangle Fill="Gray" Height="5" Canvas.Left="40" Width="13" Canvas.Top="43" RadiusY="3" RadiusX="3" RenderTransformOrigin="0.5,0.5" >
-                <Rectangle.RenderTransform>
-                    <TransformGroup>
-                        <ScaleTransform/>
-                        <SkewTransform/>
-                        <RotateTransform Angle="-39.137"/>
-                        <TranslateTransform/>
-                    </TransformGroup>
-                </Rectangle.RenderTransform>
-            </Rectangle>
+            <Viewbox Height="40" Stretch="Fill" Canvas.Top="0" Width="161">
+                <Grid Height="40" Width="160">
+                    <Ellipse Fill="#FFB6B4B4" Margin="0,0,120,0" />
+                    <Ellipse Fill="#FFB6B4B4" Margin="120,0,0,0" />
+                    <Rectangle Fill="#FFB6B4B4" Margin="20,0" />
+                </Grid>
+            </Viewbox>
+            <Viewbox Height="30" Canvas.Left="6" Stretch="Fill" Canvas.Top="5" Width="148">
+                <Grid Height="30" Width="148">
+                    <Ellipse Fill="#FFC7C7C7" Margin="0,0,118,0" />
+                    <Ellipse Fill="#FFC7C7C7" Margin="118,0,0,0" />
+                    <Rectangle Fill="#FFC7C7C7" Margin="14,0" />
+                    
+                </Grid>
+            </Viewbox>
+            <local:UC_Motor x:Name="Motor1" Height="26" Canvas.Left="10" Canvas.Top="7" Width="26"/>
+            <local:UC_Motor x:Name="Motor2" Height="26" Canvas.Left="125" Canvas.Top="7" Width="26"/>
+            <local:UC_Motor x:Name="Motor3" Height="26" Canvas.Left="45" Canvas.Top="7" Width="26"/>
+            <local:UC_Motor x:Name="Motor4" Height="26" Canvas.Left="90" Canvas.Top="7" Width="26"/>
 
-
-
-
-
-            <Ellipse Fill="White" Height="20" Width="20" Canvas.Top="42" Canvas.Left="30" />
-            <Ellipse Fill="Gray" Height="10" Width="10" Canvas.Top="47" Canvas.Left="35" />
         </Canvas>
     </Viewbox>
 </UserControl>

@@ -5,11 +5,11 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MonitoringSystem.JIN"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800" Loaded="UserControl_Loaded">
     <Viewbox>
-        <Canvas Width="200" Height="200">
+        <Canvas Width="211" Height="202">
             <!-- Step 1 Main Pipe -->
-            <Rectangle x:Name="MainPipeBrush" Width="122" Height="11" Canvas.Left="38" Canvas.Top="189"
+            <Rectangle x:Name="Plate" Width="122" Height="11" Canvas.Left="38" Canvas.Top="189"
                          Stretch="Fill" StrokeThickness="1" StrokeMiterLimit="2.75" Stroke="Black">
                 <Rectangle.Fill>
                     <LinearGradientBrush StartPoint="0,0" EndPoint="0,0.5" SpreadMethod="Reflect">
@@ -19,19 +19,13 @@
                 </Rectangle.Fill>
             </Rectangle>
             <!-- Step 2-->
-            <Rectangle x:Name="LeftPipeBrush" Width="32" Height="34" Canvas.Left="81" Canvas.Top="155"
-                        Stretch="Fill" StrokeThickness="1" StrokeMiterLimit="2.75" Stroke="Black"
-                         RenderTransformOrigin="-0.127,0.506">
-                <Rectangle.Fill>
-                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,0.5" SpreadMethod="Reflect">
-                        <GradientStop Color="#FF071923" Offset="0" />
-                        <GradientStop Color="White" Offset="1" />
-                    </LinearGradientBrush>
-                </Rectangle.Fill>
-            </Rectangle>
 
             <!-- Step 3-->
-            <Rectangle x:Name="RightPipeBrush" Width="25" Height="64" Canvas.Left="74" Canvas.Top="109"
+
+            <!-- Step 2 -->
+            <local:UC_Robotc_Arm2 x:Name="Arm" Height="25" Canvas.Left="58" Canvas.Top="88" Width="107"/>
+
+            <Rectangle x:Name="bar2" Width="25" Height="64" Canvas.Left="74" Canvas.Top="109"
                         Stretch="Fill" StrokeThickness="1" StrokeMiterLimit="2.75" Stroke="Black"
                         RenderTransformOrigin="-0.127,0.506">
                 <Rectangle.RenderTransform>
@@ -39,42 +33,6 @@
                         <ScaleTransform/>
                         <SkewTransform/>
                         <RotateTransform Angle="-37.25"/>
-                        <TranslateTransform/>
-                    </TransformGroup>
-                </Rectangle.RenderTransform>
-                <Rectangle.Fill>
-                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,0.5" SpreadMethod="Reflect">
-                        <GradientStop Color="#FF071923" Offset="0" />
-                        <GradientStop Color="White" Offset="1" />
-                    </LinearGradientBrush>
-                </Rectangle.Fill>
-            </Rectangle>
-
-            <!-- Step 2 -->
-            <Ellipse Canvas.Left="81" Canvas.Top="140" Width="32" Height="28" StrokeThickness="0.5" Stroke="Gray">
-                <Ellipse.Fill>
-                    <LinearGradientBrush  StartPoint="1,0.5" EndPoint="0,1" SpreadMethod="Pad">
-                        <GradientStop Color="#FF071923" Offset="0" />
-                        <GradientStop Color="White" Offset="1" />
-                    </LinearGradientBrush>
-                </Ellipse.Fill>
-            </Ellipse>
-            <Ellipse Canvas.Left="88" Canvas.Top="147" Width="18" Height="13" StrokeThickness="0.5" Stroke="Gray">
-                <Ellipse.Fill>
-                    <LinearGradientBrush  StartPoint="1,0.5" EndPoint="0,1" SpreadMethod="Pad">
-                        <GradientStop Color="#FF071923" Offset="0" />
-                        <GradientStop Color="White" Offset="1" />
-                    </LinearGradientBrush>
-                </Ellipse.Fill>
-            </Ellipse>
-            <Rectangle x:Name="RightPipeBrush_Copy" Width="25" Height="64" Canvas.Left="95" Canvas.Top="72"
-                Stretch="Fill" StrokeThickness="1" StrokeMiterLimit="2.75" Stroke="Black"
-                RenderTransformOrigin="-0.127,0.506">
-                <Rectangle.RenderTransform>
-                    <TransformGroup>
-                        <ScaleTransform/>
-                        <SkewTransform/>
-                        <RotateTransform Angle="-113.361"/>
                         <TranslateTransform/>
                     </TransformGroup>
                 </Rectangle.RenderTransform>
@@ -101,17 +59,9 @@
                     </LinearGradientBrush>
                 </Ellipse.Fill>
             </Ellipse>
-            <Rectangle x:Name="RightPipeBrush_Copy1" Width="11" Height="35" Canvas.Left="132" Canvas.Top="52"
-                Stretch="Fill" StrokeThickness="1" StrokeMiterLimit="2.75" Stroke="Black"
-                RenderTransformOrigin="-0.127,0.506">
-                <Rectangle.RenderTransform>
-                    <TransformGroup>
-                        <ScaleTransform/>
-                        <SkewTransform/>
-                        <RotateTransform Angle="-113.361"/>
-                        <TranslateTransform/>
-                    </TransformGroup>
-                </Rectangle.RenderTransform>
+            <Rectangle x:Name="bar1" Width="32" Height="34" Canvas.Left="81" Canvas.Top="155"
+                        Stretch="Fill" StrokeThickness="1" StrokeMiterLimit="2.75" Stroke="Black"
+                         RenderTransformOrigin="-0.127,0.506">
                 <Rectangle.Fill>
                     <LinearGradientBrush StartPoint="0,0" EndPoint="0,0.5" SpreadMethod="Reflect">
                         <GradientStop Color="#FF071923" Offset="0" />
@@ -119,25 +69,7 @@
                     </LinearGradientBrush>
                 </Rectangle.Fill>
             </Rectangle>
-            <Rectangle x:Name="RightPipeBrush_Copy2" Width="11" Height="35" Canvas.Left="139" Canvas.Top="69"
-                Stretch="Fill" StrokeThickness="1" StrokeMiterLimit="2.75" Stroke="Black"
-                RenderTransformOrigin="-0.127,0.506">
-                <Rectangle.RenderTransform>
-                    <TransformGroup>
-                        <ScaleTransform/>
-                        <SkewTransform/>
-                        <RotateTransform Angle="-113.361"/>
-                        <TranslateTransform/>
-                    </TransformGroup>
-                </Rectangle.RenderTransform>
-                <Rectangle.Fill>
-                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,0.5" SpreadMethod="Reflect">
-                        <GradientStop Color="#FF071923" Offset="0" />
-                        <GradientStop Color="White" Offset="1" />
-                    </LinearGradientBrush>
-                </Rectangle.Fill>
-            </Rectangle>
-            <Ellipse Canvas.Left="97" Canvas.Top="66" Width="32" Height="28" StrokeThickness="0.5" Stroke="Gray">
+            <Ellipse Canvas.Left="81" Canvas.Top="140" Width="32" Height="28" StrokeThickness="0.5" Stroke="Gray">
                 <Ellipse.Fill>
                     <LinearGradientBrush  StartPoint="1,0.5" EndPoint="0,1" SpreadMethod="Pad">
                         <GradientStop Color="#FF071923" Offset="0" />
@@ -145,7 +77,7 @@
                     </LinearGradientBrush>
                 </Ellipse.Fill>
             </Ellipse>
-            <Ellipse Canvas.Left="105" Canvas.Top="73" Width="16" Height="13" StrokeThickness="0.5" Stroke="Gray">
+            <Ellipse Canvas.Left="88" Canvas.Top="147" Width="18" Height="13" StrokeThickness="0.5" Stroke="Gray">
                 <Ellipse.Fill>
                     <LinearGradientBrush  StartPoint="1,0.5" EndPoint="0,1" SpreadMethod="Pad">
                         <GradientStop Color="#FF071923" Offset="0" />
