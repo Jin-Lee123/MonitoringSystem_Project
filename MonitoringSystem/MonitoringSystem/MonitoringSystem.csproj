@@ -87,16 +87,21 @@
     <Compile Include="Hong\Login.xaml.cs">
       <DependentUpon>Login.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Hong\MenuWithSubMenuControl.xaml.cs">
-      <DependentUpon>MenuWithSubMenuControl.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Models\Common.cs" />
     <Compile Include="Models\TB_Employees.cs" />
     <Compile Include="Models\TB_Log.cs" />
     <Compile Include="Models\TB_SET.cs" />
+    <Compile Include="ViewModels\ConveyorViewModel.cs" />
+    <Compile Include="ViewModels\MonitoringViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
+    <Compile Include="Views\ConveyorView.xaml.cs">
+      <DependentUpon>ConveyorView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\LogView.xaml.cs">
       <DependentUpon>LogView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MonitoringView.xaml.cs">
+      <DependentUpon>MonitoringView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SettingsView.xaml.cs">
       <DependentUpon>SettingsView.xaml</DependentUpon>
@@ -127,14 +132,13 @@
     <Compile Include="ViewModels\LogViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\RelayCommand.cs" />
-    <Compile Include="ViewModels\SubMenuViewModel.cs" />
     <Compile Include="ViewModels\TankViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="Views\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Tank.xaml.cs">
-      <DependentUpon>Tank.xaml</DependentUpon>
+    <Compile Include="Views\TankView.xaml.cs">
+      <DependentUpon>TankView.xaml</DependentUpon>
     </Compile>
     <Page Include="Hong\img\IconDictonary.xaml">
       <SubType>Designer</SubType>
@@ -148,10 +152,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Hong\MenuWithSubMenuControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Jang\UcControl\UcPipe.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -165,14 +165,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Jang\UcControl\UcValve.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="JIN\Line_Monitoring.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="JIN\MainPage1.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -196,7 +188,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\ConveyorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\LogView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MonitoringView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -212,20 +212,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Tank.xaml">
-      <Generator>MSBuild:Compile</Generator>
+    <Page Include="Views\TankView.xaml">
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Jang\UcControl\UcValve.xaml.cs">
       <DependentUpon>UcValve.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="JIN\Line_Monitoring.xaml.cs">
-      <DependentUpon>Line_Monitoring.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="JIN\MainPage1.xaml.cs">
-      <DependentUpon>MainPage1.xaml</DependentUpon>
     </Compile>
     <Compile Include="JIN\UC_Conveyor.xaml.cs">
       <DependentUpon>UC_Conveyor.xaml</DependentUpon>

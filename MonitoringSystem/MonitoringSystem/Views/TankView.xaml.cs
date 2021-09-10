@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace MonitoringSystem.JIN
+namespace MonitoringSystem.Views
 {
     /// <summary>
-    /// Line_Monitoring.xaml에 대한 상호 작용 논리
+    /// TankView.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class Line_Monitoring : Page
+    public partial class TankView : UserControl
     {
-        public Line_Monitoring()
+        public TankView()
         {
             InitializeComponent();
         }

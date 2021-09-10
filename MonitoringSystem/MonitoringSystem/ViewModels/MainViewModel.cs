@@ -28,6 +28,20 @@ namespace MonitoringSystem.ViewModels
             ActivateItemAsync(new LogViewModel());
         }
 
+        public void LoadMonitoring()
+        {
+            ActivateItemAsync(new MonitoringViewModel());
+        }
+
+        public void LoadPumps()
+        {
+            ActivateItemAsync(new TankViewModel());
+        }
+
+        public void LoadConveyor()
+        {
+            ActivateItemAsync(new ConveyorViewModel());
+        }
 
         #endregion
     }
