@@ -23,6 +23,6 @@ namespace MonitoringSystem.Models
                                                             , PumpT
                                                             , FlowRate
                                                             , Density
-                                                         FROM TB_SET";
+                                                         FROM TB_SETTING";
     }
 }
