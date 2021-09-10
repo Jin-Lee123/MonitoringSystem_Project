@@ -8,9 +8,15 @@ namespace MonitoringSystem.Models
 {
     public class TB_Log
     {
-        public float Id { get; set; }
-        public float Space { get; set; }
-        public float Error { get; set; }
-        public float Content { get; set; }
+        public int Seq { get; set; }
+        public string Space { get; set; }
+        public string Error { get; set; }
+        public string Content { get; set; }
+
+        public static readonly string SELECT_QUERY = @"SELECT Seq
+                                                            , Space
+                                                            , Error
+                                                            , Content
+                                                         FROM TB_Log";
     }
 }

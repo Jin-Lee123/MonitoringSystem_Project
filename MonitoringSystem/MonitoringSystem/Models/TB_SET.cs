@@ -23,6 +23,6 @@ namespace MonitoringSystem.Models
                                                             , PumpT
                                                             , FlowRate
                                                             , Density
-                                                         FROM Employees";
+                                                         FROM TB_SET";
     }
 }

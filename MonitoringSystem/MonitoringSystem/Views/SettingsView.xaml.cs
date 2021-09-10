@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace MonitoringSystem.Pages
+namespace MonitoringSystem.Views
 {
     /// <summary>
-    /// Log.xaml에 대한 상호 작용 논리
+    /// SettingsView.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class Log : Page
+    public partial class SettingsView : UserControl
     {
-        public Log()
+        public SettingsView()
         {
             InitializeComponent();
         }

@@ -9,8 +9,7 @@ using System.Threading.Tasks;
 
 namespace MonitoringSystem.ViewModels
 {
-    
-    public class SettingViewModel : Conductor<object>
+    public class SettingsViewModel : Conductor<object>
     {
 
         #region TB_SET 설정
@@ -113,13 +112,13 @@ namespace MonitoringSystem.ViewModels
         #region TB_Employees 설정
 
         private BindableCollection<TB_Employees> TB_employees;
-        public BindableCollection<TB_Employees> TB_Employees
+        public BindableCollection<TB_Employees> Employees
         {
             get => TB_employees;
             set
             {
                 TB_employees = value;
-                NotifyOfPropertyChange(() => TB_Employees);
+                NotifyOfPropertyChange(() => Employees);
             }
         }
 
@@ -171,14 +170,13 @@ namespace MonitoringSystem.ViewModels
                 {
                     var empTmp = new TB_SET
                     {
-                        PlantT = (float)reader["PlantT"],
-                        PlantH = (float)reader["PlantH"],
-                        RobotArm = (float)reader["RobotArm"],
-                        Conveyor = (float)reader["Conveyor"],
-                        PumpT = (float)reader["PumpT"],
-                        FlowRate = (float)reader["FlowRate"],
-                        Density = (float)reader["Density"]
-
+                        PlantT = float.Parse(reader["PlantT"].ToString()),
+                        PlantH = float.Parse(reader["PlantH"].ToString()),
+                        RobotArm = float.Parse(reader["RobotArm"].ToString()),
+                        Conveyor = float.Parse(reader["Conveyor"].ToString()),
+                        PumpT = float.Parse(reader["PumpT"].ToString()),
+                        FlowRate = float.Parse(reader["FlowRate"].ToString()),
+                        Density = float.Parse(reader["Density"].ToString()),
                     };
                     TB_SET.Add(empTmp);
                 }
@@ -191,7 +189,7 @@ namespace MonitoringSystem.ViewModels
                 conn.Open();
                 SqlCommand cmd = new SqlCommand(Models.TB_Employees.SELECT_QUERY, conn);
                 SqlDataReader reader = cmd.ExecuteReader();
-                TB_Employees = new BindableCollection<TB_Employees>();
+                Employees = new BindableCollection<TB_Employees>();
 
                 while (reader.Read())
                 {
@@ -201,7 +199,7 @@ namespace MonitoringSystem.ViewModels
                         EmpName = reader["EmpName"].ToString(),
                         DeptName = reader["DeptName"].ToString(),
                     };
-                    TB_Employees.Add(empTmp);
+                    Employees.Add(empTmp);
                 }
             }
         }
@@ -209,11 +207,10 @@ namespace MonitoringSystem.ViewModels
         #endregion
         #region 창 오픈 시 조회
 
-        public SettingViewModel()
+        public SettingsViewModel()
         {
             // DB연결
             GetEmployees();
-            GetSettings();
         }
         #endregion
     }

@@ -4,7 +4,7 @@ using System.Windows.Input;
 
 namespace MonitoringSystem.ViewModels
 {
-    public class TankViews
+    public class TankViewModel
     {
         #region ###변수 선언###
 

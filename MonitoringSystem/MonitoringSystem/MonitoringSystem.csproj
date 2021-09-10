@@ -94,11 +94,12 @@
     <Compile Include="Models\TB_Employees.cs" />
     <Compile Include="Models\TB_Log.cs" />
     <Compile Include="Models\TB_SET.cs" />
-    <Compile Include="Views\Log.xaml.cs">
-      <DependentUpon>Log.xaml</DependentUpon>
+    <Compile Include="ViewModels\SettingsViewModel.cs" />
+    <Compile Include="Views\LogView.xaml.cs">
+      <DependentUpon>LogView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Setting.xaml.cs">
-      <DependentUpon>Setting.xaml</DependentUpon>
+    <Compile Include="Views\SettingsView.xaml.cs">
+      <DependentUpon>SettingsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="JIN\UC_Robotc_Arm2.xaml.cs">
       <DependentUpon>UC_Robotc_Arm2.xaml</DependentUpon>
@@ -126,9 +127,8 @@
     <Compile Include="ViewModels\LogViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\RelayCommand.cs" />
-    <Compile Include="ViewModels\SettingViewModel.cs" />
     <Compile Include="ViewModels\SubMenuViewModel.cs" />
-    <Compile Include="ViewModels\TankViews.cs" />
+    <Compile Include="ViewModels\TankViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="Views\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
@@ -196,9 +196,9 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Log.xaml">
-      <Generator>MSBuild:Compile</Generator>
+    <Page Include="Views\LogView.xaml">
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Mornitoring.xaml">
       <SubType>Designer</SubType>
@@ -208,9 +208,9 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Setting.xaml">
-      <Generator>MSBuild:Compile</Generator>
+    <Page Include="Views\SettingsView.xaml">
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Tank.xaml">
       <Generator>MSBuild:Compile</Generator>
