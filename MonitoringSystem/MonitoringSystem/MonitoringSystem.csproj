@@ -168,10 +168,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="JIN\UC_Conveyor.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="JIN\UC_Conveyor2.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -220,9 +216,6 @@
   <ItemGroup>
     <Compile Include="Jang\UcControl\UcValve.xaml.cs">
       <DependentUpon>UcValve.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="JIN\UC_Conveyor.xaml.cs">
-      <DependentUpon>UC_Conveyor.xaml</DependentUpon>
     </Compile>
     <Compile Include="JIN\UC_Robotic_Arm.xaml.cs">
       <DependentUpon>UC_Robotic_Arm.xaml</DependentUpon>
