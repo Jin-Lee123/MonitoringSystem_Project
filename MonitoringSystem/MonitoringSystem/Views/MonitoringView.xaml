@@ -30,11 +30,11 @@
         <!-- (1행.2열) 화면-->
         <Label Content="LINE 공정" Grid.Row="0" Grid.Column="1"  Foreground="Black" FontSize="20" FontFamily="Arial Black"/>
         <local:UC_Robotic_Arm Grid.Column="1" HorizontalAlignment="Left" Height="128" Margin="61,12,0,0" VerticalAlignment="Top" Width="127"/>
-        <Button Content="Run/Stop" Grid.Row="0" Grid.Column="1"  Margin="300,150,0,0" VerticalAlignment="Top" Width="75" />
-        <Button Content="생산실적등록" Grid.Row="0" Grid.Column="1"  Margin="300,180,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button x:Name="RunStop" Content="Run/Stop" Grid.Row="0" Grid.Column="1"  Margin="300,150,0,0" VerticalAlignment="Top" Width="75" Style="{StaticResource MahApps.Styles.Button.Square.Accent}"  />
+        <Button Content="생산실적등록" Grid.Row="0" Grid.Column="1"  Margin="300,180,0,0" VerticalAlignment="Top" Width="75"  Style="{StaticResource MahApps.Styles.Button.Square.Accent}"/>
         <Label Content="설비온도&#xD;&#xA;컨베이어 : {}도 &#xD;&#xA;로봇팔 : {}도" Grid.Row="0" Grid.Column="1" Margin="10,140,250,10" FontFamily="Arial Black" />
         <Label Content="생산 갯수&#xD;&#xA;A제품 : {} &#xD;&#xA;B제품 : {}" Grid.Row="0" Grid.Column="1" Margin="300,10,10,150" FontFamily="Arial Black"/>
-        <Label Grid.Row="0" Grid.Column="1"  Foreground="Black" FontSize="20" FontFamily="Arial Black" Margin="150,60,0,0">
+        <Label Grid.Row="0" Grid.Column="1"  Foreground="Black" FontSize="20" FontFamily="Arial Black" Margin="150,60,0,75">
             <local:UC_Conveyor2 Height="83" Width="229"/>
         </Label>
 

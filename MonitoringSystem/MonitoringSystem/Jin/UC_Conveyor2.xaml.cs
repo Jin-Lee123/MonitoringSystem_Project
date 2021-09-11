@@ -26,12 +26,9 @@ namespace MonitoringSystem.JIN
             InitializeComponent();
         }
 
-        private void UserControl_Loaded(object sender, RoutedEventArgs e)
-        {
-            StartAnimation();
-        }
+        
 
-        private void StartAnimation()
+        public void StartAnimation()
         {
             // 애니메이션 gg
             DoubleAnimation da = new DoubleAnimation();
@@ -51,6 +48,11 @@ namespace MonitoringSystem.JIN
             Motor4.RenderTransformOrigin = new Point(0.5, 0.5);
 
             rt.BeginAnimation(RotateTransform.AngleProperty, da);
+        }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            StartAnimation();
         }
     }
 }
