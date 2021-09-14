@@ -45,12 +45,13 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="65*"/>
-            <ColumnDefinition Width="1129*"/>
+            <ColumnDefinition Width="650*"/>
+            <ColumnDefinition Width="479*"/>
         </Grid.ColumnDefinitions>
 
         <!--// Background Color //-->
 
-        <Grid Background="White" Grid.ColumnSpan="2" Margin="0,0,-0.4,0.4">
+        <Grid Background="White" Grid.ColumnSpan="3" Margin="0,0,-0.4,0.4">
 
             <!--// Background Image //-->
 
@@ -59,7 +60,8 @@
             <Grid>
 
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="275*"/>
+                    <ColumnDefinition Width="828*"/>
                     <ColumnDefinition Width="60"/>
                     <ColumnDefinition Width="30"/>
                 </Grid.ColumnDefinitions>
@@ -72,10 +74,10 @@
                 <!-- // Page를 띄울 Frame // -->
 
                 <ContentControl x:Name="ActiveItem" 
-                       Grid.Row="2" 
+                       Grid.Row="1" 
                        Grid.Column="0" 
-                       Grid.ColumnSpan="3" 
-                       Margin="225,0,0.2,0" />
+                       Grid.ColumnSpan="4" 
+                       Margin="225,59.6,0.6,0.4" Grid.RowSpan="2" />
 
             </Grid>
 

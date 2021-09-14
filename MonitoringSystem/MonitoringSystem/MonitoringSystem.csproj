@@ -14,6 +14,8 @@
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -24,6 +26,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -33,6 +36,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Caliburn.Micro.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
@@ -47,16 +51,28 @@
     <Reference Include="ControlzEx, Version=4.0.0.0, Culture=neutral, PublicKeyToken=69f1c32f803d307e, processorArchitecture=MSIL">
       <HintPath>..\packages\ControlzEx.4.4.0\lib\net462\ControlzEx.dll</HintPath>
     </Reference>
+    <Reference Include="FFmpeg.AutoGen, Version=4.4.0.0, Culture=neutral, PublicKeyToken=9b7632533a381715, processorArchitecture=MSIL">
+      <HintPath>..\packages\FFmpeg.AutoGen.4.4.0\lib\net472\FFmpeg.AutoGen.dll</HintPath>
+    </Reference>
     <Reference Include="MahApps.Metro, Version=2.0.0.0, Culture=neutral, PublicKeyToken=51482d6f650b2b3f, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.2.4.7\lib\net47\MahApps.Metro.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Xaml.Behaviors, Version=1.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Xaml.Behaviors.Wpf.1.1.19\lib\net45\Microsoft.Xaml.Behaviors.dll</HintPath>
     </Reference>
+    <Reference Include="OxyPlot, Version=2.0.0.0, Culture=neutral, PublicKeyToken=638079a8f0bd61e9, processorArchitecture=MSIL">
+      <HintPath>..\packages\OxyPlot.Core.2.0.0\lib\net45\OxyPlot.dll</HintPath>
+    </Reference>
+    <Reference Include="OxyPlot.Wpf, Version=2.0.0.0, Culture=neutral, PublicKeyToken=75e952ba404cdbb0, processorArchitecture=MSIL">
+      <HintPath>..\packages\OxyPlot.Wpf.2.0.0\lib\net45\OxyPlot.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="ReachFramework" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Printing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Runtime.Serialization.Primitives, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.Serialization.Primitives.4.3.0\lib\net46\System.Runtime.Serialization.Primitives.dll</HintPath>
@@ -74,6 +90,15 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="Vlc.DotNet.Core, Version=3.1.0.0, Culture=neutral, PublicKeyToken=84529da31f4eb963, processorArchitecture=MSIL">
+      <HintPath>..\packages\Vlc.DotNet.Core.3.1.0\lib\net45\Vlc.DotNet.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Vlc.DotNet.Core.Interops, Version=3.1.0.0, Culture=neutral, PublicKeyToken=84529da31f4eb963, processorArchitecture=MSIL">
+      <HintPath>..\packages\Vlc.DotNet.Core.Interops.3.1.0\lib\net45\Vlc.DotNet.Core.Interops.dll</HintPath>
+    </Reference>
+    <Reference Include="Vlc.DotNet.Wpf, Version=3.1.0.0, Culture=neutral, PublicKeyToken=84529da31f4eb963, processorArchitecture=MSIL">
+      <HintPath>..\packages\Vlc.DotNet.Wpf.3.1.0\lib\net45\Vlc.DotNet.Wpf.dll</HintPath>
+    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -90,6 +115,7 @@
     <Compile Include="Models\Common.cs" />
     <Compile Include="Models\TB_Employees.cs" />
     <Compile Include="Models\TB_Log.cs" />
+    <Compile Include="Models\TB_Plant.cs" />
     <Compile Include="Models\TB_SET.cs" />
     <Compile Include="ViewModels\ConveyorViewModel.cs" />
     <Compile Include="ViewModels\MonitoringViewModel.cs" />
@@ -120,9 +146,6 @@
     </Compile>
     <Compile Include="JIN\UC_Conveyor2.xaml.cs">
       <DependentUpon>UC_Conveyor2.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Mornitoring.xaml.cs">
-      <DependentUpon>Mornitoring.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\CommandViewModel.cs" />
     <Compile Include="JIN\UC_Motor.xaml.cs">
@@ -200,10 +223,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Mornitoring.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\MainView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -274,4 +293,11 @@
     <Resource Include="4137152_building_construction_industry_pipe_icon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\VideoLAN.LibVLC.Windows.3.0.16\build\VideoLAN.LibVLC.Windows.targets" Condition="Exists('..\packages\VideoLAN.LibVLC.Windows.3.0.16\build\VideoLAN.LibVLC.Windows.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>이 프로젝트는 이 컴퓨터에 없는 NuGet 패키지를 참조합니다. 해당 패키지를 다운로드하려면 NuGet 패키지 복원을 사용하십시오. 자세한 내용은 http://go.microsoft.com/fwlink/?LinkID=322105를 참조하십시오. 누락된 파일은 {0}입니다.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\VideoLAN.LibVLC.Windows.3.0.16\build\VideoLAN.LibVLC.Windows.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\VideoLAN.LibVLC.Windows.3.0.16\build\VideoLAN.LibVLC.Windows.targets'))" />
+  </Target>
 </Project>

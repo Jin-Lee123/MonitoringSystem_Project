@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Threading;
 using Caliburn.Micro;
 
 namespace MonitoringSystem.ViewModels
@@ -8,7 +9,7 @@ namespace MonitoringSystem.ViewModels
     public class MainViewModel : Conductor<object>
     {
         #region ###변수 선언###
-
+ 
         #endregion
 
         #region ###Property 선언###
