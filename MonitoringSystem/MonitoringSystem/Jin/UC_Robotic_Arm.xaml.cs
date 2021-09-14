@@ -25,32 +25,5 @@ namespace MonitoringSystem.JIN
         {
             InitializeComponent();
         }
-
-        private void UserControl_Loaded(object sender, RoutedEventArgs e)
-        {
-            StartAnimation();
-        }
-
-        private void StartAnimation()
-        {
-            // 애니메이션 gg
-            DoubleAnimation da = new DoubleAnimation();
-            da.From = 0;
-            da.To = -40;
-
-
-            da.Duration = TimeSpan.FromSeconds(2);
-            da.RepeatBehavior = RepeatBehavior.Forever;
-
-            da.AutoReverse = true;
-
-            RotateTransform rt = new RotateTransform();
-            Arm.RenderTransform = rt;
-            Arm.RenderTransformOrigin = new Point(0, 0.5);
-          
-            rt.BeginAnimation(RotateTransform.AngleProperty, da);
-
-          
-        }
     }
 }

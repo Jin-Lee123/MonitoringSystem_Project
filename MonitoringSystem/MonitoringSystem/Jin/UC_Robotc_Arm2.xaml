@@ -40,7 +40,7 @@
                     </LinearGradientBrush>
                 </Ellipse.Fill>
             </Ellipse>
-            <Ellipse StrokeThickness="0.5" Stroke="Gray" Width="10" Height="10" Margin="74,7,716,433">
+            <Ellipse StrokeThickness="0.5" Stroke="Gray" Width="10" Height="10" Canvas.Left="75" Canvas.Top="7">
                 <Ellipse.Fill>
                     <LinearGradientBrush  StartPoint="1,0.5" EndPoint="0,1" SpreadMethod="Pad">
                         <GradientStop Color="#FF071923" Offset="0" />
