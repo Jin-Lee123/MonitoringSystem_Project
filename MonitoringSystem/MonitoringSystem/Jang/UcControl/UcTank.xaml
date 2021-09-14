@@ -5,14 +5,14 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MonitoringSystem"
              mc:Ignorable="d" 
-             d:DesignHeight="150" d:DesignWidth="200">
+             d:DesignHeight="150" d:DesignWidth="200" Margin="1">
     <Grid>
         <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="20"  Stroke="Black"
                    VerticalAlignment="Top" Width="200" StrokeThickness="3"/>
         <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="134"  Stroke="Black"
                    VerticalAlignment="Top" Width="200" StrokeThickness="3" Margin="0,16,0,0"/>
 
-        <Label Content="WATER TANK" FontFamily="Lato" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="102,32,0,0" Width="87"/>
+        <Label Content="WATER TANK" FontFamily="Lato" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="102,32,0,0" />
 
     </Grid>
 </UserControl>
