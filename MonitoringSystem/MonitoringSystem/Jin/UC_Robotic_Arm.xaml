@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MonitoringSystem.JIN"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800" Loaded="UserControl_Loaded">
+             d:DesignHeight="450" d:DesignWidth="800" >
     <Viewbox>
         <Canvas Width="211" Height="202">
             <!-- Step 1 Main Pipe -->
@@ -23,7 +23,7 @@
             <!-- Step 3-->
 
             <!-- Step 2 -->
-            <local:UC_Robotc_Arm2 x:Name="Arm" Height="25" Canvas.Left="58" Canvas.Top="88" Width="107"/>
+            
 
             <Rectangle x:Name="bar2" Width="67" Height="29" Canvas.Left="113" Canvas.Top="147"
                         Stretch="Fill" StrokeThickness="1" StrokeMiterLimit="2.75" Stroke="Black"

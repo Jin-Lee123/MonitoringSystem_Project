@@ -9,23 +9,20 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace MonitoringSystem.JIN
+namespace LeeJinTestPage
 {
     /// <summary>
-    /// UC_Conveyor2.xaml에 대한 상호 작용 논리
+    /// UserControl1.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class UC_Conveyor2 : UserControl
+    public partial class UserControl1 : UserControl
     {
-        public UC_Conveyor2()
+        public UserControl1()
         {
             InitializeComponent();
         }
-
-        
     }
 }
