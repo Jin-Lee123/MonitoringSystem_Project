@@ -1,7 +1,4 @@
-﻿using FFmpeg.AutoGen;
-using MonitoringSystem.FFmpeg;
-using MonitoringSystem.FFmpeg.Decoder;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
