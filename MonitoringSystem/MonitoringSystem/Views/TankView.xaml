@@ -29,7 +29,7 @@
 
         <Grid Grid.Row="1" Grid.Column="1" Margin="3">
             <local1:UcTank  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="3"/>
-            <ProgressBar HorizontalAlignment="Left" VerticalAlignment="Top" Height="120" Width="40" Margin="12,26,0,0" Orientation="Vertical" Value="70" />
+            <ProgressBar Value="{Binding MainTankValue}" HorizontalAlignment="Left" VerticalAlignment="Top" Height="120" Width="40" Margin="12,26,0,0" Orientation="Vertical" />
         </Grid>
 
         <Grid Grid.Row="2" Grid.Column="1" Margin="5" Background="Bisque" >
@@ -43,8 +43,8 @@
             </Grid.RowDefinitions>
             <TextBlock Grid.Row="0" Grid.Column="0" Text="수위%" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" FontWeight="Bold" />
             <TextBlock Grid.Row="0" Grid.Column="1" Text="총량TON" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" FontWeight="Bold" />
-            <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding ''}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" FontWeight="Bold" />
-            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding ''}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" FontWeight="Bold" />
+            <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding MainTankValue}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" FontWeight="Bold" />
+            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding MainTankTon}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" FontWeight="Bold" />
 
         </Grid>
 
@@ -52,7 +52,7 @@
 
         <Grid Grid.Row="1" Grid.Column="3" >
             <local1:UcTank  HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Height="150"/>
-            <ProgressBar HorizontalAlignment="Left" VerticalAlignment="Top" Height="120" Width="40" Margin="12,26,0,0" Orientation="Vertical" Value="70" />
+            <ProgressBar Value="{Binding SubTankValue}" HorizontalAlignment="Left" VerticalAlignment="Top" Height="120" Width="40" Margin="12,26,0,0" Orientation="Vertical" />
         </Grid>
 
 
@@ -67,31 +67,15 @@
             </Grid.RowDefinitions>
             <TextBlock Grid.Row="0" Grid.Column="0" Text="수위%" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" FontWeight="Bold" />
             <TextBlock Grid.Row="0" Grid.Column="1" Text="총량TON" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" FontWeight="Bold" />
-            <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding ''}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" FontWeight="Bold" />
-            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding ''}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" FontWeight="Bold" />
+            <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding SubTankValue}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" FontWeight="Bold" />
+            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding SubTankTon}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" FontWeight="Bold" />
 
         </Grid>
-        
-        <!--<Grid Grid.Row="3" Grid.Column="3" >
-            <local1:UcTank  HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Height="150"/>
-            <ProgressBar HorizontalAlignment="Left" VerticalAlignment="Top" Height="120" Width="40" Margin="12,26,0,0" Orientation="Vertical" Value="70" />
-        </Grid>
 
-        <Grid Grid.Row="4" Grid.Column="3" Margin="5" Background="Bisque" >
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*" />
-                <ColumnDefinition Width="1*" />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="1*" />
-                <RowDefinition Height="1*" />
-            </Grid.RowDefinitions>
-            <TextBlock Grid.Row="0" Grid.Column="0" Text="수위%" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" FontWeight="Bold" />
-            <TextBlock Grid.Row="0" Grid.Column="1" Text="총량TON" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" FontWeight="Bold" />
-            <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding ''}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" FontWeight="Bold" />
-            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding ''}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" FontWeight="Bold" />
+        <Button x:Name="BtnClick" Grid.Column="2" Grid.Row="2" Width="120" Height="30" Content="Button" />
 
-        </Grid>-->
+        <Label Grid.Column="2" Grid.Row="1" Content="{Binding LblStatus}" />
+
 
         <Rectangle Grid.Row="3" Grid.Column="1" Fill="Gray" Grid.ColumnSpan="2" Grid.RowSpan="2" Margin="10"/>
 

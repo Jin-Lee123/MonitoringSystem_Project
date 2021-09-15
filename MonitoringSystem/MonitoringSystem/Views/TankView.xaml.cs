@@ -1,17 +1,13 @@
-﻿using System;
+﻿using MonitoringSystem.ViewModels;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using System.Windows.Threading;
+using uPLibrary.Networking.M2Mqtt;
+using uPLibrary.Networking.M2Mqtt.Messages;
 
 namespace MonitoringSystem.Views
 {
@@ -20,6 +16,8 @@ namespace MonitoringSystem.Views
     /// </summary>
     public partial class TankView : UserControl
     {
+
+
         public TankView()
         {
             InitializeComponent();
