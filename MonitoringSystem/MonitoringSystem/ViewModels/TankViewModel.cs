@@ -22,7 +22,7 @@ namespace MonitoringSystem.ViewModels
         private string factoryId = "Kasan01";            //  Kasan01/4001/  kasan01/4002/ 
         private string motorAddr = "4002";
         private string tankAddr = "4001";
-        private string connectionString = "Data Source=hangaramit.iptime.org;Initial Catalog=1조_database;User ID=team1";
+        private string connectionString = "Data Source=hangaramit.iptime.org;Initial Catalog=1조_database;Persist Security Info=True;User ID=team1;Password=team1_1234";
 
         #endregion
 
@@ -163,6 +163,7 @@ namespace MonitoringSystem.ViewModels
                     SubTankValue = int.Parse(currData["sensor"]);
                     SubTankTon = int.Parse(currData["sensor"]);
                 }
+                InsertData(currData);
             }
             catch (Exception ex)
             {
@@ -172,20 +173,17 @@ namespace MonitoringSystem.ViewModels
         }
 
         // SQL SERVER 저장
-        private void InsertData(Dictionary<string, string> currData)
+        public void InsertData(Dictionary<string, string> currData)
         {
             using (var conn = new SqlConnection(connectionString))  // close 자동
             {
-                string insertQuery = $@"INSERT INTO MainTank
-                                               (dev_addr
-                                               ,currtime
-                                               ,code
-                                               ,value)
+                string insertQuery = $@"INSERT INTO TB_MainTank
                                          VALUES
                                                ('{currData["dev_addr"]}'
                                                ,'{currData["currtime"]}'
                                                ,'{currData["code"]}'
-                                               ,'{currData["value"]}')";
+                                               ,'{currData["value"]}'
+                                               ,'{currData["sensor"]}')";
                 try
                 {
                     conn.Open();
@@ -202,8 +200,10 @@ namespace MonitoringSystem.ViewModels
                 }
                 catch (Exception ex)
                 {
-                   // App.LOGGER.Info($"예외 발생, InsertData : [{ex.Message}]");
+                    MessageBox.Show(ex.Message);
+                    // App.LOGGER.Info($"예외 발생, InsertData : [{ex.Message}]");
                 }
+                conn.Close();
             }
         }
 
