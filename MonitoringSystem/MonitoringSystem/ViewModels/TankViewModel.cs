@@ -50,6 +50,8 @@ namespace MonitoringSystem.ViewModels
                 NotifyOfPropertyChange(() => LblStatus);
             }
         }
+
+
         // MainTankValue 계산
         private double mainTankValue;
         public double MainTankValue
@@ -111,31 +113,49 @@ namespace MonitoringSystem.ViewModels
         }
 
         #region ### 펌프제어 ### -- 이후 버튼 Publish에 사용할 예정
-        public void BtnClick()
+        public void BtnClickOn()
         {
-            // Publish 펌프 제어 
+            // Publish 펌프 제어 ON
             try
             {
-                Client.Connect(clientId);
-                //var currtime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-                //string pubData = "{ " +
-                //                 "   \"dev_addr\" : \"4001\", " +
-                //                 $"   \"currtime\" : \"{currtime}\" , " +
-                //                 "   \"code\" : \"Tank\", " +
-                //                 "   \"value\" : \"88\" " +
-                //                 "   \"sensor\" : \"0\" " + 
-                //                 "}";
-
-                //Client.Publish($"{factoryId}/4002", Encoding.UTF8.GetBytes(pubData), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
-
+                 var currtime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                 string pubData = "{ \n" +
+                                  "   \"dev_addr\" : \"4002\", \n" +
+                                  $"   \"currtime\" : \"{currtime}\" , \n" +
+                                  "   \"code\" : \"pump\", \n" +
+                                  "   \"value\" : \"1\", \n" +
+                                  "   \"sensor\" : \"0\" \n" +
+                                  "}";
+            
+                 Client.Publish($"{factoryId}/4002/", Encoding.UTF8.GetBytes(pubData), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
             }
             catch (Exception ex)
             {
-                MessageBox.Show("접속 오류 ");
+                MessageBox.Show($"접속 오류 { ex.Message}");
             }
-            #endregion
-
         }
+        public void BtnClickOff()
+        {
+            // Publish 펌프 제어 OFF
+            try
+            {
+                var currtime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                string pubData = "{ \n" +
+                                  "   \"dev_addr\" : \"4002\", \n" +
+                                  $"   \"currtime\" : \"{currtime}\" , \n" +
+                                  "   \"code\" : \"pump\", \n" +
+                                  "   \"value\" : \"0\", \n" +
+                                  "   \"sensor\" : \"0\" \n" +
+                                  "}";
+
+                Client.Publish($"{factoryId}/4002/", Encoding.UTF8.GetBytes(pubData), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"접속 오류 { ex.Message}");
+            }
+        }
+        #endregion
 
         // Subscribe 한 값을 바인딩 해주는 곳
         public void Client_MqttMsgPublishReceived(object sender, MqttMsgPublishEventArgs e)
@@ -144,7 +164,6 @@ namespace MonitoringSystem.ViewModels
             {
                 var message = Encoding.UTF8.GetString(e.Message); //e.Message(byte[]) ==> string 변환
                 LblStatus = message;
-
                 // JSON 넘어온 데이터를 확인 후 내부 SCADA 작업
                 //"dev_addr" : "4001",
                 //"currtime" : "2021-08-26 11:05:30 ",
@@ -212,12 +231,6 @@ namespace MonitoringSystem.ViewModels
         {
             LblStatus = "모니터링 종료!";
         }
-
-
-        private void Client_MqttMsgPublished(object sender, MqttMsgPublishedEventArgs e)
-        {
-        }
-
 
 
         // 창을 종료할 때 Mqtt Client 종료

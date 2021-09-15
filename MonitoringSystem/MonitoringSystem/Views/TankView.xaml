@@ -12,9 +12,9 @@
     <Grid Background="White" Margin="10">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="30*"/>
-            <ColumnDefinition Width="200*"/>
-            <ColumnDefinition Width="330*"/>
-            <ColumnDefinition Width="200*"/>
+            <ColumnDefinition Width="197*"/>
+            <ColumnDefinition Width="326*"/>
+            <ColumnDefinition Width="197*"/>
             <ColumnDefinition Width="30*"/>
         </Grid.ColumnDefinitions>
 
@@ -28,7 +28,11 @@
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="1" Grid.Column="1" Margin="3">
-            <local1:UcTank  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="3"/>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="59*"/>
+                <ColumnDefinition Width="37*"/>
+            </Grid.ColumnDefinitions>
+            <local1:UcTank  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="3,3,0,0" Grid.ColumnSpan="2"/>
             <ProgressBar Value="{Binding MainTankValue}" HorizontalAlignment="Left" VerticalAlignment="Top" Height="120" Width="40" Margin="12,26,0,0" Orientation="Vertical" />
         </Grid>
 
@@ -72,10 +76,12 @@
 
         </Grid>
 
-        <Button x:Name="BtnClick" Grid.Column="2" Grid.Row="2" Width="120" Height="30" Content="Button" />
+        <StackPanel Orientation="Horizontal" Grid.Column="2" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Button x:Name="BtnClickOn"  Width="60" Height="30" Content="ON" />
+            <Button x:Name="BtnClickOff"  Width="60" Height="30" Content="OFF" />
+        </StackPanel>
 
         <Label Grid.Column="2" Grid.Row="1" Content="{Binding LblStatus}" />
-
 
         <Rectangle Grid.Row="3" Grid.Column="1" Fill="Gray" Grid.ColumnSpan="2" Grid.RowSpan="2" Margin="10"/>
 
