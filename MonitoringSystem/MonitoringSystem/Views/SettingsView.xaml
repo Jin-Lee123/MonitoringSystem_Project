@@ -5,8 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
       xmlns:local="clr-namespace:MonitoringSystem.Views"
-      xmlns:viewmodels="clr-namespace:MonitoringSystem.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:SettingsViewModel}"
-             mc:Ignorable="d" 
+      mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       >
 
@@ -54,7 +53,6 @@
                    Style="{StaticResource MahApps.Styles.Label}"/>
             <TextBox x:Name="PlantH" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center"
                      mah:TextBoxHelper.Watermark="값 입력"
-                     Text="{Binding PlantH, UpdateSourceTrigger=PropertyChanged}"
                      mah:TextBoxHelper.UseFloatingWatermark="True"
                      mah:TextBoxHelper.ClearTextButton="True"
                      Style="{StaticResource MahApps.Styles.TextBox}"/>
@@ -69,7 +67,6 @@
                    Style="{StaticResource MahApps.Styles.Label}"/>
             <TextBox x:Name="RobotArm" Grid.Row="4" Grid.Column="1" VerticalAlignment="Center"
                      mah:TextBoxHelper.Watermark="값 입력"
-                     Text="{Binding RobotArm, UpdateSourceTrigger=PropertyChanged}"
                      mah:TextBoxHelper.UseFloatingWatermark="True"
                      mah:TextBoxHelper.ClearTextButton="True"
                      Style="{StaticResource MahApps.Styles.TextBox}"/>
@@ -79,7 +76,6 @@
                    Style="{StaticResource MahApps.Styles.Label}"/>
             <TextBox x:Name="Conveyor" Grid.Row="5" Grid.Column="1" VerticalAlignment="Center"
                      mah:TextBoxHelper.Watermark="값 입력"
-                     Text="{Binding Conveyor, UpdateSourceTrigger=PropertyChanged}"
                      mah:TextBoxHelper.UseFloatingWatermark="True"
                      mah:TextBoxHelper.ClearTextButton="True"
                      Style="{StaticResource MahApps.Styles.TextBox}"/>
@@ -94,7 +90,6 @@
                    Style="{StaticResource MahApps.Styles.Label}"/>
             <TextBox x:Name="PumpT" Grid.Row="7" Grid.Column="1" VerticalAlignment="Center"
                      mah:TextBoxHelper.Watermark="값 입력"
-                     Text="{Binding PumpT, UpdateSourceTrigger=PropertyChanged}"
                      mah:TextBoxHelper.UseFloatingWatermark="True"
                      mah:TextBoxHelper.ClearTextButton="True"
                      Style="{StaticResource MahApps.Styles.TextBox}"/>
@@ -104,7 +99,6 @@
                    Style="{StaticResource MahApps.Styles.Label}"/>
             <TextBox x:Name="FlowRate" Grid.Row="8" Grid.Column="1" VerticalAlignment="Center"
                      mah:TextBoxHelper.Watermark="값 입력"
-                     Text="{Binding FlowRate, UpdateSourceTrigger=PropertyChanged}"
                      mah:TextBoxHelper.UseFloatingWatermark="True"
                      mah:TextBoxHelper.ClearTextButton="True"
                      Style="{StaticResource MahApps.Styles.TextBox}"/>
@@ -114,7 +108,6 @@
                    Style="{StaticResource MahApps.Styles.Label}"/>
             <TextBox x:Name="Density" Grid.Row="9" Grid.Column="1" VerticalAlignment="Center"
                      mah:TextBoxHelper.Watermark="값 입력"
-                     Text="{Binding Density, UpdateSourceTrigger=PropertyChanged}"
                      mah:TextBoxHelper.UseFloatingWatermark="True"
                      mah:TextBoxHelper.ClearTextButton="True"
                      Style="{StaticResource MahApps.Styles.TextBox}"/>
@@ -123,9 +116,15 @@
 
             <StackPanel Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="2"
                         Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button x:Name="NewSetting" Content="신규"
+                        Width="90" Height="40" ToolTip="신규"
+                        Style="{StaticResource MahApps.Styles.Button}" />
                 <Button x:Name="SaveSetting" Content="저장"
                     Width="90" Height="40" ToolTip="저장"
                     Style="{StaticResource MahApps.Styles.Button.Square.Accent}"/>
+                <Button x:Name="DelSetting" Content="삭제"
+                        Width="90" Height="40" ToolTip="삭제"
+                        Style="{StaticResource MahApps.Styles.Button.Dialogs.AccentHighlight}" />
             </StackPanel>
 
         </Grid>

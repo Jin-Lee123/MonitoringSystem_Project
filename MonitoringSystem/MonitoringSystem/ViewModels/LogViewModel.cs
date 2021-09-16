@@ -23,58 +23,47 @@ namespace MonitoringSystem.ViewModels
             }
         }
 
-        private int id;
-        public int Id
+        private int seq;
+        public int Seq
         {
-            get => id;
+            get => seq;
             set
             {
-                id = value;
-                NotifyOfPropertyChange(() => Id);
+                seq = value;
+                NotifyOfPropertyChange(() => Seq);
             }
         }
 
-        private string level;
-        public string Level
+        private string space;
+        public string Space
         {
-            get => level;
+            get => space;
             set
             {
-                level = value;
-                NotifyOfPropertyChange(() => Level);
+                space = value;
+                NotifyOfPropertyChange(() => Space);
             }
         }
 
-        private string message;
-        public string Message
+        private string error;
+        public string Error
         {
-            get => message;
+            get => error;
             set
             {
-                message = value;
-                NotifyOfPropertyChange(() => Message);
+                error = value;
+                NotifyOfPropertyChange(() => Error);
             }
         }
 
-        private string additionalInfo;
-        public string AddtionalInfo
+        private string content;
+        public string Content
         {
-            get => additionalInfo;
+            get => content;
             set
             {
-                additionalInfo = value;
-                NotifyOfPropertyChange(() => AddtionalInfo);
-            }
-        }
-
-        private DateTime loggedonDate;
-        public DateTime LoggedOnDate
-        {
-            get => loggedonDate;
-            set
-            {
-                loggedonDate = value;
-                NotifyOfPropertyChange(() => loggedonDate);
+                content = value;
+                NotifyOfPropertyChange(() => Content);
             }
         }
 
@@ -91,11 +80,10 @@ namespace MonitoringSystem.ViewModels
                 {
                     var empTmp = new TB_Log
                     {
-                        ID = (int)reader["ID"],
-                        Level = reader["Level"].ToString(),
-                        Message = reader["Message"].ToString(),
-                        AdditionalInfo = reader["AdditionalInfo"].ToString(),
-                        LoggedOnDate = reader["LoggedOnDate"].ToString()
+                        Seq = (int)reader["Seq"],
+                        Space = reader["Space"].ToString(),
+                        Error = reader["Error"].ToString(),
+                        Content = reader["Content"].ToString(),
 
                     };
                     Log.Add(empTmp);

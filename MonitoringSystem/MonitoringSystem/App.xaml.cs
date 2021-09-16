@@ -1,5 +1,4 @@
-﻿using NLog;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -14,6 +13,5 @@ namespace MonitoringSystem
     /// </summary>
     public partial class App : Application
     {
-        public static readonly Logger Logger = LogManager.GetLogger("databaseLogger");
     }
 }

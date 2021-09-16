@@ -27,11 +27,10 @@
                       AutoGenerateColumns="False" IsReadOnly="True"
                       SelectedItem="{Binding SelectedEmployee}">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="번호" Binding="{Binding ID}"       Width="*"/>
-                    <DataGridTextColumn Header="심각도" Binding="{Binding Level}" Width="*"/>
-                    <DataGridTextColumn Header="오류" Binding="{Binding Message}"  Width="1.5*"/>
-                    <DataGridTextColumn Header="내용" Binding="{Binding AdditionalInfo}" Width="4*"/>
-                    <DataGridTextColumn Header="시간" Binding="{Binding LoggedOnDate}" Width="4*"/>
+                    <DataGridTextColumn Header="번호" Binding="{Binding Seq}"       Width="*"/>
+                    <DataGridTextColumn Header="장소" Binding="{Binding Space}" Width="*"/>
+                    <DataGridTextColumn Header="오류" Binding="{Binding Error}"  Width="1.5*"/>
+                    <DataGridTextColumn Header="내용" Binding="{Binding Content}" Width="4*"/>
                 </DataGrid.Columns>
             </DataGrid>
 

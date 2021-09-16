@@ -74,10 +74,10 @@
                 <!-- // Page를 띄울 Frame // -->
 
                 <ContentControl x:Name="ActiveItem" 
-                       Grid.Row="1"
+                       Grid.Row="1" 
                        Grid.Column="0" 
                        Grid.ColumnSpan="4" 
-                       Margin="234,0,0.6,0.4" Grid.RowSpan="2" />
+                       Margin="225,59.6,0.6,0.4" Grid.RowSpan="2" />
 
             </Grid>
 
@@ -114,24 +114,23 @@
                     <Grid>
                         <TextBlock
                             x:Name="DisplayDateTextBlock" 
-                            Text="{Binding DisplayDateTextBlock}" 
+                            Text="" 
                             FontSize="30" 
                             FontWeight="Bold" 
                             Foreground="White"
                             HorizontalAlignment="Center"/>
                     </Grid>
-                    <StackPanel Margin="0,40,0,0">
-                        <Button x:Name="LoadMonitoring" Content="모니터링"      FontSize="20" Background="#2E333A" Height="100" Style="{StaticResource MahApps.Styles.Button.Hamburger}" Foreground="White" FontWeight="Bold"/>
-                        <Line/>
-                        <Button x:Name="LoadPumps"      Content="펌프"          FontSize="20" Background="#2E333A" Height="100" Style="{StaticResource MahApps.Styles.Button.Hamburger}" Foreground="White" FontWeight="Bold"/>
-                        <Button x:Name="LoadConveyor"   Content="컨베이어"      FontSize="20" Background="#2E333A" Height="100" Style="{StaticResource MahApps.Styles.Button.Hamburger}" Foreground="White" FontWeight="Bold"/>
-                        <Button x:Name="LoadLogs"       Content="로그"          FontSize="20" Background="#2E333A" Height="100" Style="{StaticResource MahApps.Styles.Button.Hamburger}" Foreground="White" FontWeight="Bold"/>
-                        <Button x:Name="LoadSettings"   Content="설정"          FontSize="20" Background="#2E333A" Height="100" Style="{StaticResource MahApps.Styles.Button.Hamburger}" Foreground="White" FontWeight="Bold"/>
-                    </StackPanel>
+                    <Button x:Name="LoadMonitoring" Content="모니터링"      FontSize="20" Background="#2E333A" Height="40" Style="{StaticResource MahApps.Styles.Button.Hamburger}" Foreground="White" FontWeight="Bold"/>
+                    <Button x:Name="LoadPumps"      Content="펌프"          FontSize="20" Background="#2E333A" Height="40" Style="{StaticResource MahApps.Styles.Button.Hamburger}" Foreground="White" FontWeight="Bold"/>
+                    <Button x:Name="LoadConveyor"   Content="컨베이어"      FontSize="20" Background="#2E333A" Height="40" Style="{StaticResource MahApps.Styles.Button.Hamburger}" Foreground="White" FontWeight="Bold"/>
+                    <Button x:Name="LoadLogs"       Content="로그"          FontSize="20" Background="#2E333A" Height="40" Style="{StaticResource MahApps.Styles.Button.Hamburger}" Foreground="White" FontWeight="Bold"/>
+                    <Button x:Name="LoadSettings"   Content="설정"          FontSize="20" Background="#2E333A" Height="40" Style="{StaticResource MahApps.Styles.Button.Hamburger}" Foreground="White" FontWeight="Bold"/>
+
 
 
                 </StackPanel>
-         
+                <StackPanel>
+                </StackPanel>
 
 
             </Grid>
