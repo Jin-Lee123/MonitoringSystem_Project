@@ -13,5 +13,6 @@ namespace MonitoringSystem
     /// </summary>
     public partial class App : Application
     {
+        public static object LOGGER { get; internal set; }
     }
 }

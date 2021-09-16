@@ -12,9 +12,9 @@
     <Grid Background="White" Margin="10">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="30*"/>
-            <ColumnDefinition Width="200*"/>
-            <ColumnDefinition Width="330*"/>
-            <ColumnDefinition Width="200*"/>
+            <ColumnDefinition Width="197*"/>
+            <ColumnDefinition Width="326*"/>
+            <ColumnDefinition Width="197*"/>
             <ColumnDefinition Width="30*"/>
         </Grid.ColumnDefinitions>
 
@@ -28,8 +28,12 @@
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="1" Grid.Column="1" Margin="3">
-            <local1:UcTank  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="3"/>
-            <ProgressBar Value="{Binding MainTankValue}" HorizontalAlignment="Left" VerticalAlignment="Top" Height="120" Width="40" Margin="12,26,0,0" Orientation="Vertical" />
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="59*"/>
+                <ColumnDefinition Width="37*"/>
+            </Grid.ColumnDefinitions>
+            <local1:UcTank  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="3,3,0,0" Grid.ColumnSpan="2"/>
+            <ProgressBar Value="{Binding MainTankValue, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" VerticalAlignment="Top" Height="120" Width="40" Margin="12,26,0,0" Orientation="Vertical" />
         </Grid>
 
         <Grid Grid.Row="2" Grid.Column="1" Margin="5" Background="Bisque" >
@@ -43,8 +47,8 @@
             </Grid.RowDefinitions>
             <TextBlock Grid.Row="0" Grid.Column="0" Text="수위%" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" FontWeight="Bold" />
             <TextBlock Grid.Row="0" Grid.Column="1" Text="총량TON" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" FontWeight="Bold" />
-            <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding MainTankValue}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" FontWeight="Bold" />
-            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding MainTankTon}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" FontWeight="Bold" />
+            <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding MainTankValue, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" FontWeight="Bold" />
+            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding MainTankTon, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" FontWeight="Bold" />
 
         </Grid>
 
@@ -52,7 +56,7 @@
 
         <Grid Grid.Row="1" Grid.Column="3" >
             <local1:UcTank  HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Height="150"/>
-            <ProgressBar Value="{Binding SubTankValue}" HorizontalAlignment="Left" VerticalAlignment="Top" Height="120" Width="40" Margin="12,26,0,0" Orientation="Vertical" />
+            <ProgressBar Value="{Binding SubTankValue, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" VerticalAlignment="Top" Height="120" Width="40" Margin="12,26,0,0" Orientation="Vertical" />
         </Grid>
 
 
@@ -67,14 +71,18 @@
             </Grid.RowDefinitions>
             <TextBlock Grid.Row="0" Grid.Column="0" Text="수위%" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" FontWeight="Bold" />
             <TextBlock Grid.Row="0" Grid.Column="1" Text="총량TON" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" FontWeight="Bold" />
-            <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding SubTankValue}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" FontWeight="Bold" />
-            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding SubTankTon}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" FontWeight="Bold" />
+            <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding SubTankValue, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" FontWeight="Bold" />
+            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding SubTankTon, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" FontWeight="Bold" />
 
         </Grid>
 
-        <Button x:Name="BtnClick" Grid.Column="2" Grid.Row="2" Width="120" Height="30" Content="Button" />
+        <StackPanel Orientation="Horizontal" Grid.Column="2" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Button x:Name="BtnClickOn"  Width="60" Height="30" Content="ON" />
+            <Button x:Name="BtnClickOff"  Width="60" Height="30" Content="OFF" />
+        </StackPanel>
 
         <Label Grid.Column="2" Grid.Row="1" Content="{Binding LblStatus}" />
+        <Label Grid.Column="3" Grid.Row="3" Content="{Binding LblStatus1}" />
 
 
         <Rectangle Grid.Row="3" Grid.Column="1" Fill="Gray" Grid.ColumnSpan="2" Grid.RowSpan="2" Margin="10"/>
