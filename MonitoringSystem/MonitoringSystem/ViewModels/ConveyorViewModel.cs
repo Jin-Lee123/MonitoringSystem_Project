@@ -11,7 +11,7 @@ using System.Windows.Media.Animation;
 
 namespace MonitoringSystem.ViewModels
 {
-    class ConveyorViewModel : Conductor<object>
+    public class ConveyorViewModel : Conductor<object>
     {
         #region 애니매이션
         //private UC_Motor motor1;
@@ -95,7 +95,9 @@ namespace MonitoringSystem.ViewModels
         //    rt.BeginAnimation(RotateTransform.AngleProperty, da);
         //}
         #endregion  // 주석처리중
+        public ConveyorViewModel()
+        {
 
-
+        }
     }
 }

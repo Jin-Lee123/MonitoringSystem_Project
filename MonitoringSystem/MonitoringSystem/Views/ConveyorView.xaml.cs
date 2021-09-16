@@ -16,7 +16,7 @@ namespace MonitoringSystem.Views
     /// </summary>
     public partial class ConveyorView : UserControl
     {
-        private string serverIpNum = "192.168.21.186";  // 윈도우(MQTT Broker, SQLServer) 아이피
+        private string serverIpNum = "192.168.0.195";  // 윈도우(MQTT Broker, SQLServer) 아이피
         private string clientId = "SCADA_system";
         private string factoryId = "Kasan01";            //  Kasan01/4001/  kasan01/4002/ 
         private string ConveyorAddr = "4002";
@@ -76,7 +76,7 @@ namespace MonitoringSystem.Views
                 pairs.Add("DeviceId", clientId);
                 pairs.Add("Topic", "Kasan01/4002");
                 pairs.Add("CurrTime", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
-                pairs.Add("Values", "TempValue");
+                pairs.Add("Values", "1");
 
                 var rawData = JsonConvert.SerializeObject(pairs, Formatting.Indented);
 
@@ -87,6 +87,17 @@ namespace MonitoringSystem.Views
             {
                 StopAnimation();
                 IsRun = false;
+                
+                Dictionary<string, string> pairs = new Dictionary<string, string>();
+                pairs.Add("DeviceId", clientId);
+                pairs.Add("Topic", "Kasan01/4002");
+                pairs.Add("CurrTime", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                pairs.Add("Values", "0");
+
+                var rawData = JsonConvert.SerializeObject(pairs, Formatting.Indented);
+
+                // 메서드에 아래 
+                client.Publish("Kasan01/4002", Encoding.UTF8.GetBytes(rawData), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true);
             }
         }
         private bool IsRun = false;
