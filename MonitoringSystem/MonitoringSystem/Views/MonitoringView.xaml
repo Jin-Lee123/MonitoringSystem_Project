@@ -5,13 +5,14 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
       xmlns:local="clr-namespace:MonitoringSystem.JIN"
+      xmlns:ox="http://oxyplot.org/wpf"
       xmlns:vlc="clr-namespace:Vlc.DotNet.Wpf;assembly=Vlc.DotNet.Wpf"
       mc:Ignorable="d" Background="White"
       d:DesignHeight="450" d:DesignWidth="800">
 
-    <Grid>
+    <Grid ShowGridLines="True">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="4*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -20,42 +21,133 @@
         </Grid.RowDefinitions>
 
         <!-- (1행.1열) 화면-->
-        <Label Content="공장전체 상황판" Foreground="Black" FontSize="20" FontFamily="Arial Black"/>
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width ="3*"/>
-                <ColumnDefinition Width ="8*"/>
-
+                <ColumnDefinition Width ="*"/>
+                <ColumnDefinition Width ="*"/>
             </Grid.ColumnDefinitions>
-        <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Background="AliceBlue">
-            <Label Content="공장 온도 :" />
-            <Label Content="공장 습도 :"/>
-            <Label Content="공장 미세먼지 :"/>
-            <Label Content="가스 :"/>
-            <Label Content="온도 :"/>
-        </StackPanel >
-            <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center" Background="AliceBlue">
-                <Label Content="" Height="25"  MinWidth="80"
-                           Style="{StaticResource MahApps.Styles.Label}"/>
-                <Label Content="" Height="25" MinWidth="80" Style="{StaticResource MahApps.Styles.Label}"/>
-                <Label Content="" Height="25" MinWidth="80" Style="{StaticResource MahApps.Styles.Label}"/>
-                <Label Content="" Height="25" MinWidth="80" Style="{StaticResource MahApps.Styles.Label}"/>
-                <Label Content="" Height="25" MinWidth="80" Style="{StaticResource MahApps.Styles.Label}"/>
-            </StackPanel>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="6*"/>
+            </Grid.RowDefinitions>
+            <Label Content="공장전체 상황판" Foreground="Black" FontSize="20" FontWeight="DemiBold"/>
+            <ox:PlotView Grid.Row="1" Grid.Column="0" Model="{Binding Temperature}"/>
+            <ox:PlotView Grid.Row="1" Grid.Column="1" Model="{Binding Otherproperty}"/>
         </Grid>
+        
+        <!-- 오른쪽 Data 설명 화면 !-->
+        <StackPanel Grid.Row="0" Grid.Column="1">
+            <Label Content="공장 온도" 
+                   VerticalAlignment="Center" 
+                   HorizontalAlignment="Center" 
+                   FontWeight="Bold"
+                   Background="FloralWhite"
+                   Style="{StaticResource MahApps.Styles.Label}"/>
+            <TextBlock Text="A"
+                       Style="{StaticResource MahApps.Styles.TextBlock}"
+                       VerticalAlignment="Center" 
+                   HorizontalAlignment="Center" 
+                       FontSize="20"
+                       Height="40"
+                       />
+            <Label Content="Conveyor 온도" 
+                   VerticalAlignment="Center" 
+                   HorizontalAlignment="Center"
+                   FontWeight="Bold"
+                   Background="FloralWhite"
+                   Style="{StaticResource MahApps.Styles.Label}"/>
+            <TextBlock Text="{Binding }"
+                       Style="{StaticResource MahApps.Styles.TextBlock}"
+                       FontSize="20"
+                       VerticalAlignment="Center" 
+                   HorizontalAlignment="Center" 
+                       Height="40"
+                       />
+            <Label Content="Pump 온도" 
+                   VerticalAlignment="Center" 
+                   HorizontalAlignment="Center"
+                   FontWeight="Bold"
+                   Background="FloralWhite"
+                   Style="{StaticResource MahApps.Styles.Label}"/>
+            <TextBlock Text="{Binding }"
+                       Style="{StaticResource MahApps.Styles.TextBlock}"
+                       VerticalAlignment="Center" 
+                   HorizontalAlignment="Center" 
+                       FontSize="20"
+                       Height="40"
+                       />
+        </StackPanel>
+
         <!-- (1행.2열) 화면-->
-        <Label Content="LINE 공정" Grid.Row="0" Grid.Column="1"  Foreground="Black" FontSize="20" FontFamily="Arial Black"/>
-        <Label Content="설비온도&#xD;&#xA;컨베이어 : {}도 &#xD;&#xA;로봇팔 : {}도" Grid.Row="0" Grid.Column="1" Margin="10,73,250,77" FontFamily="Arial Black" />
+      <!--  <Grid Grid.Row="0" Grid.Column="1">
 
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.6*"/>
+                <ColumnDefinition Width="0.9*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.8*"/>
+                <RowDefinition Height="0.5*"/>
+                <RowDefinition Height="0.5*"/>
+                <RowDefinition Height="0.5*"/>
+                <RowDefinition Height="0.5*"/>
+                <RowDefinition Height="0.5*"/>
+                <RowDefinition Height="0.5*"/>
+            </Grid.RowDefinitions>
+            <Label Content="LINE 공정" 
+                   Grid.Row="0" 
+                   Grid.Column="0" 
+                   Grid.ColumnSpan="2"   Style="{StaticResource MahApps.Styles.Label}"
+                   Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center"
+                   FontSize="25" FontWeight="DemiBold"/>
+            <Label Grid.Row="1" Grid.Column="0" Content="설비 온도"
+                    Style="{StaticResource MahApps.Styles.Label}"/>
+            <Label Grid.Row="2" Grid.Column="1" Content="Robot Arm :"
+                    Style="{StaticResource MahApps.Styles.Label}"/>
+            <Label Grid.Row="3" Grid.Column="1" Content="  Conveyor :"
+                    Style="{StaticResource MahApps.Styles.Label}"/>
+            <TextBlock Grid.Row="2" Grid.Column="2" Text="{Binding }" Style="{StaticResource MahApps.Styles.TextBlock}"/>
+            <TextBlock Grid.Row="3" Grid.Column="2" Text="{Binding}" Style="{StaticResource MahApps.Styles.TextBlock}"/>
+        </Grid> -->
         <!-- (2행.1열) 화면-->
-        <vlc:VlcControl x:Name="image" Grid.Row="1" Grid.Column="0" Margin="5">
-
-        </vlc:VlcControl>
-        <Button Grid.Column="0" Grid.Row="0" x:Name="Play_Button" Content="Play" Click="Play_Button_Click"></Button>
+        <vlc:VlcControl x:Name="image" Grid.Row="1" Grid.Column="0" Margin="5"/>
+        <Button Margin="9.8,175.2,14,4.6" x:Name="Play_Button" Content="Play" Click="Play_Button_Click" Grid.Column="2" Grid.Row="1"/>
 
 
         <!-- (2행.2열) 화면-->
-        <Label Content="PUMP 공정" Grid.Row="1" Grid.Column="1"  Foreground="Black" FontSize="20" FontFamily="Arial Black"/>
+        <!--<Grid Grid.Row="1" Grid.Column="1">
 
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="68.8"/>
+                <ColumnDefinition Width="17*"/>
+                <ColumnDefinition Width="19*"/>
+                <ColumnDefinition Width="19*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.8*"/>
+                <RowDefinition Height="0.5*"/>
+                <RowDefinition Height="0.5*"/>
+                <RowDefinition Height="0.5*"/>
+                <RowDefinition Height="0.5*"/>
+                <RowDefinition Height="0.5*"/>
+                <RowDefinition Height="0.5*"/>
+            </Grid.RowDefinitions>
+            <Label Content="PUMP 공정" 
+                   Grid.Row="0" 
+                   Grid.Column="0" 
+                   Grid.ColumnSpan="2"   Style="{StaticResource MahApps.Styles.Label}"
+                   Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center"
+                   FontSize="25" FontWeight="DemiBold"/>
+            <Label Grid.Row="1" Grid.Column="0" Content="설비 온도"
+                    Style="{StaticResource MahApps.Styles.Label}"/>
+            <Label Grid.Row="2" Grid.Column="1" Content="Robot Arm :"
+                    Style="{StaticResource MahApps.Styles.Label}"/>
+            <Label Grid.Row="3" Grid.Column="1" Content="  Conveyor :"
+                    Style="{StaticResource MahApps.Styles.Label}"/>
+            <TextBlock Grid.Row="2" Grid.Column="2" Text="{Binding }"/>
+            <TextBlock Grid.Row="3" Grid.Column="2" Text="{Binding}"/>
+        </Grid> -->
     </Grid>
 </UserControl>

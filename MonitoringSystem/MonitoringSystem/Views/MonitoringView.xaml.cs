@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
@@ -41,6 +42,9 @@ namespace MonitoringSystem.Views
         {
             image.SourceProvider.CreatePlayer(libDirectory);
             image.SourceProvider.MediaPlayer.Play(new Uri(RtspUrl));
+            MessageBox.Show("Warn Log 입력");
+            App.Logger.Fatal(new Exception("MyWarning"), "Warning!!!!");
+
         }
 
     }

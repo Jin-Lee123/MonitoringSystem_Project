@@ -13,18 +13,8 @@ namespace MonitoringSystem.Views
         public MainView()
         {
             InitializeComponent();
-            DispatcherTimer timer = new DispatcherTimer();
-            timer.Tick += new EventHandler(UpdateTimer_Tick);
-            timer.Interval = new TimeSpan(0, 0, 1);
-            timer.Start();
+
         }
-
-        private void UpdateTimer_Tick(object sender, EventArgs e)
-        {
-            DisplayDateTextBlock.Text = DateTime.Now.ToString(@"HH:mm:ss");
-        }
-
-
 
     }
 }

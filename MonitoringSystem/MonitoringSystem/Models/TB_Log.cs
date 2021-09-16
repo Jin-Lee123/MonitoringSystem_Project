@@ -8,15 +8,17 @@ namespace MonitoringSystem.Models
 {
     public class TB_Log
     {
-        public int Seq { get; set; }
-        public string Space { get; set; }
-        public string Error { get; set; }
-        public string Content { get; set; }
+        public int ID { get; set; }
+        public string Level { get; set; }
+        public string Message { get; set; }
+        public string AdditionalInfo { get; set; }
+        public string LoggedOnDate { get; set; }
 
-        public static readonly string SELECT_QUERY = @"SELECT Seq
-                                                            , Space
-                                                            , Error
-                                                            , Content
-                                                         FROM TB_Log";
+        public static readonly string SELECT_QUERY = @"SELECT ID
+                                                            , Level
+                                                            , Message
+                                                            , AdditionalInfo
+                                                            , LoggedOnDate
+                                                         FROM Logs";
     }
 }
