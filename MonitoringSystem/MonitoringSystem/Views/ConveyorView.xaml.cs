@@ -1,13 +1,8 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
-using uPLibrary.Networking.M2Mqtt;
-using uPLibrary.Networking.M2Mqtt.Messages;
 
 namespace MonitoringSystem.Views
 {
@@ -16,102 +11,14 @@ namespace MonitoringSystem.Views
     /// </summary>
     public partial class ConveyorView : UserControl
     {
-        private string serverIpNum = "192.168.0.195";  // 윈도우(MQTT Broker, SQLServer) 아이피
-        private string clientId = "SCADA_system";
-        private string factoryId = "Kasan01";            //  Kasan01/4001/  kasan01/4002/ 
-        private string ConveyorAddr = "4002";
-        private string LobotAddr = "4001";
-
-        private string connectionString = string.Empty;
-        private MqttClient client;
-
         public ConveyorView()
         {
             InitializeComponent();
-            InitAllCustomComponnet();
         }
 
-        private void InitAllCustomComponnet()
+        public void ConveyStartAnimation1()
         {
-            
-            // IPAddress serverAddress = IPAddress.Parse(serverIpNum);
-            client = new MqttClient(serverIpNum);
-            client.MqttMsgPublished += Client_MqttMsgPublished;
-            client.MqttMsgPublishReceived += Client_MqttMsgPublishReceived;
-            client.ConnectionClosed += Client_ConnectionClosed;
-
-            connectionString = "Data Source=localhost;Initial Catalog=HMI_Data;Integrated Security=True"; //바꿔야댐
-            client.Connect(clientId);
-            client.Subscribe(new string[] { $"{factoryId}/#" }, new byte[] { MqttMsgBase.QOS_LEVEL_AT_MOST_ONCE });
-
-            
-
-        }
-
-        private void Client_ConnectionClosed(object sender, EventArgs e)
-        {
-        }
-
-        private void Client_MqttMsgPublishReceived(object sender, MqttMsgPublishEventArgs e)
-        {
-            //넘어어노느센서값 처리
-        }
-
-        private void Client_MqttMsgPublished(object sender, MqttMsgPublishedEventArgs e)
-        {
-        }
-
-
-
-        #region 애니매이션
-        private void RunStop_Click(object sender, RoutedEventArgs e)
-        {
-            if (IsRun == false)
-            {
-                StartAnimation();
-                StartAnimation1();
-                IsRun = true;
-
-                Dictionary<string, string> pairs = new Dictionary<string, string>();
-                pairs.Add("DeviceId", clientId);
-                pairs.Add("Topic", "Kasan01/4002");
-                pairs.Add("CurrTime", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
-                pairs.Add("Values", "1");
-
-                var rawData = JsonConvert.SerializeObject(pairs, Formatting.Indented);
-
-                // 메서드에 아래 
-                client.Publish("Kasan01/4002", Encoding.UTF8.GetBytes(rawData), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true);
-            }
-            else
-            {
-                StopAnimation();
-                IsRun = false;
-                
-                Dictionary<string, string> pairs = new Dictionary<string, string>();
-                pairs.Add("DeviceId", clientId);
-                pairs.Add("Topic", "Kasan01/4002");
-                pairs.Add("CurrTime", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
-                pairs.Add("Values", "0");
-
-                var rawData = JsonConvert.SerializeObject(pairs, Formatting.Indented);
-
-                // 메서드에 아래 
-                client.Publish("Kasan01/4002", Encoding.UTF8.GetBytes(rawData), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true);
-            }
-        }
-        private bool IsRun = false;
-        private void StopAnimation()
-        {
-            Motor1.RenderTransform = null;
-            Motor2.RenderTransform = null;
-            Motor3.RenderTransform = null;
-            Motor4.RenderTransform = null;
-            Arm.RenderTransform = null;
-        }
-        public void StartAnimation()
-        {
-            // 애니메이션 gg
+            // 애니메이션 모터회전(정회전)
             DoubleAnimation da = new DoubleAnimation();
             da.From = 0;
             da.To = 360;
@@ -130,9 +37,39 @@ namespace MonitoringSystem.Views
 
             rt.BeginAnimation(RotateTransform.AngleProperty, da);
         }
-        private void StartAnimation1()
+        public void ConveyStartAnimation2()
         {
-            // 애니메이션 gg
+            // 애니메이션 모터회전(역회전)
+            DoubleAnimation da = new DoubleAnimation();
+            da.From = 360;
+            da.To = 0;
+            da.Duration = TimeSpan.FromSeconds(2);
+            da.RepeatBehavior = RepeatBehavior.Forever;
+
+            RotateTransform rt = new RotateTransform();
+            Motor1.RenderTransform = rt;
+            Motor1.RenderTransformOrigin = new Point(0.5, 0.5);
+            Motor2.RenderTransform = rt;
+            Motor2.RenderTransformOrigin = new Point(0.5, 0.5);
+            Motor3.RenderTransform = rt;
+            Motor3.RenderTransformOrigin = new Point(0.5, 0.5);
+            Motor4.RenderTransform = rt;
+            Motor4.RenderTransformOrigin = new Point(0.5, 0.5);
+
+            rt.BeginAnimation(RotateTransform.AngleProperty, da);
+        }
+        private void StopAnimation()
+        {
+            // 로봇팔, 컨베이어 정지
+            Motor1.RenderTransform = null;
+            Motor2.RenderTransform = null;
+            Motor3.RenderTransform = null;
+            Motor4.RenderTransform = null;
+            Arm.RenderTransform = null;
+        }
+        private void ArmStartAnimation()
+        {
+            // 애니메이션 로봇팔 움직임
             DoubleAnimation da = new DoubleAnimation();
             da.From = 0;
             da.To = -40;
@@ -146,6 +83,32 @@ namespace MonitoringSystem.Views
 
             rt.BeginAnimation(RotateTransform.AngleProperty, da);
         }
-        #endregion
+
+        private void ConveyRun_Click(object sender, RoutedEventArgs e)
+        {
+            ConveyStartAnimation1();
+        }
+        private void ConveyStop_Click(object sender, RoutedEventArgs e)
+        {
+            StopAnimation();
+        }
+        private void ConveyBack_Click(object sender, RoutedEventArgs e)
+        {
+            ConveyStartAnimation2();
+        }
+
+        private void ArmRun_Click(object sender, RoutedEventArgs e)
+        {
+            ArmStartAnimation();
+        }
+        private void ArmStop_Click(object sender, RoutedEventArgs e)
+        {
+            StopAnimation();
+        }
+
+        private void ConveyRun_Click_1(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

@@ -19,22 +19,43 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
+        <Label Content="{Binding LblStatus}" Grid.Row="1" Grid.Column="0" Margin="23,21,241,82"/>
+        <Label Content="{Binding LblStatus1}" Grid.Row="1" Grid.Column="0" Margin="10,112,265,10"/>
+
+
+        <Grid Grid.Row="1" Margin="92,68,72,25" Background="Bisque" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="1*" />
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="로봇온도" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" FontWeight="Bold" />
+            <TextBlock Grid.Row="0" Grid.Column="1" Text="컨베이어 온도" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" FontWeight="Bold" />
+            <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding RobotTemp}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" FontWeight="Bold" />
+            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding ConveyTemp}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" FontWeight="Bold" />
+
+        </Grid>
+
 
         <Label Content="LINE 모니터링" Grid.Row="0" Grid.Column="0"  Foreground="Black" FontSize="20" FontFamily="Arial Black"/>
         <Label Content="LINE CCTV" Grid.Row="1" Grid.Column="1"  Foreground="Black" FontSize="15" FontFamily="Arial Black"/>
-        <local:UC_Conveyor2 HorizontalAlignment="Left" Height="164" Margin="0,10,0,0" Grid.Row="2" VerticalAlignment="Top" Width="388" Grid.Column="1"/>
-        <local:UC_Motor x:Name="Motor1" Grid.Column="1" HorizontalAlignment="Left" Height="60" Margin="9,48,0,0" Grid.Row="2" VerticalAlignment="Top" Width="96"/>
-        <local:UC_Motor x:Name="Motor2" Grid.Column="1" HorizontalAlignment="Left" Height="60" Margin="105,48,0,0" Grid.Row="2" VerticalAlignment="Top" Width="96"/>
-        <local:UC_Motor x:Name="Motor3" Grid.Column="1" HorizontalAlignment="Left" Height="60" Margin="195,48,0,0" Grid.Row="2" VerticalAlignment="Top" Width="96"/>
-        <local:UC_Motor x:Name="Motor4" Grid.Column="1" HorizontalAlignment="Left" Height="60" Margin="282,48,0,0" Grid.Row="2" VerticalAlignment="Top" Width="96"/>
+        <local:UC_Conveyor2 HorizontalAlignment="Left" Height="164" Margin="6,20,0,0" Grid.Row="2" VerticalAlignment="Top" Width="388" Grid.Column="1"/>
+        <local:UC_Motor x:Name="Motor1" Grid.Column="1" HorizontalAlignment="Left" Height="60" Margin="15,58,0,0" Grid.Row="2" VerticalAlignment="Top" Width="96"/>
+        <local:UC_Motor x:Name="Motor2" Grid.Column="1" HorizontalAlignment="Left" Height="60" Margin="111,58,0,0" Grid.Row="2" VerticalAlignment="Top" Width="96"/>
+        <local:UC_Motor x:Name="Motor3" Grid.Column="1" HorizontalAlignment="Left" Height="60" Margin="201,58,0,0" Grid.Row="2" VerticalAlignment="Top" Width="96"/>
+        <local:UC_Motor x:Name="Motor4" Grid.Column="1" HorizontalAlignment="Left" Height="60" Margin="288,58,0,0" Grid.Row="2" VerticalAlignment="Top" Width="96"/>
         <local:UC_Robotc_Arm2 x:Name="Arm" HorizontalAlignment="Left" Height="124" Margin="195,190,0,0" Grid.Row="1" VerticalAlignment="Top" Width="167" Grid.RowSpan="2"/>
         <local:UC_Robotic_Arm HorizontalAlignment="Left" Height="277" Margin="109,112,0,0" Grid.Row="1" VerticalAlignment="Top" Width="294" Grid.RowSpan="2" Grid.ColumnSpan="2"/>
-        <Button x:Name="RunStop" Content="Run / Stop" Height="50" Width="100" Grid.Column="0" Grid.Row="2" Style="{StaticResource MahApps.Styles.Button.Square.Accent}" Margin="35,124,265,36" Click="RunStop_Click" />
-        <Button x:Name="RunStop_Copy" Content="Run" Height="50" Width="100" Grid.Row="2" Style="{StaticResource MahApps.Styles.Button.Square.Accent}" Margin="35,58,265,101.6" Click="RunStop_Click" />
-        
-        <Button x:Name="ConveyRun"  Content="Run" Height="50" Width="100" Grid.Column="1" Grid.Row="1" Style="{StaticResource MahApps.Styles.Button.Square.Accent}" Margin="75,111.6,225,48" Click="RunStop_Click" />
-        <Button x:Name="ConveyStop" Content=" Stop" Height="50" Width="100" Grid.Column="0" Grid.Row="1" Style="{StaticResource MahApps.Styles.Button.Square.Accent}" Margin="347,111.6,353,48" Click="RunStop_Click" Grid.ColumnSpan="2" />
-        <Button x:Name="ConveyBack" Content="Back " Height="50" Width="100" Grid.Column="0" Grid.Row="1" Style="{StaticResource MahApps.Styles.Button.Square.Accent}" Margin="211,111.6,89,48" Click="RunStop_Click" />
+
+
+        <Button x:Name="ArmStop" Content="Stop" Height="50" Width="100" Grid.Column="0" Grid.Row="2" Style="{StaticResource MahApps.Styles.Button.Square.Accent}" Margin="35,124,265,36" Click="ArmStop_Click"  />
+        <Button x:Name="ArmRun" Content="Run" Height="50" Width="100" Grid.Row="2" Style="{StaticResource MahApps.Styles.Button.Square.Accent}" Margin="35,58,265,101.6" Click="ArmRun_Click"  />
+        <Button x:Name="ConveyRun"  Content="Run" Height="50" Width="100" Grid.Column="1" Grid.Row="1" Style="{StaticResource MahApps.Styles.Button.Square.Accent}" Margin="288,150,12,10" Click="ConveyRun_Click" />
+        <Button x:Name="ConveyStop" Content=" Stop" Height="50" Width="100" Grid.Column="1" Grid.Row="1" Style="{StaticResource MahApps.Styles.Button.Square.Accent}" Margin="183,150,117,10" Click="ConveyStop_Click" />
+        <Button x:Name="ConveyBack" Content="Back " Height="50" Width="100" Grid.Column="1" Grid.Row="1" Style="{StaticResource MahApps.Styles.Button.Square.Accent}" Margin="78,150,222,10" Click="ConveyBack_Click" />
 
     </Grid>
 </UserControl>
