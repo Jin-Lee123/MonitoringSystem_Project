@@ -7,7 +7,6 @@
         xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:local="clr-namespace:MonitoringSystem"
         xmlns:View="clr-namespace:MonitoringSystem.ViewModels" 
-        xmlns:Hong="clr-namespace:MonitoringSystem.Hong" 
         mc:Ignorable="d"
        Title="Window" 
         Height="800" 
@@ -120,12 +119,13 @@
                             Foreground="White"
                             HorizontalAlignment="Center"/>
                     </Grid>
-                    <Button x:Name="LoadMonitoring" Content="모니터링"      FontSize="20" Background="#2E333A" Height="40" Style="{StaticResource MahApps.Styles.Button.Hamburger}" Foreground="White" FontWeight="Bold"/>
+                    
+                    <Button x:Name="LoadMonitoring"  Content="모니터링"      FontSize="20" Background="#2E333A" Height="40" Style="{StaticResource MahApps.Styles.Button.Hamburger}" Foreground="White" FontWeight="Bold"/>
                     <Button x:Name="LoadPumps"      Content="펌프"          FontSize="20" Background="#2E333A" Height="40" Style="{StaticResource MahApps.Styles.Button.Hamburger}" Foreground="White" FontWeight="Bold"/>
                     <Button x:Name="LoadConveyor"   Content="컨베이어"      FontSize="20" Background="#2E333A" Height="40" Style="{StaticResource MahApps.Styles.Button.Hamburger}" Foreground="White" FontWeight="Bold"/>
                     <Button x:Name="LoadLogs"       Content="로그"          FontSize="20" Background="#2E333A" Height="40" Style="{StaticResource MahApps.Styles.Button.Hamburger}" Foreground="White" FontWeight="Bold"/>
                     <Button x:Name="LoadSettings"   Content="설정"          FontSize="20" Background="#2E333A" Height="40" Style="{StaticResource MahApps.Styles.Button.Hamburger}" Foreground="White" FontWeight="Bold"/>
-
+                    
 
 
                 </StackPanel>

@@ -12,9 +12,12 @@ namespace MonitoringSystem.Models
         public string EmpName { get; set; }
         public string DeptName { get; set; }
 
+        public string empname { get; set; }
+
         public static readonly string SELECT_QUERY = @"SELECT Id
                                                             , EmpName
                                                             , DeptName
                                                          FROM TB_Employees";
+        public static readonly string SELECT_QUERY2 = "SELECT Id, EmpName, DeptName FROM TB_Employees WHERE EmpName = '{empname}' ";
     }
 }

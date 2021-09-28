@@ -25,7 +25,6 @@ namespace MonitoringSystem.Views
         }
 
 
-
     }
 }
 
