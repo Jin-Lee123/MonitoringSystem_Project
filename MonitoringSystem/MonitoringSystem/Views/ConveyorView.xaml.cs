@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -11,9 +13,18 @@ namespace MonitoringSystem.Views
     /// </summary>
     public partial class ConveyorView : UserControl
     {
+
+        private string RtspUrl = "rtsp://192.168.0.14:9000";   //아이피(라즈베리아이피) 바꿔줘야댐 192.168.191.185  
+        private DirectoryInfo libDirectory;
+
         public ConveyorView()
         {
             InitializeComponent();
+            
+            //CCTV
+            var currentAssembly = Assembly.GetEntryAssembly();
+            var currentDirectory = new FileInfo(currentAssembly.Location).DirectoryName;
+            libDirectory = new DirectoryInfo(System.IO.Path.Combine(currentDirectory, "libvlc", IntPtr.Size == 4 ? "win-x86" : "win-x64"));
         }
 
         public void ConveyStartAnimation1()
@@ -96,7 +107,6 @@ namespace MonitoringSystem.Views
         {
             ConveyStartAnimation2();
         }
-
         private void ArmRun_Click(object sender, RoutedEventArgs e)
         {
             ArmStartAnimation();
@@ -106,9 +116,11 @@ namespace MonitoringSystem.Views
             StopAnimation();
         }
 
-        private void ConveyRun_Click_1(object sender, RoutedEventArgs e)
+        // CCTV
+        private void Play_Button_Click(object sender, RoutedEventArgs e)
         {
-
+            image.SourceProvider.CreatePlayer(libDirectory);
+            image.SourceProvider.MediaPlayer.Play(new Uri(RtspUrl));
         }
     }
 }

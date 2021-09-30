@@ -1,7 +1,9 @@
 ﻿using Caliburn.Micro;
+using MonitoringSystem.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,12 +15,93 @@ namespace MonitoringSystem.ViewModels
 {
     public class ConveyorViewModel : Conductor<object>
     {
+        public Func<double, string> YFormatter { get; set; }
+        public Func<double, string> YFormatter2 { get; set; }
+
         private string serverIpNum = "192.168.0.195";   //학원 "192.168.0.195"; //핸드폰 "192.168.21.186";  // 윈도우(MQTT Broker, SQLServer) 아이피
         private string clientId = "학원";
         private string factoryId = "kasan01";            //  Kasan01/4001/  kasan01/4002/ 
         private string motorAddr = "4002";
         private string tankAddr = "4001";
         private string connectionString = "Data Source=hangaramit.iptime.org;Initial Catalog=1조_database;Persist Security Info=True;User ID=team1;Password=team1_1234";
+
+
+        #region ### 생산량 불량률 생성자 생성 ###
+        private BindableCollection<TB_Line> TB_Line;
+
+        public BindableCollection<TB_Line> Line
+        {
+            get => TB_Line;
+            set
+            {
+                TB_Line = value;
+                NotifyOfPropertyChange(() => Line);
+            }
+        }
+        private int plantcode;
+        public int Plantcode
+        {
+            get => plantcode;
+            set
+            {
+                plantcode = value;
+                NotifyOfPropertyChange(() => Plantcode);
+            }
+        }
+        private int totalqty;
+        public int TotalQty
+        {
+            get => totalqty;
+            set
+            {
+                totalqty = value;
+                NotifyOfPropertyChange(() => TotalQty);
+            }
+        }
+        private int prodqty;
+        public int ProdQty
+        {
+            get => prodqty;
+            set
+            {
+                prodqty = value;
+                NotifyOfPropertyChange(() => ProdQty);
+            }
+        }
+        private int badqty;
+        public int BadQty
+        {
+            get => badqty;
+            set
+            {
+                badqty = value;
+                NotifyOfPropertyChange(() => BadQty);
+            }
+        }
+        private string woker;
+        public string Woker
+        {
+            get => woker;
+            set
+            {
+                woker = value;
+                NotifyOfPropertyChange(() => Woker);
+            }
+        }
+        private string goalQty;
+        public string GoalQty
+        {
+            get => goalQty;
+            set
+            {
+                goalQty = value;
+                NotifyOfPropertyChange(() => GoalQty);
+            }
+        }
+
+        #endregion
+
+
 
         private MqttClient client;
         public MqttClient Client
@@ -91,10 +174,50 @@ namespace MonitoringSystem.ViewModels
 
             Client.Connect(clientId);
             Client.Subscribe(new string[] { $"{factoryId}/#" }, new byte[] { MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE });
+
+            GetEmployees();
         }
         #endregion
 
-        private void Client_ConnectionClosed(object sender, EventArgs e)
+        // 1. SELECT 문
+        private void GetEmployees()
+        {
+            using (SqlConnection conn = new SqlConnection(Common.CONNSTRING))
+            {
+                conn.Open();
+                string selquery = Models.TB_Line.SELECT_QUERY;
+                SqlCommand cmd = new SqlCommand(selquery, conn);
+                SqlDataReader reader = cmd.ExecuteReader();
+                Line = new BindableCollection<TB_Line>();
+
+                while (reader.Read())
+                {
+                    var empTmp = new TB_Line
+                    {
+                        Plantcode = (int)reader["Plantcode"],
+                        TotalQty = (int)reader["TotalQty"],
+                        ProdQty = (int)reader["ProdQty"],
+                        BadQty = (int)reader["BadQty"],
+                        Woker = reader["Woker"].ToString(),
+                        
+                    };
+                    Line.Add(empTmp);
+                    
+                }
+                conn.Close();
+            }
+
+            TotalQty = Line[0].TotalQty;
+            ProdQty = Line[0].ProdQty;
+            BadQty = Line[0].BadQty;
+
+            YFormatter = (val) => $"{(val / TotalQty) * 100}%";
+            YFormatter2 = (val) => $"{(val / (ProdQty + BadQty)) * 100}%";
+            //GoalQty = ProdQty/TotalQty*100;
+        }
+        
+
+        private void Client_ConnectionClosed(object sender, EventArgs e)   // 모니터링 종료
         {
             LblStatus = "모니터링 종료!";
         }
@@ -172,14 +295,14 @@ namespace MonitoringSystem.ViewModels
             {
                 var currtime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                 string pubData = "{ \n" +
-                                 "   \"dev_addr\" : \"4002\", \n" +
+                                 "   \"dev_addr\" : \"4001\", \n" +
                                  $"   \"currtime\" : \"{currtime}\" , \n" +
                                  "   \"code\" : \"Arm\", \n" +
                                  "   \"value\" : \"1\", \n" +
                                  "   \"sensor\" : \"0\" \n" +
                                  "}";
 
-                Client.Publish($"{factoryId}/4002/", Encoding.UTF8.GetBytes(pubData), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
+                Client.Publish($"{factoryId}/4001/", Encoding.UTF8.GetBytes(pubData), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
             }
             catch (Exception ex)
             {
@@ -194,14 +317,14 @@ namespace MonitoringSystem.ViewModels
             {
                 var currtime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                 string pubData = "{ \n" +
-                                 "   \"dev_addr\" : \"4002\", \n" +
+                                 "   \"dev_addr\" : \"4001\", \n" +
                                  $"   \"currtime\" : \"{currtime}\" , \n" +
                                  "   \"code\" : \"Arm\", \n" +
                                  "   \"value\" : \"2\", \n" +
                                  "   \"sensor\" : \"0\" \n" +
                                  "}";
 
-                Client.Publish($"{factoryId}/4002/", Encoding.UTF8.GetBytes(pubData), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
+                Client.Publish($"{factoryId}/4001/", Encoding.UTF8.GetBytes(pubData), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
             }
             catch (Exception ex)
             {
@@ -223,13 +346,13 @@ namespace MonitoringSystem.ViewModels
                 //"value" : "1"
                 var currData = JsonConvert.DeserializeObject<Dictionary<string, string>>(message);
 
-                if (currData["dev_addr"] == "4001" && currData["code"] == "RobotTemp") // RobotTemp 데이터 수신
+                if (currData["dev_addr"] == "4003" && currData["code"] == "RobotTemp") // RobotTemp 데이터 수신
                 {
                     RobotTemp = currData["sensor"];
                     LblStatus = message;
 
                 }
-                else if (currData["dev_addr"] == "4001" && currData["code"] == "ConveyTemp") // ConveyTemp 데이터 수신
+                else if (currData["dev_addr"] == "4003" && currData["code"] == "ConveyTemp") // ConveyTemp 데이터 수신
                 {
                     ConveyTemp = currData["sensor"];
                     LblStatus1 = message;
@@ -245,8 +368,7 @@ namespace MonitoringSystem.ViewModels
         #endregion
 
 
-        // 창을 종료할 때 Mqtt Client 종료
-        protected override Task OnDeactivateAsync(bool close, CancellationToken cancellationToken)
+        protected override Task OnDeactivateAsync(bool close, CancellationToken cancellationToken)  // 창을 종료할 때 Mqtt Client 종료
         {
             if (Client.IsConnected) Client.Disconnect();
             return base.OnDeactivateAsync(close, cancellationToken);

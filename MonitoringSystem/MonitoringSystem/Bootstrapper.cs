@@ -17,7 +17,7 @@ namespace MonitoringSystem
                 DisplayRootViewFor<MainViewModel>();
 
             // 실행시 로그인창 modal로 실행
-            MainViewModel.ShowVMDialog(new LoginViewModel());
+            //MainViewModel.ShowVMDialog(new LoginViewModel());
             }
         }
     }
