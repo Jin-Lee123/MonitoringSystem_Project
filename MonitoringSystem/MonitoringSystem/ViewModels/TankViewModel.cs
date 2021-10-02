@@ -89,11 +89,11 @@ namespace MonitoringSystem.ViewModels
             {
                 if (value >= 700)
                 {
-                    mainTankTon = 700 * 400;
+                    mainTankTon = 700 * 400* 100;
                 }
                 else
                 { 
-                    mainTankTon = Math.Round(value / 700 * 400);
+                    mainTankTon = Math.Round(value / 700* 100 * 400);
                 }
                 NotifyOfPropertyChange(() => MainTankTon);
             }
@@ -125,11 +125,11 @@ namespace MonitoringSystem.ViewModels
             {
                 if (value >= 630)
                 {
-                    subTankTon = 630 / 630 * 100;
+                    subTankTon = 630 / 630 * 100 * 400;
                 }
                 else
                 {
-                    subTankTon = Math.Round(value / 630 * 100);
+                    subTankTon = Math.Round(value / 630 * 100 * 400);
                 }
             NotifyOfPropertyChange(() => SubTankTon);
             }
