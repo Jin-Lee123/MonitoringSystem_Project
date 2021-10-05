@@ -9,12 +9,11 @@
         xmlns:View="clr-namespace:MonitoringSystem.ViewModels" 
         mc:Ignorable="d"
        Title="Window" 
-        Height="800" 
-        Width="1200"
         Topmost="True"
         WindowStyle="ThreeDBorderWindow"
         WindowStartupLocation="CenterScreen"
-        WindowState="Normal">
+        ResizeMode="NoResize"
+        WindowState="Maximized">
 
     <Window.Resources>
 
@@ -41,51 +40,20 @@
 
     </Window.Resources>
 
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="65*"/>
-            <ColumnDefinition Width="650*"/>
-            <ColumnDefinition Width="479*"/>
-        </Grid.ColumnDefinitions>
 
-        <!--// Background Color //-->
+    <!--// Background Color //-->
 
-        <Grid Background="White" Grid.ColumnSpan="3" Margin="0,0,-0.4,0.4">
+    <Grid Background="White" Grid.ColumnSpan="3" Margin="0,0,-0.4,0.4">
+        <!--// Background Image //-->
+        <!--// App Close Button //-->
 
-            <!--// Background Image //-->
-
-            <!--// App Close Button //-->
-
-            <Grid>
-
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="275*"/>
-                    <ColumnDefinition Width="828*"/>
-                    <ColumnDefinition Width="60"/>
-                    <ColumnDefinition Width="30"/>
-                </Grid.ColumnDefinitions>
-
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="30"/>
-                    <RowDefinition Height="60"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-                <!-- // Page를 띄울 Frame // -->
-
-                <ContentControl x:Name="ActiveItem" 
-                       Grid.Row="1" 
-                       Grid.Column="0" 
-                       Grid.ColumnSpan="4" 
-                       Margin="225,59.6,0.6,0.4" Grid.RowSpan="2" />
-
-            </Grid>
-
-
-            <!--// Navigation Panel //-->
-
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="15*"/>
+                <ColumnDefinition Width="85*"/>
+            </Grid.ColumnDefinitions>
             <Grid   x:Name="nav_pnl"
-                    HorizontalAlignment="Left"
-                    Width="230"
+                    HorizontalAlignment="Left"                  
                     Background="#2E333A">
 
                 <StackPanel x:Name="st_pnl">
@@ -119,23 +87,37 @@
                             Foreground="White"
                             HorizontalAlignment="Center"/>
                     </Grid>
-                    
+
                     <Button x:Name="LoadMonitoring"  Content="모니터링"      FontSize="20" Background="#2E333A" Height="40" Style="{StaticResource MahApps.Styles.Button.Hamburger}" Foreground="White" FontWeight="Bold"/>
                     <Button x:Name="LoadPumps"      Content="펌프"          FontSize="20" Background="#2E333A" Height="40" Style="{StaticResource MahApps.Styles.Button.Hamburger}" Foreground="White" FontWeight="Bold"/>
                     <Button x:Name="LoadConveyor"   Content="컨베이어"      FontSize="20" Background="#2E333A" Height="40" Style="{StaticResource MahApps.Styles.Button.Hamburger}" Foreground="White" FontWeight="Bold"/>
                     <Button x:Name="LoadLogs"       Content="로그"          FontSize="20" Background="#2E333A" Height="40" Style="{StaticResource MahApps.Styles.Button.Hamburger}" Foreground="White" FontWeight="Bold"/>
                     <Button x:Name="LoadSettings"   Content="설정"          FontSize="20" Background="#2E333A" Height="40" Style="{StaticResource MahApps.Styles.Button.Hamburger}" Foreground="White" FontWeight="Bold"/>
-                    
-
 
                 </StackPanel>
                 <StackPanel>
                 </StackPanel>
 
+            </Grid>
+            <Grid Grid.Column="1" Grid.Row="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="10*"/>
+                    <RowDefinition Height="90*"/>
+                </Grid.RowDefinitions>
+                <ContentControl x:Name="ActiveItem" 
+                       Grid.Row="1" 
+                       Grid.Column="0" 
+                       />
 
             </Grid>
+            <!-- // Page를 띄울 Frame // -->
 
         </Grid>
+
+
+        <!--// Navigation Panel //-->
+
+
 
     </Grid>
 

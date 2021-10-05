@@ -26,7 +26,7 @@ namespace MonitoringSystem.ViewModels
         private string connectionString = "Data Source=hangaramit.iptime.org;Initial Catalog=1조_database;Persist Security Info=True;User ID=team1;Password=team1_1234";
 
 
-        #region ### 생산량 불량률 생성자 생성 ###
+        #region ### 생산량 불량률 생성자 생성 ### 삭제할수도
         private BindableCollection<TB_Line> TB_Line;
 
         public BindableCollection<TB_Line> Line
@@ -46,6 +46,16 @@ namespace MonitoringSystem.ViewModels
             {
                 plantcode = value;
                 NotifyOfPropertyChange(() => Plantcode);
+            }
+        }
+        private int goalqty;
+        public int GoalQty
+        {
+            get => goalqty;
+            set
+            {
+                goalqty = value;
+                NotifyOfPropertyChange(() => GoalQty);
             }
         }
         private int totalqty;
@@ -88,21 +98,9 @@ namespace MonitoringSystem.ViewModels
                 NotifyOfPropertyChange(() => Woker);
             }
         }
-        private string goalQty;
-        public string GoalQty
-        {
-            get => goalQty;
-            set
-            {
-                goalQty = value;
-                NotifyOfPropertyChange(() => GoalQty);
-            }
-        }
-
         #endregion
 
-
-
+        #region MQTT 생성자 RobotArm, Conveyor
         private MqttClient client;
         public MqttClient Client
         {
@@ -162,10 +160,36 @@ namespace MonitoringSystem.ViewModels
             }
         }
 
+        // Duty 미세먼지
+        private string duty;
+        public string Duty
+        {
+            get => duty;
+            set
+            {
+                duty = value;
+                NotifyOfPropertyChange(() => Duty);
+            }
+        }
+        
+        // MQ5 LPG부탄프로탄가스센서
+        private string mq5;
+        public string MQ5
+        {
+            get => mq5;
+            set
+            {
+                mq5 = value;
+                NotifyOfPropertyChange(() => MQ5);
+            }
+        }
+        #endregion
 
+        //MqttClient Clients;
         #region ### 화면 로딩 + 이벤트 ###
         public ConveyorViewModel()
         {
+            //Clients = _Client;
             // 화면 로드 되자마자 MQTT에 접속, 이벤트 처리
             Client = new MqttClient(serverIpNum);
             Client.MqttMsgPublishReceived += Client_MqttMsgPublishReceived;
@@ -179,8 +203,8 @@ namespace MonitoringSystem.ViewModels
         }
         #endregion
 
-        // 1. SELECT 문
-        private void GetEmployees()
+       
+        private void GetEmployees() // 1. SELECT 문
         {
             using (SqlConnection conn = new SqlConnection(Common.CONNSTRING))
             {
@@ -195,6 +219,7 @@ namespace MonitoringSystem.ViewModels
                     var empTmp = new TB_Line
                     {
                         Plantcode = (int)reader["Plantcode"],
+                        GoalQty = (int)reader["GoalQty"],
                         TotalQty = (int)reader["TotalQty"],
                         ProdQty = (int)reader["ProdQty"],
                         BadQty = (int)reader["BadQty"],
@@ -210,12 +235,12 @@ namespace MonitoringSystem.ViewModels
             TotalQty = Line[0].TotalQty;
             ProdQty = Line[0].ProdQty;
             BadQty = Line[0].BadQty;
+            GoalQty = Line[0].GoalQty;
 
-            YFormatter = (val) => $"{(val / TotalQty) * 100}%";
-            YFormatter2 = (val) => $"{(val / (ProdQty + BadQty)) * 100}%";
-            //GoalQty = ProdQty/TotalQty*100;
+            YFormatter = (val) => $"{(val / GoalQty) * 100}%";
+            YFormatter2 = (val) => $"{(val / TotalQty) * 100}%";
+          
         }
-        
 
         private void Client_ConnectionClosed(object sender, EventArgs e)   // 모니터링 종료
         {
@@ -258,6 +283,7 @@ namespace MonitoringSystem.ViewModels
                                  "   \"sensor\" : \"0\" \n" +
                                  "}";
 
+                
                 Client.Publish($"{factoryId}/4002/", Encoding.UTF8.GetBytes(pubData), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
             }
             catch (Exception ex)
@@ -310,7 +336,7 @@ namespace MonitoringSystem.ViewModels
             }
         }  // 로봇팔 좌회전
 
-        public void ArmStop()
+        public void ArmRun2()
         {
             // Publish 로봇팔 Run
             try
@@ -358,6 +384,16 @@ namespace MonitoringSystem.ViewModels
                     LblStatus1 = message;
                 }
                 //InsertData(currData);
+                else if (currData["dev_addr"] == "4004" && currData["code"] == "Duty") // ConveyTemp 데이터 수신
+                {
+                    Duty = currData["sensor"];
+                    LblStatus1 = message;
+                }
+                else if (currData["dev_addr"] == "4005" && currData["code"] == "MQ5") // ConveyTemp 데이터 수신
+                {
+                    MQ5 = currData["sensor"];
+                    LblStatus1 = message;
+                }
             }
             catch (Exception ex)
             {
