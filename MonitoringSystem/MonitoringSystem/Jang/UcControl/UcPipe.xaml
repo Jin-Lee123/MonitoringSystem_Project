@@ -5,9 +5,46 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MonitoringSystem.Jang.UcControl"
              mc:Ignorable="d" 
-             d:DesignHeight="20" d:DesignWidth="50">
-    <Grid>
-        <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="20"  Stroke="Black"
-                   VerticalAlignment="Top" Width="50" StrokeThickness="3"/>
-    </Grid>
+             d:DesignHeight="40" d:DesignWidth="105">
+    <Viewbox >
+        <Canvas Width="105" Height="40" Margin="0,0,0,0">
+            <!--Step 1 Main Pipe -->
+            <Rectangle x:Name="MainPipeBrush" Width="85" Height="36" Canvas.Left="10" Canvas.Top="2"
+                        Stretch="Fill" StrokeThickness="1" StrokeMiterLimit="2.75" Stroke="Black"
+                        RenderTransformOrigin="-0.127,0.506">
+                <Rectangle.Fill>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,0.5" SpreadMethod="Reflect">
+                        <GradientStop Color="#FF071923" Offset="0" />
+                        <GradientStop Color="White" Offset="1" />
+                    </LinearGradientBrush>
+                </Rectangle.Fill>
+            </Rectangle>
+
+            <!-- Step 2 Left Connector -->
+            <Rectangle x:Name="LeftPipeBrush" Width="12" Height="40" Canvas.Left="0" Canvas.Top="0"
+                        Stretch="Fill" StrokeThickness="1" StrokeMiterLimit="2.75" Stroke="Black"
+                        RenderTransformOrigin="-0.127,0.506">
+                <Rectangle.Fill>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,0.5" SpreadMethod="Reflect">
+                        <GradientStop Color="#FF071923" Offset="0" />
+                        <GradientStop Color="White" Offset="1" />
+                    </LinearGradientBrush>
+                </Rectangle.Fill>
+            </Rectangle>
+
+            <!-- Step 3 Right Connector -->
+            <Rectangle x:Name="RightPipeBrush" Width="12" Height="40" Canvas.Left="93"
+                        Stretch="Fill" StrokeThickness="1" StrokeMiterLimit="2.75" Stroke="Black"
+                        RenderTransformOrigin="-0.127,0.506">
+                <Rectangle.Fill>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,0.5" SpreadMethod="Reflect">
+                        <GradientStop Color="#FF071923" Offset="0" />
+                        <GradientStop Color="White" Offset="1" />
+                    </LinearGradientBrush>
+                </Rectangle.Fill>
+            </Rectangle>
+        </Canvas>
+
+    </Viewbox>
+
 </UserControl>

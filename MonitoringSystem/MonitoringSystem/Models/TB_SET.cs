@@ -8,13 +8,13 @@ namespace MonitoringSystem.Models
 {
     public class TB_SET
     {
-        public float PlantT { get; set; }
-        public float PlantH { get; set; }
-        public float RobotArm { get; set; }
-        public float Conveyor { get; set; }
-        public float PumpT { get; set; }
-        public float FlowRate { get; set; }
-        public float Density { get; set; }
+        public float SPlantT { get; set; }
+        public float SPlantH { get; set; }
+        public float SRobotArm { get; set; }
+        public float SConveyor { get; set; }
+        public float SPumpT { get; set; }
+        public float SFlowRate { get; set; }
+        public float SDensity { get; set; }
 
         public static readonly string SELECT_QUERY = @"SELECT PlantT
                                                             , PlantH
@@ -23,6 +23,16 @@ namespace MonitoringSystem.Models
                                                             , PumpT
                                                             , FlowRate
                                                             , Density
-                                                         FROM TB_SETTING";
+                                                         FROM TB_SET";
+        public static readonly string UPDATE_QUERY = @"UPDATE TB_SET
+                                                          SET PlantT = @PlantT
+                                                              , PlantH   = @PlantH
+                                                              , RobotArm = @RobotArm
+                                                              , Conveyor = @Conveyor
+                                                              , PumpT    = @PumpT
+                                                              , FlowRate = @FlowRate
+                                                              , Density  = @Density
+                                                        WHERE Id = 1";
     }
 }
+                                            
