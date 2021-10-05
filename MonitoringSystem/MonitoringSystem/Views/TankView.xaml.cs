@@ -18,7 +18,7 @@ namespace MonitoringSystem.Views
     /// </summary>
     public partial class TankView : UserControl
     {
-        private string RtspUrl = "rtsp://192.168.0.7:9000";   //아이피(라즈베리아이피) 바꿔줘야댐 192.168.191.185  
+        private string RtspUrl = "rtsp://192.168.0.11:9000";   //아이피(라즈베리아이피) 바꿔줘야댐 192.168.191.185  
         private DirectoryInfo libDirectory;
 
 
