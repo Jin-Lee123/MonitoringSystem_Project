@@ -124,6 +124,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Bootstrapper.cs" />
+    <Compile Include="Models\DataConnection.cs" />
     <Compile Include="Models\TB_Line.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="Models\Common.cs" />

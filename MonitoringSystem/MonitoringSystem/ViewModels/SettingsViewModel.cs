@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace MonitoringSystem.ViewModels
 {
@@ -25,86 +26,86 @@ namespace MonitoringSystem.ViewModels
             }
         }
 
-        private float plantT;
+        private float SplantT;
 
-        public float PlantT
+        public float SPlantT
         {
-            get => plantT;
+            get => SplantT;
             set
             {
-                plantT = value;
-                NotifyOfPropertyChange(() => PlantT);
+                SplantT = value;
+                NotifyOfPropertyChange(() => SPlantT);
             }
         }
 
-        private float plantH;
+        private float SplantH;
 
-        public float PlantH
+        public float SPlantH
         {
-            get => plantH;
+            get => SplantH;
             set
             {
-                plantH = value;
-                NotifyOfPropertyChange(() => PlantH);
+                SplantH = value;
+                NotifyOfPropertyChange(() => SPlantH);
             }
         }
-        private float robotArm;
+        private float SrobotArm;
 
-        public float RobotArm
+        public float SRobotArm
         {
-            get => robotArm;
+            get => SrobotArm;
             set
             {
-                robotArm = value;
-                NotifyOfPropertyChange(() => RobotArm);
-            }
-        }
-
-        private float conveyor;
-
-        public float Conveyor
-        {
-            get => conveyor;
-            set
-            {
-                conveyor = value;
-                NotifyOfPropertyChange(() => Conveyor);
+                SrobotArm = value;
+                NotifyOfPropertyChange(() => SRobotArm);
             }
         }
 
-        private float pumpT;
+        private float Sconveyor;
 
-        public float PumpT
+        public float SConveyor
         {
-            get => pumpT;
+            get => Sconveyor;
             set
             {
-                pumpT = value;
-                NotifyOfPropertyChange(() => PumpT);
+                Sconveyor = value;
+                NotifyOfPropertyChange(() => SConveyor);
             }
         }
 
-        private float flowRate;
+        private float SpumpT;
 
-        public float FlowRate
+        public float SPumpT
         {
-            get => flowRate;
+            get => SpumpT;
             set
             {
-                flowRate = value;
-                NotifyOfPropertyChange(() => FlowRate);
+                SpumpT = value;
+                NotifyOfPropertyChange(() => SPumpT);
             }
         }
 
-        private float density;
+        private float SflowRate;
 
-        public float Density
+        public float SFlowRate
         {
-            get => density;
+            get => SflowRate;
             set
             {
-                density = value;
-                NotifyOfPropertyChange(() => Density);
+                SflowRate = value;
+                NotifyOfPropertyChange(() => SFlowRate);
+            }
+        }
+
+        private float Sdensity;
+
+        public float SDensity
+        {
+            get => Sdensity;
+            set
+            {
+                Sdensity = value;
+                NotifyOfPropertyChange(() => SDensity);
             }
         }
 
@@ -161,26 +162,30 @@ namespace MonitoringSystem.ViewModels
         {
             using (SqlConnection conn = new SqlConnection(Common.CONNSTRING))
             {
-                conn.Open();
                 SqlCommand cmd = new SqlCommand(Models.TB_SET.SELECT_QUERY, conn);
-                SqlDataReader reader = cmd.ExecuteReader();
-                TB_SET = new BindableCollection<TB_SET>();
-
-                while (reader.Read())
+                try
                 {
-                    var empTmp = new TB_SET
-                    {
-                        PlantT = float.Parse(reader["PlantT"].ToString()),
-                        PlantH = float.Parse(reader["PlantH"].ToString()),
-                        RobotArm = float.Parse(reader["RobotArm"].ToString()),
-                        Conveyor = float.Parse(reader["Conveyor"].ToString()),
-                        PumpT = float.Parse(reader["PumpT"].ToString()),
-                        FlowRate = float.Parse(reader["FlowRate"].ToString()),
-                        Density = float.Parse(reader["Density"].ToString()),
-                    };
-                    TB_SET.Add(empTmp);
+                conn.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+                    reader.Read();
+                    SPlantT = float.Parse(reader["PlantT"].ToString());
+                    SPlantH = float.Parse(reader["PlantH"].ToString());
+                    SRobotArm = float.Parse(reader["RobotArm"].ToString());
+                    SConveyor = float.Parse(reader["Conveyor"].ToString());
+                    SPumpT = float.Parse(reader["PumpT"].ToString());
+                    SFlowRate = float.Parse(reader["FlowRate"].ToString());
+                    SDensity = float.Parse(reader["Density"].ToString());
                 }
-            }
+                catch (Exception)
+                {
+                    throw;
+                }
+                finally
+                {
+                    conn.Close();
+                }
+                }
+            
         }
         public void GetEmployees()
         {
@@ -204,6 +209,62 @@ namespace MonitoringSystem.ViewModels
             }
         }
 
+        public void SaveSetting()
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(Common.CONNSTRING))
+                {
+                    int resultRow = 0;
+                    conn.Open();
+                    SqlCommand cmd = new SqlCommand();
+                    cmd.Connection = conn;
+                        cmd.CommandText = Models.TB_SET.UPDATE_QUERY;
+
+                    SqlParameter PlantTParam = new SqlParameter("@PlantT", SPlantT);
+                    cmd.Parameters.Add(PlantTParam);
+                    SqlParameter PlantHParam = new SqlParameter("@PlantH", SPlantH);
+                    cmd.Parameters.Add(PlantHParam);
+                    SqlParameter RobotArmParam = new SqlParameter("@RobotArm", SRobotArm);
+                    cmd.Parameters.Add(RobotArmParam);
+                    SqlParameter ConveyorParam = new SqlParameter("@Conveyor", SConveyor);
+                    cmd.Parameters.Add(ConveyorParam);
+                    SqlParameter PumpTParam = new SqlParameter("@PumpT", SPumpT);
+                    cmd.Parameters.Add(PumpTParam);
+                    SqlParameter FlowRateParam = new SqlParameter("@FlowRate", SFlowRate);
+                    cmd.Parameters.Add(FlowRateParam);
+                    SqlParameter DensityParam = new SqlParameter("@Density", SDensity);
+                    cmd.Parameters.Add(DensityParam);
+                    if (Id != 0) // Update일때만 Id 사용 (분기안하면 무조건 에러)
+                    {
+                        SqlParameter idParam = new SqlParameter("@id", Id);
+                        cmd.Parameters.Add(idParam);
+                    }
+
+                    resultRow = cmd.ExecuteNonQuery();
+
+                    if (resultRow > 0)
+                    {
+                        MessageBox.Show("저장되었습니다!");
+                        GetSettings();
+                    }
+                    else
+                    {
+                        MessageBox.Show("데이터 저장 실패!");
+                    }
+                }
+            }
+            catch (System.Exception ex)
+            {
+                MessageBox.Show($"예외발생 : {ex.Message}");
+                //return;
+            }
+            finally
+            {
+            }
+        }
+    
+
         #endregion
         #region 창 오픈 시 조회
 
@@ -211,6 +272,7 @@ namespace MonitoringSystem.ViewModels
         {
             // DB연결
             GetEmployees();
+            GetSettings();
         }
         #endregion
     }

@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using NLog;
+using System.Windows.Threading;
 
 namespace MonitoringSystem.ViewModels
 {
@@ -28,12 +29,12 @@ namespace MonitoringSystem.ViewModels
             {
                 plant = value;
                 NotifyOfPropertyChange(() => Plant);
+
             }
         }
 
-        private double plantT;
-
-        public double PlantT
+        private float plantT;
+        public float PlantT
         {
             get => plantT;
             set
@@ -66,14 +67,20 @@ namespace MonitoringSystem.ViewModels
                 NotifyOfPropertyChange(() => Otherproperty);
             }
         }
+        #region Setting값 Property
+
+        #endregion
         #endregion
 
-
+        
         #region 차트 설정
         public MonitoringViewModel()
         {
-   //         App.LOGGER.Info($"예외발생, Client_MqttMsgPublishReceived : []");
-
+            //         App.LOGGER.Info($"예외발생, Client_MqttMsgPublishReceived : []");
+            DispatcherTimer timer = new DispatcherTimer();
+            timer.Tick += new EventHandler(FunctionB);
+            timer.Interval = new TimeSpan(0, 0, 1);
+            timer.Start();
 
             var plotModel1 = new PlotModel();
             plotModel1.Title = "Temperature";
@@ -104,12 +111,23 @@ namespace MonitoringSystem.ViewModels
             Otherproperty = plotModel2;
             Otherproperty.InvalidatePlot(true);
             Thread thread1 = new Thread(new ThreadStart(FunctionA));
+            thread1.IsBackground = true;
             thread1.Start();
-            
+
+           
         }
+
+        private void FunctionB(object sender, EventArgs e)
+        {
+            PlantT = DataConnection.PlantT;
+        }
+
+
         #endregion
 
         #region Plot 함수
+
+
         public void FunctionA()
         {
             DateTime curtime;
@@ -125,26 +143,24 @@ namespace MonitoringSystem.ViewModels
                 lineSeries1.Points.Clear();
                 curtime = DateTime.Now;
                 double dCurtime = curtime.ToOADate();
-                string sCurtime = curtime.ToString(@"hh:mm:ss");
-                double dValue = Math.Sin(50000 * dCurtime);
                 if (lData.Count == 0)
                 {
                     
-                    lData.Add(new DataPoint(dCurtime, dValue));
+                    lData.Add(new DataPoint(dCurtime, PlantT));
                 //    lData.Add(new DataPoint(dCurtime, PlantT));
                 }
                 else
                 {
 
-                    if (lData.Count <= 100)
+                    if (lData.Count <= 300)
                     {
-                        lData.Add(new DataPoint(dCurtime, dValue));
+                        lData.Add(new DataPoint(dCurtime, PlantT));
                  //       lData.Add(new DataPoint(dCurtime, PlantT));
                     }
                     else
                     {
                         lData.RemoveAt(0);
-                        lData.Add(new DataPoint(dCurtime, dValue));
+                        lData.Add(new DataPoint(dCurtime, PlantT));
                  //       lData.Add(new DataPoint(dCurtime, PlantT));
                     }
                 }
@@ -161,32 +177,33 @@ namespace MonitoringSystem.ViewModels
         }
         #endregion
 
-
+        
         #region sql 조회 함수
 
 
-        // sql 조회 후 Plot을 만들기 위해서는 Sql Server에 저장되는게 우선
-      /*  public void GetPlant()
-        {
-            using (SqlConnection conn = new SqlConnection(Common.CONNSTRING))
-            {
-                conn.Open();
-                SqlCommand cmd = new SqlCommand(Models.TB_Plant.SELECT_QUERY, conn);
-                SqlDataReader reader = cmd.ExecuteReader();
-                plant = new BindableCollection<TB_Plant>();
 
-                while (reader.Read())
-                {
-                    var empTmp = new TB_Plant
-                    {
-                        PlantT = float.Parse(reader["PlantT"].ToString()),
-                    };
-                    plant.Add(empTmp);
-                }
-            }
-      }*/
+        /*  public void GetPlant()
+          {
+              using (SqlConnection conn = new SqlConnection(Common.CONNSTRING))
+              {
+                  conn.Open();
+                  SqlCommand cmd = new SqlCommand(Models.TB_Plant.SELECT_QUERY, conn);
+                  SqlDataReader reader = cmd.ExecuteReader();
+                  plant = new BindableCollection<TB_Plant>();
 
-            #endregion
-        }
+                  while (reader.Read())
+                  {
+                      var empTmp = new TB_Plant
+                      {
+                          PlantT = float.Parse(reader["PlantT"].ToString()),
+                      };
+                      plant.Add(empTmp);
+                  }
+              }
+        }*/
+
+        #endregion
+
     }
+}
 

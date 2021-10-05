@@ -152,8 +152,12 @@ namespace MonitoringSystem.ViewModels
                     }
                 }
             }
+            
         }
-
+        public void Close()
+        {
+            Close();
+        }
 
     }
 }
