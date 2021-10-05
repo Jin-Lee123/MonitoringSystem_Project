@@ -69,13 +69,30 @@ namespace MonitoringSystem.ViewModels
             get => mainTankValue;
             set
             {
-                if (value >= 700)
+                if (720 <= value)
                 {
-                    mainTankValue = 700 / 700 * 100;
+                    mainTankValue = 100;
+                }
+                else if (500 <= value)
+                {
+                    mainTankValue = Math.Round((value - 500) / (720 - 500) * 100 + 10);
+
+                    if (Math.Round((value - 500) / (720 - 500) * 100 + 10) >= 100)
+                    {
+                        mainTankValue = 100;
+                    }
+                }
+                else if (100<=value & value < 500)
+                {
+                    mainTankValue = 10;
+                }
+                else if (1<value & value < 100)
+                {
+                    mainTankValue = 5;
                 }
                 else
                 {
-                    mainTankValue = Math.Round(value / 700 * 100);
+                    mainTankValue = 0;
                 }
                 NotifyOfPropertyChange(() => MainTankValue);
             }
@@ -87,13 +104,13 @@ namespace MonitoringSystem.ViewModels
             get => mainTankTon;
             set
             {
-                if (value >= 700)
+                if (value >=500)
                 {
-                    mainTankTon = 700 * 400;
+                    mainTankTon = 710 * 400* 100;
                 }
                 else
                 { 
-                    mainTankTon = Math.Round(value / 700 * 400);
+                    mainTankTon = Math.Round(value / 710* 100 * 400);
                 }
                 NotifyOfPropertyChange(() => MainTankTon);
             }
@@ -105,13 +122,30 @@ namespace MonitoringSystem.ViewModels
             get => subTankValue;
             set
             {
-                if(value>=630)
+                if (720 <= value)
                 {
-                    subTankValue = 630 / 630 * 100;
+                    subTankValue = 100;
+                }
+                else if (500 <= value)
+                {
+                    subTankValue = Math.Round((value - 500) / (720 - 500) * 100 + 10);
+
+                    if (Math.Round((value - 500) / (720 - 500) * 100 + 10) >= 100)
+                    {
+                        subTankValue = 100;
+                    }
+                }
+                else if (100 <= value & value < 500)
+                {
+                    subTankValue = 10;
+                }
+                else if (1<= value & value < 100)
+                {
+                    subTankValue = 5;
                 }
                 else
                 {
-                    subTankValue = Math.Round(value / 630 * 100);
+                    subTankValue = 0;
                 }
                 NotifyOfPropertyChange(() => SubTankValue);
             }
@@ -123,13 +157,13 @@ namespace MonitoringSystem.ViewModels
             get => subTankTon;
             set
             {
-                if (value >= 630)
+                if (value >= 500)
                 {
-                    subTankTon = 630 / 630 * 100;
+                    subTankTon = 1023 / 1023 * 100 * 400;
                 }
                 else
                 {
-                    subTankTon = Math.Round(value / 630 * 100);
+                    subTankTon = Math.Round(value / 710 * 100 * 400);
                 }
             NotifyOfPropertyChange(() => SubTankTon);
             }
