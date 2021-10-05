@@ -1,0 +1,49 @@
+﻿<UserControl x:Class="MonitoringSystem.JIN.UC_button2"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MonitoringSystem.JIN"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="450">
+    <UserControl.Resources>
+        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0"
+                   x:Key="BR1">
+            <LinearGradientBrush.RelativeTransform>
+                <TransformGroup>
+                    <ScaleTransform CenterY="0.5" CenterX="0.5"/>
+                    <SkewTransform CenterY="0.5" CenterX="0.5"/>
+                    <RotateTransform Angle="-35" CenterY="0.5" CenterX="0.5"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </LinearGradientBrush.RelativeTransform>
+            <GradientStop Color="#FF79BAF0" Offset="0"/>
+            <GradientStop Color="#FF050D97" Offset="0.1"/>
+            <GradientStop Color="#FF5872E2" Offset="0.5"/>
+        </LinearGradientBrush>
+
+        <SolidColorBrush Color="#FF2245BA" x:Key="BR2" />
+    </UserControl.Resources>
+    <Viewbox>
+        <Canvas Width="450"  Height="450">
+            <Ellipse Width="450" Height="450" Fill="{StaticResource BR1}" />
+            <Grid Canvas.Left="20" Canvas.Top="20" Width="410" Height="410">
+                <Ellipse Width="410" Height="410" Fill="{StaticResource BR2}"/>
+            </Grid>
+
+            <Canvas Canvas.Top="35">
+                <Rectangle Fill="White"  Width="110" Height="20" Canvas.Top="106" Canvas.Left="105"  RadiusY="9" RadiusX="9"  />
+                <Rectangle Fill="White"  Width="110" Height="20" Canvas.Top="106" Canvas.Left="244"  RadiusY="9" RadiusX="9"  />
+                <Rectangle Fill="White"  Width="250" Height="20" Canvas.Top="256" Canvas.Left="105"  RadiusY="9" RadiusX="9"  />
+                <Rectangle Fill="White"  Width="20" Height="165" Canvas.Top="110" Canvas.Left="334"  RadiusY="9" RadiusX="9"  />
+                <Rectangle Fill="White"  Width="20" Height="165" Canvas.Top="110" Canvas.Left="105" RadiusY="9" RadiusX="9" />
+                <Label Content="WaterTank/Pump" FontSize="45" Canvas.Left="44" Canvas.Top="280" Background="{x:Null}" Foreground="#FFF9F6F6" />
+                <Rectangle Fill="White"  Width="20" Height="67" Canvas.Top="58" Canvas.Left="197"  RadiusY="9" RadiusX="9"  />
+                <Rectangle Fill="White"  Width="20" Height="67" Canvas.Top="58" Canvas.Left="244"  RadiusY="9" RadiusX="9"  />
+                <Rectangle Fill="White"  Width="113" Height="67" Canvas.Top="18" Canvas.Left="173"   />
+
+            </Canvas>
+
+        </Canvas>
+    </Viewbox>
+</UserControl>

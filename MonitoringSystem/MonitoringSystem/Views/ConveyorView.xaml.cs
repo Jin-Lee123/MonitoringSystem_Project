@@ -15,7 +15,7 @@ namespace MonitoringSystem.Views
     public partial class ConveyorView : UserControl, INotifyPropertyChanged
     {
 
-        private string RtspUrl = "rtsp://192.168.0.6:9000";   //아이피(라즈베리아이피) 바꿔줘야댐 192.168.191.185   192.168.0.14
+        private string RtspUrl = "rtsp://192.168.0.15:9000";   //아이피(라즈베리아이피) 바꿔줘야댐 192.168.191.185   192.168.0.14
         private DirectoryInfo libDirectory;
 
         public ConveyorView()

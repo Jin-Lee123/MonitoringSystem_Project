@@ -21,29 +21,48 @@
             <RowDefinition Height="50*"/>
         </Grid.RowDefinitions>
 
-        <GroupBox Grid.Row="0" Grid.Column="0" Style="{x:Null}" Header="【 Auto 】"/>
+        <!-- (1행 1열) 오토모드-->
+        <GroupBox Grid.Row="0" Grid.Column="0" Style="{x:Null}" Header="【 Auto 】" Grid.ColumnSpan="2">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="50*"/>
+                    <ColumnDefinition Width="50*"/>
+                </Grid.ColumnDefinitions>
+                <Button x:Name="Auto" Grid.Column="0" Grid.Row="0" Content="자동 제어 모드 실행/중지" Margin="150,0" FontSize="14" Background="Yellow"  />
+                <Label x:Name="AutoLabel" Grid.Column="1" Grid.Row="1" Content="{Binding AutoLabel}" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                   Style="{StaticResource MahApps.Styles.Label}"/>
+            </Grid>
+
+        </GroupBox>
 
         <!-- (2행 1열) 로봇팔 -->
-        <GroupBox Grid.Row="2" Grid.Column="0" Style="{x:Null}" Header="【 Robot Control 】"  FontSize="16" BorderThickness="1.5">
+        <GroupBox  Grid.Row="2" Grid.Column="0" Style="{x:Null}" Header="【 Robot Control 】"  FontSize="16" BorderThickness="1.5">
             <Grid >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="25*"/>
                     <ColumnDefinition Width="45*"/>
                     <ColumnDefinition Width="35*"/>
                 </Grid.ColumnDefinitions>
-                <Grid Grid.Column="0">
+                <Grid Grid.Column="0" Background="AliceBlue">
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="5*" />
                         <RowDefinition Height="10*"/>
                         <RowDefinition Height="10*"/>
                         <RowDefinition Height="10*"/>
                     </Grid.RowDefinitions>
-                    <Button x:Name="ArmStop" Content="정지" Width="100" Height="45" Grid.Column="0" Grid.Row="2" Style="{StaticResource MahApps.Styles.Button.Square.Accent}" HorizontalAlignment="Center" VerticalAlignment="Center" Click="ArmStop_Click" />
-                    <Button x:Name="ArmRun2" Content="불량" Width="100" Height="45" Grid.Column="0" Grid.Row="1" Style="{StaticResource MahApps.Styles.Button.Square.Accent}" HorizontalAlignment="Center" VerticalAlignment="Center" Click="ArmRun2_Click" />
-                    <Button x:Name="ArmRun" Content="양품" Width="100" Height="45" Grid.Column="0"  Grid.Row="0" Style="{StaticResource MahApps.Styles.Button.Square.Accent}" HorizontalAlignment="Center" VerticalAlignment="Center" Click="ArmRun_Click"  />
+                    <Label Content="수동제어버튼" Grid.Column="0" Grid.Row="0" HorizontalContentAlignment="Center" />
+                    <Button x:Name="ArmStop" Content="정지" Width="100" Height="45" Grid.Column="0" Grid.Row="3" Style="{StaticResource MahApps.Styles.Button.Square.Accent}" HorizontalAlignment="Center" VerticalAlignment="Center" Click="ArmStop_Click" Grid.ColumnSpan="2" Margin="20,18.6,20,18" />
+                    <Button x:Name="ArmRun2" Content="불량" Width="100" Height="45" Grid.Column="0" Grid.Row="2" Style="{StaticResource MahApps.Styles.Button.Square.Accent}" HorizontalAlignment="Center" VerticalAlignment="Center" Click="ArmRun2_Click" Grid.ColumnSpan="2" Margin="20,18.2,20,18.4" />
+                    <Button x:Name="ArmRun" Content="양품" Width="100" Height="45" Grid.Column="0"  Grid.Row="1" Style="{StaticResource MahApps.Styles.Button.Square.Accent}" HorizontalAlignment="Center" VerticalAlignment="Center" Click="ArmRun_Click" Grid.ColumnSpan="2" Margin="20,18,20,17.8"  />
                 </Grid>
                 <!-- 로봇팔 -->
-                <local:UC_Robotc_Arm2 x:Name="Arm" Margin="80,75,0,0" HorizontalAlignment="Left" Height="124"  Grid.Column="1" VerticalAlignment="Top" Width="167"/>
-                <local:UC_Robotic_Arm Margin="138,-60,0,55.8" HorizontalAlignment="Left" Height="277" Width="300" VerticalAlignment="Bottom" Grid.ColumnSpan="3"  />
+                <Canvas Grid.Row="0" Grid.Column="1" >
+                    <local:UC_Robotc_Arm2 x:Name="Arm" 
+                                          Height="124" Canvas.Left="60" 
+                                          Grid.Column="1" Width="167" Canvas.Top="18"/>
+                    <local:UC_Robotic_Arm Canvas.Top="63"
+                        HorizontalAlignment="Left" Height="174" Width="250" Canvas.Left="2" />
+                </Canvas>
                 <!-- 온도 화살표 바인딩 -->
                 <lvc:AngularGauge Grid.Row="2" Grid.Column="2" Value="{Binding RobotTemp}" FromValue="0" ToValue="100" 
                           LabelsStep="10" TicksStep="10" Wedge="300"
@@ -72,22 +91,24 @@
                 </Grid.ColumnDefinitions>
                 <Grid Grid.Column="0">
                     <Grid.RowDefinitions >
-                        <RowDefinition Height="70*"/>
+                        <RowDefinition Height="60*"/>
+                        <RowDefinition Height="10*"/>
                         <RowDefinition Height="30*"/>
                     </Grid.RowDefinitions>
                     <!-- 컨베이어 -->
-                    <local:UC_Conveyor2 HorizontalAlignment="Left" Height="164" Margin="12,50,0,-7" Grid.Row="0" VerticalAlignment="Top" Width="388" />
-                    <local:UC_Motor x:Name="Motor1" Grid.Column="1" HorizontalAlignment="Left" Height="60" Margin="21,90,0,0" Grid.Row="0" VerticalAlignment="Top" Width="96"/>
-                    <local:UC_Motor x:Name="Motor2" Grid.Column="1" HorizontalAlignment="Left" Height="60" Margin="117,90,0,0" Grid.Row="0" VerticalAlignment="Top" Width="96"/>
-                    <local:UC_Motor x:Name="Motor3" Grid.Column="1" HorizontalAlignment="Left" Height="60" Margin="207,90,0,0" Grid.Row="0" VerticalAlignment="Top" Width="96"/>
-                    <local:UC_Motor x:Name="Motor4" Grid.Column="1" HorizontalAlignment="Left" Height="60" Margin="294,90,0,0" Grid.Row="0" VerticalAlignment="Top" Width="96"/>
+                    <local:UC_Conveyor2 HorizontalAlignment="Left" Height="164" Margin="8,24,-13.6,0" Grid.Row="0" VerticalAlignment="Top" Width="388" Grid.RowSpan="2" />
+                    <local:UC_Motor x:Name="Motor1" HorizontalAlignment="Left" Height="60" Margin="17,64,0,0" Grid.Row="0" VerticalAlignment="Top" Width="96"/>
+                    <local:UC_Motor x:Name="Motor2" HorizontalAlignment="Left" Height="60" Margin="113,64,0,0" Grid.Row="0" VerticalAlignment="Top" Width="96"/>
+                    <local:UC_Motor x:Name="Motor3" HorizontalAlignment="Left" Height="60" Margin="203,64,0,0" Grid.Row="0" VerticalAlignment="Top" Width="96"/>
+                    <local:UC_Motor x:Name="Motor4" HorizontalAlignment="Left" Height="60" Margin="290,64,-3.6,0" Grid.Row="0" VerticalAlignment="Top" Width="96"/>
 
-                    <Grid Grid.Row="1">
+                    <Label Content="수동제어버튼" Grid.Row="1" Background="AliceBlue"/>
+                    
+                    <Grid Grid.Row="2" Background="AliceBlue">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="10*"/>
                             <ColumnDefinition Width="10*"/>
                             <ColumnDefinition Width="10*"/>
-
                         </Grid.ColumnDefinitions>
                         <Button x:Name="ConveyRun"  Content="Run" Height="45" Width="100" Grid.Column="0" Grid.Row="2" Style="{StaticResource MahApps.Styles.Button.Square.Accent}"  Click="ConveyRun_Click" />
                         <Button x:Name="ConveyStop" Content=" Stop" Height="45" Width="100" Grid.Column="1" Grid.Row="2" Style="{StaticResource MahApps.Styles.Button.Square.Accent}"  Click="ConveyStop_Click" />
@@ -121,8 +142,8 @@
             <GroupBox Header="【 Line Monitoring 】" Style="{x:Null}" FontSize="16" BorderThickness="1.5">
                 <Grid>
                     <vlc:VlcControl x:Name="image" Grid.Column="1" Grid.Row="0" Margin="5"/>
-                    <Button Grid.Row="1" Grid.Column="1" x:Name="Play_Button" Content="Play" Click="Play_Button_Click" Height="30" Width="80" FontSize="14" Background="Yellow" />
-                    <Button Content="test" Click="Button_Click" Height="30" Width="80" FontSize="14" Background="Yellow" Margin="138,121,370,121.8" />
+                    <Button x:Name="Play_Button" Content="Play" Click="Play_Button_Click" Height="30" Width="80" FontSize="14" Background="Yellow" Margin="254,109,254,105.8" />
+                    <Button Content="test" Click="Button_Click" Height="30" Width="80" FontSize="14" Background="Yellow" Margin="138,109,370,105.8" />
 
                 </Grid>
 
@@ -182,8 +203,6 @@
 
 
         <!-- MQTT 통신내용 삭제예정 -->
-        <Label Content="{Binding LblStatus}" Grid.Row="1" Grid.Column="0" Margin="17,153,247,160" Grid.RowSpan="2"/>
-        <Label Content="{Binding LblStatus1}" Grid.Row="1" Grid.Column="0" Margin="208,158,67,174" Grid.RowSpan="2"/>
 
 
     </Grid>

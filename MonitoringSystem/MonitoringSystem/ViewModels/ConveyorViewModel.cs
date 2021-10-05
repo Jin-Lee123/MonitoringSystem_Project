@@ -1,6 +1,7 @@
 ﻿using Caliburn.Micro;
 using MonitoringSystem.Models;
 using Newtonsoft.Json;
+using OpenCvSharp;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -25,6 +26,7 @@ namespace MonitoringSystem.ViewModels
         private string tankAddr = "4001";
         private string connectionString = "Data Source=hangaramit.iptime.org;Initial Catalog=1조_database;Persist Security Info=True;User ID=team1;Password=team1_1234";
 
+        private VideoCapture _videoCapture = null; // 캠 캡쳐
 
         #region ### 생산량 불량률 생성자 생성 ### 삭제할수도
         private BindableCollection<TB_Line> TB_Line;
@@ -247,9 +249,9 @@ namespace MonitoringSystem.ViewModels
             LblStatus = "모니터링 종료!";
         }
 
-        public void ConveyRun()
+        public void ConveyRun() 
         {
-            // Publish 컨베이어 작동(시계방향)
+            //컨베이어 작동(시계방향)
             try
             {
                 var currtime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
@@ -267,6 +269,11 @@ namespace MonitoringSystem.ViewModels
             {
                 MessageBox.Show($"접속 오류 { ex.Message}");
             }
+
+            // DB입력
+            App.Logger.Fatal(new Exception("컨베이어"), "정뱡향 작동");
+            //
+
         } //컨베이어 작동(시계방향)
 
         public void ConveyBack()
@@ -290,6 +297,10 @@ namespace MonitoringSystem.ViewModels
             {
                 MessageBox.Show($"접속 오류 { ex.Message}");
             }
+
+            // DB입력
+            App.Logger.Fatal(new Exception("컨베이어"), "역뱡향 작동");
+            //
         } //컨베이어 작동(반시계방향)
 
         public void ConveyStop()
@@ -312,6 +323,9 @@ namespace MonitoringSystem.ViewModels
             {
                 MessageBox.Show($"접속 오류 { ex.Message}");
             }
+            // DB입력
+            App.Logger.Fatal(new Exception("컨베이어"), "정지");
+            //
         } //컨베이어 비작동
 
         public void ArmRun()
@@ -334,6 +348,9 @@ namespace MonitoringSystem.ViewModels
             {
                 MessageBox.Show($"접속 오류 { ex.Message}");
             }
+            // DB입력
+            App.Logger.Fatal(new Exception("로봇팔"), "양품");
+            //
         }  // 로봇팔 좌회전
 
         public void ArmRun2()
@@ -356,8 +373,15 @@ namespace MonitoringSystem.ViewModels
             {
                 MessageBox.Show($"접속 오류 { ex.Message}");
             }
+            // DB입력
+            App.Logger.Fatal(new Exception("로봇팔"), "불량");
+            //
         } // 로봇팔 우회전
 
+        public void AutoLabel()
+        {
+
+        }
 
         #region ### MQTT Subscribe ###   // Subscribe 한 값을 바인딩 해주는 곳
         private void Client_MqttMsgPublishReceived(object sender, MqttMsgPublishEventArgs e)
