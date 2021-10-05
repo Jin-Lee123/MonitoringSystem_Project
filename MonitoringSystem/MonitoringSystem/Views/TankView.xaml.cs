@@ -35,5 +35,6 @@ namespace MonitoringSystem.Views
             image.SourceProvider.CreatePlayer(libDirectory);
             image.SourceProvider.MediaPlayer.Play(new Uri(RtspUrl));
         }
+
     }
 }

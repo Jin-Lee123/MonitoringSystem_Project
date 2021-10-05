@@ -8,7 +8,7 @@
         xmlns:local="clr-namespace:MonitoringSystem"
         xmlns:View="clr-namespace:MonitoringSystem.ViewModels" 
         mc:Ignorable="d"
-       Title="Window" 
+        Title="Window" 
         Topmost="True"
         WindowStyle="ThreeDBorderWindow"
         WindowStartupLocation="CenterScreen"
