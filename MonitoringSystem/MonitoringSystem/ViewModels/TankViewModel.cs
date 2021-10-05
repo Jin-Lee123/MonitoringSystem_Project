@@ -1,7 +1,11 @@
 ﻿using Caliburn.Micro;
 using Newtonsoft.Json;
+using OxyPlot;
+using OxyPlot.Axes;
+using OxyPlot.Series;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data.SqlClient;
 using System.Text;
 using System.Threading;
@@ -27,6 +31,17 @@ namespace MonitoringSystem.ViewModels
         #endregion
 
         #region ### 생성자 생성 ###
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void OnPropertyChanged(string propertyName)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this,
+                    new PropertyChangedEventArgs(propertyName));
+            }
+        }
 
         // MQTT Client 생성
         private MqttClient client;            
@@ -61,7 +76,17 @@ namespace MonitoringSystem.ViewModels
                 NotifyOfPropertyChange(() => LblStatus1);
             }
         }
-
+        // Pump 작동 색 지정
+        private string btnColor;
+        public string BtnColor
+        {
+            get => btnColor;
+            set
+            {
+                btnColor = value;
+                NotifyOfPropertyChange(() =>BtnColor);
+            }
+        }
         // MainTankValue 계산
         private double mainTankValue;
         public double MainTankValue
@@ -69,13 +94,30 @@ namespace MonitoringSystem.ViewModels
             get => mainTankValue;
             set
             {
-                if (value >= 700)
+                if (720 <= value)
                 {
-                    mainTankValue = 700 / 700 * 100;
+                    mainTankValue = 100;
+                }
+                else if (500 <= value)
+                {
+                    mainTankValue = Math.Round((value - 500) / (720 - 500) * 100 + 10);
+
+                    if (Math.Round((value - 500) / (720 - 500) * 100 + 10) >= 100)
+                    {
+                        mainTankValue = 100;
+                    }
+                }
+                else if (100<=value & value < 500)
+                {
+                    mainTankValue = 10;
+                }
+                else if (1<value & value < 100)
+                {
+                    mainTankValue = 5;
                 }
                 else
                 {
-                    mainTankValue = Math.Round(value / 700 * 100);
+                    mainTankValue = 0;
                 }
                 NotifyOfPropertyChange(() => MainTankValue);
             }
@@ -87,13 +129,13 @@ namespace MonitoringSystem.ViewModels
             get => mainTankTon;
             set
             {
-                if (value >= 700)
+                if (value <= 500)
                 {
-                    mainTankTon = 700 * 400;
+                    mainTankTon = 500 * 100 * 0.1;
                 }
                 else
                 { 
-                    mainTankTon = Math.Round(value / 700 * 400);
+                    mainTankTon = Math.Round(value / 710* 100 * 500);
                 }
                 NotifyOfPropertyChange(() => MainTankTon);
             }
@@ -105,13 +147,30 @@ namespace MonitoringSystem.ViewModels
             get => subTankValue;
             set
             {
-                if(value>=630)
+                if (720 <= value)
                 {
-                    subTankValue = 630 / 630 * 100;
+                    subTankValue = 100;
+                }
+                else if (500 <= value)
+                {
+                    subTankValue = Math.Round((value - 500) / (720 - 500) * 100 + 10);
+
+                    if (Math.Round((value - 500) / (720 - 500) * 100 + 10) >= 100)
+                    {
+                        subTankValue = 100;
+                    }
+                }
+                else if (100 <= value & value < 500)
+                {
+                    subTankValue = 10;
+                }
+                else if (1<= value & value < 100)
+                {
+                    subTankValue = 5;
                 }
                 else
                 {
-                    subTankValue = Math.Round(value / 630 * 100);
+                    subTankValue = 0;
                 }
                 NotifyOfPropertyChange(() => SubTankValue);
             }
@@ -123,21 +182,38 @@ namespace MonitoringSystem.ViewModels
             get => subTankTon;
             set
             {
-                if (value >= 630)
+                if (value <= 500)
                 {
-                    subTankTon = 630 / 630 * 100;
+                    subTankTon = 0.1 * 100 * 500;
                 }
                 else
                 {
-                    subTankTon = Math.Round(value / 630 * 100);
+                    subTankTon = Math.Round(value / 710 * 100 * 500);
                 }
             NotifyOfPropertyChange(() => SubTankTon);
             }
         }
+
+        private PlotModel plotViewModel;
+        public PlotModel PlotViewModel
+        {
+            get => plotViewModel;
+            set
+            {
+                plotViewModel = value;
+                OnPropertyChanged("PlotViewModel");
+            }
+        }
+        Task T;
+
         #endregion
 
-        #region ### 화면 로딩 + 이벤트 ###
+        #region ### LOADING + EVENT + OXY PLOT SETTINGS ###
         // 화면 로드 되자마자 MQTT에 접속, 이벤트 처리
+
+        private LinearAxis linearAxis1;
+        private LinearAxis linearAxis2;
+
         public TankViewModel()
         {
             Client = new MqttClient(serverIpNum);
@@ -147,10 +223,60 @@ namespace MonitoringSystem.ViewModels
 
             Client.Connect(clientId);
             Client.Subscribe(new string[] { $"{factoryId}/#" }, new byte[] { MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE });
+
+            var plotModel1 = new PlotModel();
+            var plotModel2 = new PlotModel();
+
+            var dateTimeAxis1 = new DateTimeAxis();
+            var dateTimeAxis2 = new DateTimeAxis();
+
+            plotModel1.Axes.Add(dateTimeAxis1);
+            plotModel2.Axes.Add(dateTimeAxis2);
+
+            linearAxis1 = new LinearAxis()
+            {
+                AbsoluteMaximum = 100,
+            };
+            linearAxis2 = new LinearAxis()
+            {
+                AbsoluteMaximum = 100,
+            };
+
+            linearAxis1.Minimum = 0;
+            linearAxis2.Minimum = 0;
+            linearAxis1.Maximum = 100;
+            linearAxis2.Maximum = 100;
+            linearAxis1.IsZoomEnabled = false;
+            linearAxis2.IsZoomEnabled = false;
+
+            plotModel1.Axes.Add(linearAxis1);
+            plotModel2.Axes.Add(linearAxis2);
+            var lineSeries1 = new LineSeries();
+            var lineSeries2 = new LineSeries();
+            lineSeries1.MarkerType = MarkerType.Circle;
+            lineSeries2.MarkerType = MarkerType.Circle;
+
+            lineSeries1.Points.Add(new DataPoint());
+            lineSeries2.Points.Add(new DataPoint());
+
+            plotModel1.Series.Add(lineSeries1);
+            plotModel2.Series.Add(lineSeries2);
+
+            plotViewModel = plotModel1;
+            plotViewModel = plotModel2;
+
+            plotViewModel.InvalidatePlot(true); // 실시간 업데이트 
+
+            T = new Task(FunctionA);
+            T.Start();
         } 
+        ~TankViewModel()
+        {
+
+        }
         #endregion
 
-        #region ### 펌프제어 ### -- 이후 버튼 Publish에 사용할 예정
+        #region ### 펌프제어 ### 
         public void BtnClickOn()
         {
             // Publish 펌프 제어 ON
@@ -166,6 +292,7 @@ namespace MonitoringSystem.ViewModels
                                   "}";
             
                  Client.Publish($"{factoryId}/4002/", Encoding.UTF8.GetBytes(pubData), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
+                 BtnColor = "Red";
             }
             catch (Exception ex)
             {
@@ -187,6 +314,7 @@ namespace MonitoringSystem.ViewModels
                                   "}";
 
                 Client.Publish($"{factoryId}/4002/", Encoding.UTF8.GetBytes(pubData), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
+                BtnColor = "Gray";
             }
             catch (Exception ex)
             {
@@ -283,8 +411,87 @@ namespace MonitoringSystem.ViewModels
         {
             if (Client.IsConnected) Client.Disconnect();
             return base.OnDeactivateAsync(close, cancellationToken);
-        } 
+        }
         #endregion
 
+        #region ### OxyPlot ###
+
+        public void FunctionA()
+        {
+            DateTime curtime;
+            var lineSeries1 = new LineSeries();
+            var lineSeries2 = new LineSeries();
+
+            lineSeries1.MarkerType = MarkerType.Circle;
+            lineSeries2.MarkerType = MarkerType.Circle;
+
+            // List < DataPoint > 는 기본적으로 Plot의 X,Y 값을 갖는다.
+            List<DataPoint> lData = new List<DataPoint>();
+            List<DataPoint> lData2 = new List<DataPoint>();
+
+            DateTime StartDate;
+            DateTime EndDate;
+
+            while (true)
+            {
+                Thread.Sleep(100);
+                plotViewModel.Series.Clear();
+
+                lineSeries1.Points.Clear();
+                lineSeries2.Points.Clear();
+
+                curtime = DateTime.Now;
+
+                // 현재 시간 Datetime -> double 변환
+                double dCurtime = curtime.ToOADate();
+                double dValue = subTankValue;
+                double dValue2 = mainTankValue;
+
+                if (lData.Count ==0 & lData2.Count == 0)
+                {
+                    lData.Add(new DataPoint(dCurtime, dValue));
+                    lData2.Add(new DataPoint(dCurtime, dValue2));
+                }
+                else
+                {
+                    // X 좌표 double -> Datetime 으로 바꿔서 20초 차이를 계산하는 로직 
+                    StartDate = DateTime.FromOADate(lData[0].X);
+                    EndDate = DateTime.FromOADate(lData[lData.Count - 1].X);
+                    double Diff = Math.Abs((StartDate - EndDate).Seconds);
+
+                    if (Diff <= 10)
+                    {
+                        lData.Add(new DataPoint(dCurtime, dValue));
+                        lData2.Add(new DataPoint(dCurtime, dValue2));
+
+                    }
+                    else
+                    {
+                        lData.RemoveAt(0);
+                        lData2.RemoveAt(0);
+
+                        lData.Add(new DataPoint(dCurtime, dValue));
+                        lData2.Add(new DataPoint(dCurtime, dValue2));
+
+                    }
+                }
+
+                foreach (var data in lData)
+                {
+                    lineSeries1.Points.Add(data);
+                }
+                foreach (var data in lData2)
+                {
+                    lineSeries2.Points.Add(data);
+                }
+
+                plotViewModel.Series.Add(lineSeries1);
+                plotViewModel.Series.Add(lineSeries2);
+
+                PlotViewModel.InvalidatePlot(true);
+
+            }
+        }
+        #endregion
     }
 }

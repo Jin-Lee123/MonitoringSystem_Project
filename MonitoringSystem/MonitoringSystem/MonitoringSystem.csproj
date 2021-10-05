@@ -156,8 +156,8 @@
     <Compile Include="Jang\UcControl\UcPipe.xaml.cs">
       <DependentUpon>UcPipe.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Jang\UcControl\UcPipe2.xaml.cs">
-      <DependentUpon>UcPipe2.xaml</DependentUpon>
+    <Compile Include="Jang\UcControl\UcBtn.xaml.cs">
+      <DependentUpon>UcBtn.xaml</DependentUpon>
     </Compile>
     <Compile Include="Jang\UcControl\UcTank.xaml.cs">
       <DependentUpon>UcTank.xaml</DependentUpon>
@@ -196,7 +196,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Jang\UcControl\UcPipe2.xaml">
+    <Page Include="Jang\UcControl\UcBtn.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
