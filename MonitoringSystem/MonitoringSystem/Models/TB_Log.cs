@@ -14,11 +14,25 @@ namespace MonitoringSystem.Models
         public string AdditionalInfo { get; set; }
         public string LoggedOnDate { get; set; }
 
+        private string type;
+        public string Type
+        {
+            get
+            {
+                return type;
+            }
+            set
+            {
+                type = value;
+            }
+        }
+
         public static readonly string SELECT_QUERY = @"SELECT ID
                                                             , Level
                                                             , Message
                                                             , AdditionalInfo
                                                             , LoggedOnDate
-                                                         FROM Logs";
+                                                         FROM Logs
+                                                         WHERE Level LIKE @type";
     }
 }

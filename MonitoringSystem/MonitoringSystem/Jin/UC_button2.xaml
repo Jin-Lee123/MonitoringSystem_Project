@@ -26,10 +26,7 @@
     </UserControl.Resources>
     <Viewbox>
         <Canvas Width="450"  Height="450">
-            <Ellipse Width="450" Height="450" Fill="{StaticResource BR1}" />
-            <Grid Canvas.Left="20" Canvas.Top="20" Width="410" Height="410">
-                <Ellipse Width="410" Height="410" Fill="{StaticResource BR2}"/>
-            </Grid>
+
 
             <Canvas Canvas.Top="35">
                 <Rectangle Fill="White"  Width="110" Height="20" Canvas.Top="106" Canvas.Left="105"  RadiusY="9" RadiusX="9"  />
@@ -37,7 +34,6 @@
                 <Rectangle Fill="White"  Width="250" Height="20" Canvas.Top="256" Canvas.Left="105"  RadiusY="9" RadiusX="9"  />
                 <Rectangle Fill="White"  Width="20" Height="165" Canvas.Top="110" Canvas.Left="334"  RadiusY="9" RadiusX="9"  />
                 <Rectangle Fill="White"  Width="20" Height="165" Canvas.Top="110" Canvas.Left="105" RadiusY="9" RadiusX="9" />
-                <Label Content="WaterTank/Pump" FontSize="45" Canvas.Left="40" Canvas.Top="280" Background="{x:Null}" Foreground="#FFF9F6F6" />
                 <Rectangle Fill="White"  Width="20" Height="67" Canvas.Top="58" Canvas.Left="197"  RadiusY="9" RadiusX="9"  />
                 <Rectangle Fill="White"  Width="20" Height="67" Canvas.Top="58" Canvas.Left="244"  RadiusY="9" RadiusX="9"  />
                 <Rectangle Fill="White"  Width="113" Height="67" Canvas.Top="18" Canvas.Left="173"   />

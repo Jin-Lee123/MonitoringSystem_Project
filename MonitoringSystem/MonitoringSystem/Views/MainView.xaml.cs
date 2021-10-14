@@ -15,9 +15,10 @@ namespace MonitoringSystem.Views
             InitializeComponent();
         }
 
+        private void UC_Button1_Loaded(object sender, RoutedEventArgs e)
+        {
 
-
-
+        }
     }
 }
 

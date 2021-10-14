@@ -16,11 +16,36 @@
                 <RowDefinition Height="5*" />
                 <RowDefinition Height="1*" />
             </Grid.RowDefinitions>
+            <Grid Grid.Column="0" Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
 
-            <Label Grid.Row="0" Grid.Column="0" Content="Log 조회"
+                <Label Grid.Row="0" Grid.Column="2" Content="Log 조회"
                    HorizontalAlignment="Center" VerticalAlignment="Center"
                    FontWeight="Bold" FontSize="20"
                    Style="{StaticResource MahApps.Styles.Label}"/>
+                <Label Grid.Column="0" Content="심각도 종류" 
+                       HorizontalAlignment="Center" VerticalAlignment="Center"
+                       FontWeight="Black" FontSize="15"
+                       Style="{StaticResource MahApps.Styles.Label}"
+/>
+                <ComboBox HorizontalAlignment="Left"  Grid.Column="1" Width="150" Height="30"
+                          ItemsSource="{Binding Path=Types}"
+                          SelectedItem="{Binding Path=SelectedType}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Type}"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+
+            </Grid>
+
 
             <DataGrid x:Name="Log" Grid.Row="1" Grid.Column="0"
                       Style="{StaticResource MahApps.Styles.DataGrid.Azure}"
