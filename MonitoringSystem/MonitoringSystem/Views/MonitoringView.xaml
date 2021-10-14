@@ -3,6 +3,7 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"  
       xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
       xmlns:local="clr-namespace:MonitoringSystem.JIN"
       xmlns:ox="http://oxyplot.org/wpf"
@@ -34,16 +35,16 @@
             <ox:PlotView Grid.Row="1" Grid.Column="0" Model="{Binding Temperature}"/>
             <ox:PlotView Grid.Row="1" Grid.Column="1" Model="{Binding Otherproperty}"/>
         </Grid>
-        
+
         <!-- 오른쪽 Data 설명 화면 !-->
         <StackPanel Grid.Row="0" Grid.Column="1">
-                <Label Content="공장 온도" 
+            <Label Content="공장 온도" 
                    VerticalAlignment="Center" 
                    HorizontalAlignment="Center" 
                    FontWeight="Bold"
                    Background="FloralWhite"
                    Style="{StaticResource MahApps.Styles.Label}"/>
-                    <TextBlock Text="{Binding PlantT}"
+            <TextBlock Text="{Binding PlantT}"
                        Style="{StaticResource MahApps.Styles.TextBlock}"
                        VerticalAlignment="Center" 
                    HorizontalAlignment="Center" 
@@ -77,8 +78,22 @@
                        Height="40"
                        />
         </StackPanel>
+
+        <lvc:AngularGauge Grid.Row="1" Grid.Column="1" Value="{Binding Duty}" FromValue="0" ToValue="200" 
+                          LabelsStep="15" TicksStep="10" Wedge="300"
+                          TicksForeground="White" Foreground="White" 
+                          FontWeight="Bold" FontSize="13"
+                          SectionsInnerRadius=".5" Margin="10,26.2,0,-0.4" >
+            <lvc:AngularGauge.Sections>
+                <lvc:AngularSection FromValue="0" ToValue="30" Fill="Blue"/>
+                <lvc:AngularSection FromValue="30" ToValue="80" Fill="Green"/>
+                <lvc:AngularSection FromValue="80" ToValue="150" Fill="#F8A725"/>
+                <lvc:AngularSection FromValue="150" ToValue="199" Fill="#FF3939"/>
+            </lvc:AngularGauge.Sections>
+        </lvc:AngularGauge>
+
         <vlc:VlcControl x:Name="image" Grid.Row="1" Grid.Column="0" Margin="5"/>
-        <Button Margin="9.8,175.2,14,4.6" x:Name="Play_Button" Content="Play" Click="Play_Button_Click" Grid.Column="2" Grid.Row="1"/>
+        <Button Margin="484,175.2,20,4.6" x:Name="Play_Button" Content="Play" Click="Play_Button_Click" Grid.Row="1"/>
 
     </Grid>
 </UserControl>

@@ -27,7 +27,7 @@ namespace MonitoringSystem.Models
         }
         #region ### 변수 생성 ###
 
-        private static string serverIpNum = "192.168.0.198";  // 윈도우(MQTT Broker, SQLServer) 아이피
+        private static string serverIpNum = "192.168.0.195";  // 윈도우(MQTT Broker, SQLServer) 아이피
         private static string clientId = "Monitoring";
         private static string factoryId = "kasan01";            //  Kasan01/4001/  kasan01/4002/ 
         private static string connectionString = "Data Source=hangaramit.iptime.org;Initial Catalog=1조_database;Persist Security Info=True;User ID=team1;Password=team1_1234";
@@ -54,6 +54,19 @@ namespace MonitoringSystem.Models
                 NotifyPropertyChange(() => PlantT);
             }
         }
+
+        private static float duty;
+        public static float Duty
+        {
+            get => duty;
+            set
+            {
+                duty = value;
+                NotifyPropertyChange(() => Duty);
+            }
+        }
+
+
         #endregion
         #region DHT22 MQTT 통신
 
@@ -62,7 +75,7 @@ namespace MonitoringSystem.Models
             Client = new MqttClient(serverIpNum);
             Client.MqttMsgPublishReceived += Client_MqttMsgPublishReceived;
             Client.Connect(clientId);
-            Client.Subscribe(new string[] { $"{factoryId}/4006/" }, new byte[] { MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE });
+            Client.Subscribe(new string[] { $"{factoryId}/4004/" }, new byte[] { MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE });
         }
 
         public static void Client_MqttMsgPublishReceived(object sender, MqttMsgPublishEventArgs e)
@@ -75,6 +88,11 @@ namespace MonitoringSystem.Models
                 if (currData["dev_addr"] == "4006" && currData["code"] == "PlantT") // DHT22에서 데이터 수신
                 {
                     PlantT = float.Parse(currData["sensor"]);
+                }
+                else if (currData["dev_addr"] == "4004" && currData["code"] == "Duty") // ConveyTemp 데이터 수신
+                {
+                    Duty = float.Parse(currData["sensor"]);
+                    
                 }
             }
             catch (Exception ex)

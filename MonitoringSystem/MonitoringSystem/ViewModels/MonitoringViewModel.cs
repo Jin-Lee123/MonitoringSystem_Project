@@ -70,6 +70,17 @@ namespace MonitoringSystem.ViewModels
         public double Gas2 { get; private set; }
         public object Gas3 { get; private set; }
 
+        private float duty;
+        public float Duty
+        {
+            get => duty;
+            set
+            {
+                duty = value;
+                NotifyOfPropertyChange(() => Duty);
+            }
+        }
+
 
 
         #region Setting값 Property
@@ -212,6 +223,7 @@ namespace MonitoringSystem.ViewModels
         private void FunctionB(object sender, EventArgs e)
         {
             PlantT = DataConnection.PlantT;
+            Duty = DataConnection.Duty;
         }
 
         #region sql 조회 함수
