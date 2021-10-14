@@ -26,10 +26,7 @@
     </UserControl.Resources>
     <Viewbox>
         <Canvas Width="450"  Height="450">
-            <Ellipse Width="450" Height="450" Fill="{StaticResource BR1}" />
-            <Grid Canvas.Left="20" Canvas.Top="20" Width="410" Height="410">
-                <Ellipse Width="410" Height="410" Fill="{StaticResource BR2}"/>
-            </Grid>
+
 
             <Canvas Canvas.Top="35">
                 <Rectangle Fill="White"  Width="250" Height="20" Canvas.Top="60" Canvas.Left="100"  RadiusY="9" RadiusX="9"  />
@@ -38,8 +35,8 @@
                 <Rectangle Fill="White"  Width="20" Height="130" Canvas.Top="64" Canvas.Left="100" RadiusY="9" RadiusX="9" />
                 <Rectangle Fill="White"  Width="60" Height="62" Canvas.Top="193" Canvas.Left="195"   RadiusY="9" RadiusX="9" />
                 <Rectangle Fill="White"  Width="150" Height="20" Canvas.Top="241" Canvas.Left="151"  RadiusY="9" RadiusX="9"  />
-                <Label Content="Plant Monitoring" FontSize="45" Canvas.Left="47" Canvas.Top="280" Background="{x:Null}" Foreground="#FFF9F6F6" />
             </Canvas>
+            <Label Content="Plant Monitoring" FontSize="70" HorizontalAlignment="Center" Canvas.Top="315" Background="{x:Null}" Foreground="#FFF9F6F6" Canvas.Left="-45" />
 
         </Canvas>
     </Viewbox>

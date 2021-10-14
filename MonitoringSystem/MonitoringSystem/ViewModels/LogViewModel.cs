@@ -2,6 +2,7 @@
 using MonitoringSystem.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -11,6 +12,20 @@ namespace MonitoringSystem.ViewModels
 {
     public class LogViewModel : Conductor<object>
     {
+        private ObservableCollection<TB_Log> types;
+
+        public ObservableCollection<TB_Log> Types
+        {
+            get
+            {
+                return types;
+            }
+            set
+            {
+                types = value;
+            }
+        }
+
         private BindableCollection<TB_Log> TB_log;
 
         public BindableCollection<TB_Log> Log
@@ -23,6 +38,21 @@ namespace MonitoringSystem.ViewModels
             }
         }
 
+        private TB_Log selectedType;
+        public TB_Log SelectedType
+        {
+            get
+            {
+                return selectedType;
+            }
+            set
+            {
+                selectedType = value;
+
+            }
+
+
+        }
         private int id;
         public int Id
         {
@@ -82,15 +112,28 @@ namespace MonitoringSystem.ViewModels
         {
             using (SqlConnection conn = new SqlConnection(Common.CONNSTRING))
             {
+                string Type;
+                if (SelectedType.Type == "All" )
+                {
+                    Type = "%";
+                }
+                else
+                {
+                    Type = "%" + SelectedType.Type + "%";
+                }
                 conn.Open();
                 SqlCommand cmd = new SqlCommand(Models.TB_Log.SELECT_QUERY, conn);
+                SqlParameter TypeP = new SqlParameter("@type", Type);
+                cmd.Parameters.Add(TypeP);
                 SqlDataReader reader = cmd.ExecuteReader();
                 Log = new BindableCollection<TB_Log>();
-
+                
                 while (reader.Read())
                 {
+
                     var empTmp = new TB_Log
                     {
+
                         ID = (int)reader["ID"],
                         Level = reader["Level"].ToString(),
                         Message = reader["Message"].ToString(),
@@ -106,7 +149,14 @@ namespace MonitoringSystem.ViewModels
         public LogViewModel()
         {
             // DB연결
-            GetLogs();
+            Types = new ObservableCollection<TB_Log>()
+            {
+                new TB_Log(){Type = "All"},
+                new TB_Log(){Type = "Fatal"},
+                new TB_Log(){Type = "Warn"},
+                new TB_Log(){Type = "Info"}
+            };
+
         }
     }
 }

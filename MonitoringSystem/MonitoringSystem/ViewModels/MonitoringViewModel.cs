@@ -5,13 +5,10 @@ using OxyPlot.Axes;
 using OxyPlot.Series;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
-using NLog;
 using System.Windows.Threading;
+using DocumentFormat.OpenXml.Spreadsheet;
+using MarkerType = OxyPlot.MarkerType;
 
 namespace MonitoringSystem.ViewModels
 {
@@ -32,6 +29,7 @@ namespace MonitoringSystem.ViewModels
 
             }
         }
+
 
         private float plantT;
         public float PlantT
@@ -67,61 +65,83 @@ namespace MonitoringSystem.ViewModels
                 NotifyOfPropertyChange(() => Otherproperty);
             }
         }
+
+        public double Gas1 { get; private set; }
+        public double Gas2 { get; private set; }
+        public object Gas3 { get; private set; }
+
+
+
         #region Setting값 Property
 
         #endregion
         #endregion
 
-        
+
         #region 차트 설정
         public MonitoringViewModel()
         {
             //         App.LOGGER.Info($"예외발생, Client_MqttMsgPublishReceived : []");
             DispatcherTimer timer = new DispatcherTimer();
-            timer.Tick += new EventHandler(FunctionB);
-            timer.Interval = new TimeSpan(0, 0, 1);
-            timer.Start();
 
-            var plotModel1 = new PlotModel();
+
+             var plotModel1 = new PlotModel();
+             var plotModel2 = new PlotModel();
+
+
             plotModel1.Title = "Temperature";
+            plotModel2.Title = "Gas";
+            
             var linearAxis1 = new DateTimeAxis();
             linearAxis1.Position = AxisPosition.Bottom;
             plotModel1.Axes.Add(linearAxis1);
+
             var linearAxis2 = new LinearAxis();
+            linearAxis2.Minimum = 15;
+            linearAxis2.Maximum = 35;
             plotModel1.Axes.Add(linearAxis2);
             var lineSeries1 = new LineSeries();
             lineSeries1.Title = "LineSeries 1";
+            
+            
+            var categoryAxis = new CategoryAxis();
+            categoryAxis.Labels.Add("Gas1");
+            categoryAxis.Labels.Add("Gas2");
+            categoryAxis.Labels.Add("Gas3");
+            categoryAxis.Labels.Add("Gas4");
+            categoryAxis.Labels.Add("Gas5");
+            categoryAxis.Position = AxisPosition.Bottom;
 
+            plotModel2.Axes.Add(categoryAxis);
+            
+
+            var linearAxis4 = new LinearAxis();
+            plotModel2.Axes.Add(linearAxis4);
+            linearAxis4.Maximum = 30;
+            linearAxis4.Minimum = 20;
+            var barSeries = new LinearBarSeries();
+            barSeries.BarWidth = 40;
+            
             plotModel1.Series.Add(lineSeries1);
             Temperature = plotModel1;
             Temperature.InvalidatePlot(true);
 
-            var plotModel2 = new PlotModel();
-            plotModel2.Title = "OtherProperty";
-            var linearAxis3 = new LinearAxis();
-            linearAxis3.Position = AxisPosition.Bottom;
-            plotModel2.Axes.Add(linearAxis3);
-            var linearAxis4 = new LinearAxis();
-            plotModel2.Axes.Add(linearAxis4);
-            var lineSeries2 = new LinearBarSeries();
-            lineSeries2.Title = "BarSeries 2";
-            lineSeries2.Points.Add(new DataPoint(0, 28));
-            lineSeries2.Points.Add(new DataPoint(1, 32));
-            plotModel2.Series.Add(lineSeries2);
+            plotModel2.Series.Add(barSeries);
             Otherproperty = plotModel2;
             Otherproperty.InvalidatePlot(true);
+
+            timer.Tick += new EventHandler(FunctionB);
+            timer.Interval = new TimeSpan(0, 0, 1);
+            timer.Start();
+
             Thread thread1 = new Thread(new ThreadStart(FunctionA));
             thread1.IsBackground = true;
             thread1.Start();
 
-           
+
         }
 
-        private void FunctionB(object sender, EventArgs e)
-        {
-            PlantT = DataConnection.PlantT;
-        }
-
+    
 
         #endregion
 
@@ -132,21 +152,30 @@ namespace MonitoringSystem.ViewModels
         {
             DateTime curtime;
             var lineSeries1 = new LineSeries();
+            var barSeries = new LinearBarSeries();
+            
+
             lineSeries1.MarkerType = MarkerType.Circle;
             List<DataPoint> lData = new List<DataPoint>();
-           // GetPlant();
+            // GetPlant();
+
+
+
 
             while (true)
             {
                 Thread.Sleep(100);
                 Temperature.Series.Clear();
                 lineSeries1.Points.Clear();
+                Otherproperty.Series.Clear();
+                barSeries.Points.Clear();
                 curtime = DateTime.Now;
                 double dCurtime = curtime.ToOADate();
                 if (lData.Count == 0)
                 {
                     
                     lData.Add(new DataPoint(dCurtime, PlantT));
+
                 //    lData.Add(new DataPoint(dCurtime, PlantT));
                 }
                 else
@@ -155,7 +184,8 @@ namespace MonitoringSystem.ViewModels
                     if (lData.Count <= 300)
                     {
                         lData.Add(new DataPoint(dCurtime, PlantT));
-                 //       lData.Add(new DataPoint(dCurtime, PlantT));
+
+                        //       lData.Add(new DataPoint(dCurtime, PlantT));
                     }
                     else
                     {
@@ -169,7 +199,9 @@ namespace MonitoringSystem.ViewModels
                 {
                     lineSeries1.Points.Add(data);
                 }
-
+                barSeries.Points.Add(new DataPoint(Gas1, y : PlantT));
+                Otherproperty.Series.Add(barSeries);
+                Otherproperty.InvalidatePlot(true);
                 Temperature.Series.Add(lineSeries1);
                 Temperature.InvalidatePlot(true);
 
@@ -177,7 +209,11 @@ namespace MonitoringSystem.ViewModels
         }
         #endregion
 
-        
+        private void FunctionB(object sender, EventArgs e)
+        {
+            PlantT = DataConnection.PlantT;
+        }
+
         #region sql 조회 함수
 
 

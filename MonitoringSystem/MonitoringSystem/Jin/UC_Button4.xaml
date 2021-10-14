@@ -26,10 +26,7 @@
     </UserControl.Resources>
     <Viewbox>
         <Canvas Width="450"  Height="450">
-            <Ellipse Width="450" Height="450" Fill="{StaticResource BR1}" />
-            <Grid Canvas.Left="20" Canvas.Top="20" Width="410" Height="410">
-                <Ellipse Width="410" Height="410" Fill="{StaticResource BR2}"/>
-            </Grid>
+
 
             <Canvas Canvas.Top="35">
                 <Rectangle Fill="White"  Width="70" Height="20" Canvas.Top="209" Canvas.Left="133"  RadiusY="9" RadiusX="9"  />
@@ -44,7 +41,6 @@
                     </Rectangle.RenderTransform>
                 </Rectangle>
                 <Rectangle Fill="White"  Width="229" Height="20" Canvas.Top="244" Canvas.Left="115"  RadiusY="9" RadiusX="9"  />
-                <Label Content="Plant Logs" FontSize="45" Canvas.Left="111" Canvas.Top="280" Background="{x:Null}" Foreground="#FFF9F6F6" />
                 <Rectangle Fill="White"  Width="20" Height="70" Canvas.Top="158" Canvas.Left="133"  RadiusY="9" RadiusX="9"  />
                 <Rectangle Fill="White"  Width="20" Height="180" Canvas.Top="20" Canvas.Left="190"  RadiusY="9" RadiusX="9" RenderTransformOrigin="0.5,0.5"  >
                     <Rectangle.RenderTransform>
@@ -68,6 +64,7 @@
                 </Rectangle>
 
             </Canvas>
+            <Label Content="Plant Logs" FontSize="70" HorizontalAlignment="Center" Canvas.Top="313" Background="{x:Null}" Foreground="#FFF9F6F6" Canvas.Left="55" />
 
         </Canvas>
     </Viewbox>
