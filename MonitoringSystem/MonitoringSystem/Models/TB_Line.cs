@@ -20,7 +20,12 @@ namespace MonitoringSystem.Models
                                                             , TotalQty
                                                             , ProdQty
                                                             , BadQty
-                                                            , Woker
                                                          FROM TB_Line";
+        public static readonly string UPDATE_QUERY = @"UPDATE TB_Line
+                                                          SET   GoalQty   = @GoalQty
+                                                              , TotalQty  = @TotalQty
+                                                              , ProdQty   = @ProdQty
+                                                              , BadQty    = @BadQty
+                                                        WHERE Plantcode = 1000";
     }
 }

@@ -249,7 +249,7 @@ namespace MonitoringSystem.ViewModels
         
         public MainViewModel()
         {
-            DataConnection.Client_Start();
+            //DataConnection.Client_Start();
             GetSettings();
 
             DispatcherTimer timer = new DispatcherTimer();

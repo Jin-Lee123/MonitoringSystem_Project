@@ -32,7 +32,7 @@
             </Grid>
 
             <Canvas Canvas.Top="35">
-                <Label Content="ConveyorBelt" FontSize="45" Canvas.Left="82" Canvas.Top="280" Background="{x:Null}" Foreground="#FFF9F6F6" />
+                <Label Content="Production Line" FontSize="45" Canvas.Left="64" Canvas.Top="280" Background="{x:Null}" Foreground="#FFF9F6F6" />
                 <Rectangle Fill="White"  Width="350" Height="115" Canvas.Top="100" Canvas.Left="48" RadiusY="45" RadiusX="45"   />
                 <Ellipse Fill="#FF2245BA" Width="80" Height="80" Canvas.Left="69" Canvas.Top="115" />
                 <Ellipse Fill="#FF2245BA" Width="80" Height="80" Canvas.Left="185" Canvas.Top="115" />

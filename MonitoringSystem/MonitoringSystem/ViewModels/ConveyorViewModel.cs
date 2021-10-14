@@ -5,6 +5,8 @@ using OpenCvSharp;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Diagnostics;
+using System.IO;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -195,7 +197,6 @@ namespace MonitoringSystem.ViewModels
             // 화면 로드 되자마자 MQTT에 접속, 이벤트 처리
             Client = new MqttClient(serverIpNum);
             Client.MqttMsgPublishReceived += Client_MqttMsgPublishReceived;
-            Client.MqttMsgPublishReceived += Client_MqttMsgPublishReceived;
             Client.ConnectionClosed += Client_ConnectionClosed;
 
             Client.Connect(clientId);
@@ -225,8 +226,6 @@ namespace MonitoringSystem.ViewModels
                         TotalQty = (int)reader["TotalQty"],
                         ProdQty = (int)reader["ProdQty"],
                         BadQty = (int)reader["BadQty"],
-                        Woker = reader["Woker"].ToString(),
-                        
                     };
                     Line.Add(empTmp);
                     
@@ -238,16 +237,38 @@ namespace MonitoringSystem.ViewModels
             ProdQty = Line[0].ProdQty;
             BadQty = Line[0].BadQty;
             GoalQty = Line[0].GoalQty;
+          
 
             YFormatter = (val) => $"{(val / GoalQty) * 100}%";
             YFormatter2 = (val) => $"{(val / TotalQty) * 100}%";
           
         }
 
-        private void Client_ConnectionClosed(object sender, EventArgs e)   // 모니터링 종료
+        public void ConveyAuto()
         {
-            LblStatus = "모니터링 종료!";
-        }
+            //컨베이어 작동(시계방향)
+            try
+            {
+                var currtime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                string pubData = "{ \n" +
+                                 "   \"dev_addr\" : \"4002\", \n" +
+                                 $"   \"currtime\" : \"{currtime}\" , \n" +
+                                 "   \"code\" : \"Convey\", \n" +
+                                 "   \"value\" : \"4\", \n" +
+                                 "   \"sensor\" : \"0\" \n" +
+                                 "}";
+
+                Client.Publish($"{factoryId}/4002/", Encoding.UTF8.GetBytes(pubData), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"접속 오류 { ex.Message}");
+            }
+
+            // DB입력
+            App.Logger.Fatal(new Exception("컨베이어"), "Auto 작동");
+            //
+        } //컨베이어 Auto
 
         public void ConveyRun() 
         {
@@ -378,10 +399,6 @@ namespace MonitoringSystem.ViewModels
             //
         } // 로봇팔 우회전
 
-        public void AutoLabel()
-        {
-
-        }
 
         #region ### MQTT Subscribe ###   // Subscribe 한 값을 바인딩 해주는 곳
         private void Client_MqttMsgPublishReceived(object sender, MqttMsgPublishEventArgs e)
@@ -418,6 +435,110 @@ namespace MonitoringSystem.ViewModels
                     MQ5 = currData["sensor"];
                     LblStatus1 = message;
                 }
+                else if (currData["dev_addr"] == "4003" && currData["code"] == "Conveydist" && int.Parse(currData["sensor"]) <= 50) // RobotTemp 데이터 수신
+                {
+                    // Publish 컨베이어 Stop
+                    try
+                    {
+                        var currtime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                        string pubData = "{ \n" +
+                                         "   \"dev_addr\" : \"4002\", \n" +
+                                         $"   \"currtime\" : \"{currtime}\" , \n" +
+                                         "   \"code\" : \"Convey\", \n" +
+                                         "   \"value\" : \"3\", \n" +
+                                         "   \"sensor\" : \"0\" \n" +
+                                         "}";
+
+                        Client.Publish($"{factoryId}/4002/", Encoding.UTF8.GetBytes(pubData), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
+
+                        Thread.Sleep(10000);
+                        pubData = "{ \n" +
+                                         "   \"dev_addr\" : \"4002\", \n" +
+                                         $"   \"currtime\" : \"{currtime}\" , \n" +
+                                         "   \"code\" : \"Convey\", \n" +
+                                         "   \"value\" : \"1\", \n" +
+                                         "   \"sensor\" : \"0\" \n" +
+                                         "}";
+
+                        Client.Publish($"{factoryId}/4002/", Encoding.UTF8.GetBytes(pubData), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
+
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"접속 오류 { ex.Message}");
+                    }
+                    // 물체감지
+                    App.Logger.Fatal(new Exception("컨베이어"), "물체감지 정지");
+
+                }
+                
+                else if (currData["dev_addr"] == "4001" && currData["code"] == "Arm" && currData["value"] == "1") //양품 DB저장
+                {
+                    try
+                    {
+                        using (SqlConnection conn = new SqlConnection(Common.CONNSTRING))
+                        {
+                            conn.Open();
+                            var upquery = Models.TB_Line.UPDATE_QUERY;
+                            
+                            SqlCommand cmd = new SqlCommand();
+                            cmd.Connection = conn;
+                            cmd.CommandText = upquery;
+                           
+                            SqlParameter GoalParam = new SqlParameter("@GoalQty", GoalQty);
+                            cmd.Parameters.Add(GoalParam);
+                            SqlParameter TotalParam = new SqlParameter("@TotalQty", TotalQty + 1);
+                            cmd.Parameters.Add(TotalParam);
+                            SqlParameter ProdParam = new SqlParameter("@ProdQty", ProdQty + 1);
+                            cmd.Parameters.Add(ProdParam);
+                            SqlParameter BadParam = new SqlParameter("@BadQty", BadQty);
+                            cmd.Parameters.Add(BadParam);
+                            cmd.ExecuteNonQuery();
+                        }
+                        
+
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"예외발생 : {ex.Message}");
+                        return;
+                    }
+                }
+                else if (currData["dev_addr"] == "4001" && currData["code"] == "Arm" && currData["value"] == "2") //불량 DB저장
+                {
+                    try
+                    {
+                        using (SqlConnection conn = new SqlConnection(Common.CONNSTRING))
+                        {
+                            conn.Open();
+                            var upquery = Models.TB_Line.UPDATE_QUERY;
+
+                            SqlCommand cmd = new SqlCommand();
+                            cmd.Connection = conn;
+                            cmd.CommandText = upquery;
+
+                            SqlParameter GoalParam = new SqlParameter("@GoalQty", GoalQty);
+                            cmd.Parameters.Add(GoalParam);
+                            SqlParameter TotalParam = new SqlParameter("@TotalQty", TotalQty + 1);
+                            cmd.Parameters.Add(TotalParam);
+                            SqlParameter ProdParam = new SqlParameter("@ProdQty", ProdQty);
+                            cmd.Parameters.Add(ProdParam);
+                            SqlParameter BadParam = new SqlParameter("@BadQty", BadQty + 1);
+                            cmd.Parameters.Add(BadParam);
+                            cmd.ExecuteNonQuery();
+                        }
+
+
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"예외발생 : {ex.Message}");
+                        return;
+                    }
+                }
+
+
+
             }
             catch (Exception ex)
             {
@@ -425,13 +546,17 @@ namespace MonitoringSystem.ViewModels
                 //App.LOGGER.Info($"예외발생, Client_MqttMsgPublishReceived : [{ex.Message}]");
             }
         }
-        #endregion
-
+        
+        private void Client_ConnectionClosed(object sender, EventArgs e)   // 모니터링 종료
+        {
+            LblStatus = "모니터링 종료!";
+        }
 
         protected override Task OnDeactivateAsync(bool close, CancellationToken cancellationToken)  // 창을 종료할 때 Mqtt Client 종료
         {
             if (Client.IsConnected) Client.Disconnect();
             return base.OnDeactivateAsync(close, cancellationToken);
         }
+        #endregion
     }
 }

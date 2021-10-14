@@ -1,11 +1,21 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Reflection;
+using System.Text;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using Newtonsoft.Json;
+using OpenCvSharp;
+using OpenCvSharp.Extensions;
+using uPLibrary.Networking.M2Mqtt;
+using uPLibrary.Networking.M2Mqtt.Messages;
 
 namespace MonitoringSystem.Views
 {
@@ -14,14 +24,21 @@ namespace MonitoringSystem.Views
     /// </summary>
     public partial class ConveyorView : UserControl, INotifyPropertyChanged
     {
+        //mqtt
+        private string serverIpNum = "192.168.0.195";   //학원 "192.168.0.195"; //핸드폰 "192.168.21.186";  // 윈도우(MQTT Broker, SQLServer) 아이피
+        private string clientId = "SCADA_system";
+        private string factoryId = "kasan01";
+        private MqttClient client;
 
-        private string RtspUrl = "rtsp://192.168.0.15:9000";   //아이피(라즈베리아이피) 바꿔줘야댐 192.168.191.185   192.168.0.14
+        private const string windowName = "src";   //opencv
+
+        private string RtspUrl = "rtsp://192.168.0.10:9000";   //아이피(라즈베리아이피) 바꿔줘야댐 192.168.191.185   192.168.0.14
         private DirectoryInfo libDirectory;
 
         public ConveyorView()
         {
             InitializeComponent();
-            
+            InitAllCustomComponnet();//mqtt
             //CCTV
             var currentAssembly = Assembly.GetEntryAssembly();
             var currentDirectory = new FileInfo(currentAssembly.Location).DirectoryName;
@@ -31,6 +48,45 @@ namespace MonitoringSystem.Views
             Value = 160;
             DataContext = this;
         }
+
+        #region MQTT
+        private void InitAllCustomComponnet()
+        {
+            client = new MqttClient(serverIpNum);
+            client.MqttMsgPublished += Client_MqttMsgPublished;
+            client.MqttMsgPublishReceived += Client_MqttMsgPublishReceived;
+            client.Connect(clientId);
+            client.Subscribe(new string[] { $"{factoryId}/4003/" }, new byte[] { MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE });
+        }
+
+        private void Client_ConnectionClosed(object sender, EventArgs e)
+        {
+           
+        }
+
+        private void Client_MqttMsgPublished(object sender, MqttMsgPublishedEventArgs e)
+        {
+            
+        }
+
+        private void Client_MqttMsgPublishReceived(object sender, MqttMsgPublishEventArgs e)
+        {
+            try
+            {
+                var message = Encoding.UTF8.GetString(e.Message); //e.Message(byte[]) ==> string 변환
+                var currData = JsonConvert.DeserializeObject<Dictionary<string, string>>(message);
+
+                if (currData["dev_addr"] == "4003" && currData["code"] == "Conveydist" && int.Parse(currData["sensor"]) <= 50) // RobotTemp 데이터 수신
+                {
+                    AutoPlay();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+        #endregion
 
         #region 애니메이션
         public void ConveyStartAnimation1()
@@ -44,13 +100,13 @@ namespace MonitoringSystem.Views
 
             RotateTransform rt = new RotateTransform();
             Motor1.RenderTransform = rt;
-            Motor1.RenderTransformOrigin = new Point(0.5, 0.5);
+            Motor1.RenderTransformOrigin = new System.Windows.Point(0.5, 0.5);
             Motor2.RenderTransform = rt;
-            Motor2.RenderTransformOrigin = new Point(0.5, 0.5);
+            Motor2.RenderTransformOrigin = new System.Windows.Point(0.5, 0.5);
             Motor3.RenderTransform = rt;
-            Motor3.RenderTransformOrigin = new Point(0.5, 0.5);
+            Motor3.RenderTransformOrigin = new System.Windows.Point(0.5, 0.5);
             Motor4.RenderTransform = rt;
-            Motor4.RenderTransformOrigin = new Point(0.5, 0.5);
+            Motor4.RenderTransformOrigin = new System.Windows.Point(0.5, 0.5);
 
             rt.BeginAnimation(RotateTransform.AngleProperty, da);
         }
@@ -65,13 +121,13 @@ namespace MonitoringSystem.Views
 
             RotateTransform rt = new RotateTransform();
             Motor1.RenderTransform = rt;
-            Motor1.RenderTransformOrigin = new Point(0.5, 0.5);
+            Motor1.RenderTransformOrigin = new System.Windows.Point(0.5, 0.5);
             Motor2.RenderTransform = rt;
-            Motor2.RenderTransformOrigin = new Point(0.5, 0.5);
+            Motor2.RenderTransformOrigin = new System.Windows.Point(0.5, 0.5);
             Motor3.RenderTransform = rt;
-            Motor3.RenderTransformOrigin = new Point(0.5, 0.5);
+            Motor3.RenderTransformOrigin = new System.Windows.Point(0.5, 0.5);
             Motor4.RenderTransform = rt;
-            Motor4.RenderTransformOrigin = new Point(0.5, 0.5);
+            Motor4.RenderTransformOrigin = new System.Windows.Point(0.5, 0.5);
 
             rt.BeginAnimation(RotateTransform.AngleProperty, da);
         }
@@ -96,7 +152,7 @@ namespace MonitoringSystem.Views
 
             RotateTransform rt = new RotateTransform();
             Arm.RenderTransform = rt;
-            Arm.RenderTransformOrigin = new Point(0, 0.5);
+            Arm.RenderTransformOrigin = new System.Windows.Point(0, 0.5);
 
             rt.BeginAnimation(RotateTransform.AngleProperty, da);
         }
@@ -112,7 +168,7 @@ namespace MonitoringSystem.Views
 
             RotateTransform rt = new RotateTransform();
             Arm.RenderTransform = rt;
-            Arm.RenderTransformOrigin = new Point(0, 0.5);
+            Arm.RenderTransformOrigin = new System.Windows.Point(0, 0.5);
 
             rt.BeginAnimation(RotateTransform.AngleProperty, da);
         }
@@ -143,7 +199,7 @@ namespace MonitoringSystem.Views
         }
         #endregion 
 
-        #region CCTV
+        #region CCTV 플레이 버튼
         private void Play_Button_Click(object sender, RoutedEventArgs e)
         {
             image.SourceProvider.CreatePlayer(libDirectory);
@@ -178,10 +234,204 @@ namespace MonitoringSystem.Views
 
         #endregion
 
+        #region OpenCV
+        // 버튼 동영상 캡처 + 오픈 CV
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            FileInfo fi = new FileInfo("C:\\asdf\\test.jpg");
+            Thread.Sleep(5000);
+            FileInfo fi = new FileInfo("C:\\GitRepository\\MonitoringSystem_Project\\MonitoringSystem\\MonitoringSystem\\bin\\Image\\test.jpg");
             image.SourceProvider.MediaPlayer.TakeSnapshot(fi);
+
+            Mat src = Cv2.ImRead("../Image/test.jpg", ImreadModes.AnyColor);
+            Mat src2 = Cv2.ImRead("../Image/test.jpg", ImreadModes.AnyColor);
+            Cv2.ImShow("원본", src);
+
+            Mat gray = new Mat();   // 흑백
+            Mat gray2 = new Mat();   // 흑백
+
+            Mat binary = new Mat(); //이진화
+            Mat binary2 = new Mat(); //이진화
+            
+            Mat[] mv = new Mat[3];
+            Mat mask = new Mat();  //빨강색
+            Mat mask2 = new Mat();  //파랑색
+            
+            //Mat dst = new Mat();    //모폴리지  리사이즈
+            //OpenCvSharp.Size size = new OpenCvSharp.Size(src.Width * 2, src.Height * 2); 
+            //Cv2.Resize(src, dst, size);
+            //.ImShow("resize", dst);
+
+            Cv2.CvtColor(src, src, ColorConversionCodes.BGR2HSV); //색공간을 그레이케일 영사을 변환하여 속도와 메로리 줄이기
+            mv = Cv2.Split(src); //채널 분리(창하나더띠우기)
+            Cv2.CvtColor(src, src, ColorConversionCodes.HSV2BGR);
+
+            Cv2.InRange(mv[0], new Scalar(170), new Scalar(180), mask); //빨강색
+            Cv2.InRange(mv[1], new Scalar(119), new Scalar(121), mask2); //파랑색
+            Cv2.BitwiseAnd(src, mask.CvtColor(ColorConversionCodes.GRAY2BGR), src);
+            Cv2.BitwiseAnd(src2, mask2.CvtColor(ColorConversionCodes.GRAY2BGR), src2);
+
+            Cv2.CvtColor(src, gray, ColorConversionCodes.BGR2GRAY); // 흑백
+            Cv2.CvtColor(src2, gray2, ColorConversionCodes.BGR2GRAY); // 흑백
+
+            Cv2.Threshold(gray, binary, 127, 255, ThresholdTypes.Binary);  //이진화
+            Cv2.Threshold(gray2, binary2, 127, 255, ThresholdTypes.Binary);  //이진화
+
+            Cv2.ImShow("빨강이진화", binary);
+            Cv2.ImShow("파랑이진화", binary2);
+
+            int pixels = Cv2.CountNonZero(binary);
+            int pixels2 = Cv2.CountNonZero(binary2);
+
+            if (pixels > 50)   //숫자 늘
+            {
+                Cv2.PutText(src, "red exist", new OpenCvSharp.Point(10, 400), HersheyFonts.HersheyComplex, 2, Scalar.White, 5, LineTypes.AntiAlias);
+                var currtime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                string pubData = "{ \n" +
+                                 "   \"dev_addr\" : \"4001\", \n" +
+                                 $"   \"currtime\" : \"{currtime}\" , \n" +
+                                 "   \"code\" : \"Arm\", \n" +
+                                 "   \"value\" : \"1\", \n" +
+                                 "   \"sensor\" : \"0\" \n" +
+                                 "}";
+
+
+                client.Publish($"{factoryId}/4001/", Encoding.UTF8.GetBytes(pubData), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
+         
+            }
+            else
+            {
+                Cv2.PutText(src, "red notfound", new OpenCvSharp.Point(10, 400), HersheyFonts.HersheyComplex, 2, Scalar.White, 5, LineTypes.AntiAlias);
+            }
+            
+            if (pixels2 > 200)
+            {
+                Cv2.PutText(src2, "blue exist", new OpenCvSharp.Point(10, 400), HersheyFonts.HersheyComplex, 2, Scalar.White, 5, LineTypes.AntiAlias);
+                var currtime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                string pubData = "{ \n" +
+                                 "   \"dev_addr\" : \"4001\", \n" +
+                                 $"   \"currtime\" : \"{currtime}\" , \n" +
+                                 "   \"code\" : \"Arm\", \n" +
+                                 "   \"value\" : \"2\", \n" +
+                                 "   \"sensor\" : \"0\" \n" +
+                                 "}";
+
+
+                client.Publish($"{factoryId}/4001/", Encoding.UTF8.GetBytes(pubData), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
+
+            }
+            else
+            {
+                Cv2.PutText(src2, "blue notfound", new OpenCvSharp.Point(10, 400), HersheyFonts.HersheyComplex, 2, Scalar.White, 5, LineTypes.AntiAlias);
+            }
+
+
+            Debug.WriteLine($"CountNonZero : {Cv2.CountNonZero(binary)}");
+            
+            Cv2.ImShow("result1", src);
+            Cv2.ImShow("result2", src2);
+
+            Cv2.WaitKey(0); 
+            Cv2.DestroyAllWindows();
+
         }
+
+        private void AutoPlay()
+        {
+            Thread.Sleep(5000);
+            FileInfo fi = new FileInfo("C:\\GitRepository\\MonitoringSystem_Project\\MonitoringSystem\\MonitoringSystem\\bin\\Image\\test.jpg");
+            image.SourceProvider.MediaPlayer.TakeSnapshot(fi);
+
+            Mat src = Cv2.ImRead("../Image/test.jpg", ImreadModes.AnyColor);
+            Mat src2 = Cv2.ImRead("../Image/test.jpg", ImreadModes.AnyColor);
+            Cv2.ImShow("원본", src);
+
+            Mat gray = new Mat();   // 흑백
+            Mat gray2 = new Mat();   // 흑백
+
+            Mat binary = new Mat(); //이진화
+            Mat binary2 = new Mat(); //이진화
+
+            Mat[] mv = new Mat[3];
+            Mat mask = new Mat();  //빨강색
+            Mat mask2 = new Mat();  //파랑색
+
+            //Mat dst = new Mat();    //모폴리지  리사이즈
+            //OpenCvSharp.Size size = new OpenCvSharp.Size(src.Width * 2, src.Height * 2); 
+            //Cv2.Resize(src, dst, size);
+            //.ImShow("resize", dst);
+
+            Cv2.CvtColor(src, src, ColorConversionCodes.BGR2HSV); //색공간을 그레이케일 영사을 변환하여 속도와 메로리 줄이기
+            mv = Cv2.Split(src); //채널 분리(창하나더띠우기)
+            Cv2.CvtColor(src, src, ColorConversionCodes.HSV2BGR);
+
+            Cv2.InRange(mv[0], new Scalar(170), new Scalar(180), mask); //빨강색
+            Cv2.InRange(mv[1], new Scalar(120), new Scalar(123), mask2); //파랑색
+            Cv2.BitwiseAnd(src, mask.CvtColor(ColorConversionCodes.GRAY2BGR), src);
+            Cv2.BitwiseAnd(src2, mask2.CvtColor(ColorConversionCodes.GRAY2BGR), src2);
+
+            Cv2.CvtColor(src, gray, ColorConversionCodes.BGR2GRAY); // 흑백
+            Cv2.CvtColor(src2, gray2, ColorConversionCodes.BGR2GRAY); // 흑백
+
+            Cv2.Threshold(gray, binary, 127, 255, ThresholdTypes.Binary);  //이진화
+            Cv2.Threshold(gray2, binary2, 127, 255, ThresholdTypes.Binary);  //이진화
+
+            Cv2.ImShow("빨강이진화", binary);
+            Cv2.ImShow("파랑이진화", binary2);
+
+            int pixels = Cv2.CountNonZero(binary);
+            int pixels2 = Cv2.CountNonZero(binary2);
+
+            if (pixels > 50)   //숫자 늘
+            {
+                Cv2.PutText(src, "red exist", new OpenCvSharp.Point(10, 400), HersheyFonts.HersheyComplex, 2, Scalar.White, 5, LineTypes.AntiAlias);
+                var currtime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                string pubData = "{ \n" +
+                                 "   \"dev_addr\" : \"4001\", \n" +
+                                 $"   \"currtime\" : \"{currtime}\" , \n" +
+                                 "   \"code\" : \"Arm\", \n" +
+                                 "   \"value\" : \"1\", \n" +
+                                 "   \"sensor\" : \"0\" \n" +
+                                 "}";
+
+
+                client.Publish($"{factoryId}/4001/", Encoding.UTF8.GetBytes(pubData), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
+
+            }
+            else
+            {
+                Cv2.PutText(src, "red notfound", new OpenCvSharp.Point(10, 400), HersheyFonts.HersheyComplex, 2, Scalar.White, 5, LineTypes.AntiAlias);
+            }
+
+            if (pixels2 > 100)
+            {
+                Cv2.PutText(src2, "blue exist", new OpenCvSharp.Point(10, 400), HersheyFonts.HersheyComplex, 2, Scalar.White, 5, LineTypes.AntiAlias);
+                var currtime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                string pubData = "{ \n" +
+                                 "   \"dev_addr\" : \"4001\", \n" +
+                                 $"   \"currtime\" : \"{currtime}\" , \n" +
+                                 "   \"code\" : \"Arm\", \n" +
+                                 "   \"value\" : \"2\", \n" +
+                                 "   \"sensor\" : \"0\" \n" +
+                                 "}";
+
+
+                client.Publish($"{factoryId}/4001/", Encoding.UTF8.GetBytes(pubData), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
+
+            }
+            else
+            {
+                Cv2.PutText(src2, "blue notfound", new OpenCvSharp.Point(10, 400), HersheyFonts.HersheyComplex, 2, Scalar.White, 5, LineTypes.AntiAlias);
+            }
+
+
+            Debug.WriteLine($"CountNonZero : {Cv2.CountNonZero(binary)}");
+
+            Cv2.ImShow("result1", src);
+            Cv2.ImShow("result2", src2);
+
+            Cv2.WaitKey(0);
+            Cv2.DestroyAllWindows();
+        } //자동 opencv
+        #endregion
     }
 }
