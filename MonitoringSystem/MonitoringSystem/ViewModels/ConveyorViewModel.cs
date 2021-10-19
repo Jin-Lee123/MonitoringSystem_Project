@@ -116,30 +116,6 @@ namespace MonitoringSystem.ViewModels
             }
         }
 
-        // 확인용 Label --삭제 예정
-        private string lblStatus;
-        public string LblStatus
-        {
-            get => lblStatus;
-            set
-            {
-                lblStatus = value;
-                NotifyOfPropertyChange(() => LblStatus);
-            }
-        }
-
-        // 확인용 Label --삭제 예정
-        private string lblStatus1;
-        public string LblStatus1
-        {
-            get => lblStatus1;
-            set
-            {
-                lblStatus1 = value;
-                NotifyOfPropertyChange(() => LblStatus1);
-            }
-        }
-
         // RobotTemp
         private string robotTemp;
         public string RobotTemp
@@ -187,6 +163,17 @@ namespace MonitoringSystem.ViewModels
                 NotifyOfPropertyChange(() => MQ5);
             }
         }
+        // AutoLabel
+        private string autolabel;
+        public string AutoLabel
+        {
+            get => autolabel;
+            set
+            {
+                autolabel = value;
+                NotifyOfPropertyChange(() => AutoLabel);
+            }
+        }
         #endregion
 
         //MqttClient Clients;
@@ -205,7 +192,7 @@ namespace MonitoringSystem.ViewModels
             GetEmployees();
         }
         #endregion
-
+        
        
         private void GetEmployees() // 1. SELECT 문
         {
@@ -239,12 +226,12 @@ namespace MonitoringSystem.ViewModels
             GoalQty = Line[0].GoalQty;
           
 
-            YFormatter = (val) => $"{(val / GoalQty) * 100}%";
-            YFormatter2 = (val) => $"{(val / TotalQty) * 100}%";
+            YFormatter = (val) => $"{((val / GoalQty) * 100).ToString("F2")}%";
+            YFormatter2 = (val) => $"{((val / TotalQty) * 100).ToString("F2")}%";
           
         }
 
-        public void ConveyAuto()
+        public void AutoRun()
         {
             //컨베이어 작동(시계방향)
             try
@@ -254,7 +241,7 @@ namespace MonitoringSystem.ViewModels
                                  "   \"dev_addr\" : \"4002\", \n" +
                                  $"   \"currtime\" : \"{currtime}\" , \n" +
                                  "   \"code\" : \"Convey\", \n" +
-                                 "   \"value\" : \"4\", \n" +
+                                 "   \"value\" : \"1\", \n" +
                                  "   \"sensor\" : \"0\" \n" +
                                  "}";
 
@@ -264,11 +251,39 @@ namespace MonitoringSystem.ViewModels
             {
                 MessageBox.Show($"접속 오류 { ex.Message}");
             }
-
+            // 라벨 입력
+            AutoLabel = "현재 자동실행모드 실행중";
+            
             // DB입력
             App.Logger.Fatal(new Exception("컨베이어"), "Auto 작동");
+        } //컨베이어 AutoRun
+
+        public void AutoStop()
+        {
+            // 컨베이어 AutoStop
+            try
+            {
+                var currtime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                string pubData = "{ \n" +
+                                 "   \"dev_addr\" : \"4002\", \n" +
+                                 $"   \"currtime\" : \"{currtime}\" , \n" +
+                                 "   \"code\" : \"Convey\", \n" +
+                                 "   \"value\" : \"3\", \n" +
+                                 "   \"sensor\" : \"0\" \n" +
+                                 "}";
+
+                Client.Publish($"{factoryId}/4002/", Encoding.UTF8.GetBytes(pubData), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"접속 오류 { ex.Message}");
+            }
+            // 라벨 입력
+            AutoLabel = "현재 자동실행모드 정지";
+            // DB입력
+            App.Logger.Fatal(new Exception("컨베이어"), "정지");
             //
-        } //컨베이어 Auto
+        }// 컨베이어 AutoStop
 
         public void ConveyRun() 
         {
@@ -416,60 +431,20 @@ namespace MonitoringSystem.ViewModels
                 if (currData["dev_addr"] == "4003" && currData["code"] == "RobotTemp") // RobotTemp 데이터 수신
                 {
                     RobotTemp = currData["sensor"];
-                    LblStatus = message;
-
                 }
                 else if (currData["dev_addr"] == "4003" && currData["code"] == "ConveyTemp") // ConveyTemp 데이터 수신
                 {
                     ConveyTemp = currData["sensor"];
-                    LblStatus1 = message;
+                 
                 }
                 //InsertData(currData);
                 else if (currData["dev_addr"] == "4004" && currData["code"] == "Duty") // ConveyTemp 데이터 수신
                 {
                     Duty = currData["sensor"];
-                    LblStatus1 = message;
                 }
                 else if (currData["dev_addr"] == "4005" && currData["code"] == "MQ5") // ConveyTemp 데이터 수신
                 {
                     MQ5 = currData["sensor"];
-                    LblStatus1 = message;
-                }
-                else if (currData["dev_addr"] == "4003" && currData["code"] == "Conveydist" && int.Parse(currData["sensor"]) <= 50) // RobotTemp 데이터 수신
-                {
-                    // Publish 컨베이어 Stop
-                    try
-                    {
-                        var currtime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-                        string pubData = "{ \n" +
-                                         "   \"dev_addr\" : \"4002\", \n" +
-                                         $"   \"currtime\" : \"{currtime}\" , \n" +
-                                         "   \"code\" : \"Convey\", \n" +
-                                         "   \"value\" : \"3\", \n" +
-                                         "   \"sensor\" : \"0\" \n" +
-                                         "}";
-
-                        Client.Publish($"{factoryId}/4002/", Encoding.UTF8.GetBytes(pubData), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
-
-                        Thread.Sleep(10000);
-                        pubData = "{ \n" +
-                                         "   \"dev_addr\" : \"4002\", \n" +
-                                         $"   \"currtime\" : \"{currtime}\" , \n" +
-                                         "   \"code\" : \"Convey\", \n" +
-                                         "   \"value\" : \"1\", \n" +
-                                         "   \"sensor\" : \"0\" \n" +
-                                         "}";
-
-                        Client.Publish($"{factoryId}/4002/", Encoding.UTF8.GetBytes(pubData), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
-
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show($"접속 오류 { ex.Message}");
-                    }
-                    // 물체감지
-                    App.Logger.Fatal(new Exception("컨베이어"), "물체감지 정지");
-
                 }
                 
                 else if (currData["dev_addr"] == "4001" && currData["code"] == "Arm" && currData["value"] == "1") //양품 DB저장
@@ -536,9 +511,7 @@ namespace MonitoringSystem.ViewModels
                         return;
                     }
                 }
-
-
-
+                GetEmployees();  // 재조회
             }
             catch (Exception ex)
             {
@@ -549,7 +522,6 @@ namespace MonitoringSystem.ViewModels
         
         private void Client_ConnectionClosed(object sender, EventArgs e)   // 모니터링 종료
         {
-            LblStatus = "모니터링 종료!";
         }
 
         protected override Task OnDeactivateAsync(bool close, CancellationToken cancellationToken)  // 창을 종료할 때 Mqtt Client 종료
