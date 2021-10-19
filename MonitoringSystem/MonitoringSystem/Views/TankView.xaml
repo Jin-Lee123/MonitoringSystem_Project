@@ -28,7 +28,7 @@
             <GroupBox Header="【 Line Monitoring 】" Style="{x:Null}" FontSize="16" BorderThickness="1.5" >
                 <Grid>
                     <vlc:VlcControl Grid.Column="1" Grid.Row="0" x:Name="image" />
-                    <Button Grid.Row="1" Grid.Column="1" x:Name="Play_Button" Content="Play" Click="Play_Button_Click" Height="30" Width="80" FontSize="14" Background="Yellow" />
+                    <Button Grid.Row="1" Grid.Column="1" x:Name="Play_Button" Content="Play" Click="Play_Button_Click" Height="30" Width="80" FontSize="14" Background="Yellow" Visibility="{Binding Video}" />
                 </Grid>
             </GroupBox>
         </Grid>
@@ -61,11 +61,19 @@
                         <UcControl:UcPipe Height="42" Canvas.Left="137" Canvas.Top="147" Width="116" />
                         <Canvas/>
 
-                        <StackPanel Orientation="Horizontal" Canvas.Left="34" Canvas.Top="87">
-                            <Button x:Name="BtnClickOn"  Width="70" Height="30" Content="Pump ON"  />
+                        <Label Content="Pump1" RenderTransformOrigin="1.681,1.931" Canvas.Top="55" Width="140" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                               VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+                        <StackPanel Orientation="Horizontal"  Canvas.Top="87">
+                            <Button x:Name="BtnClickOn"  Width="70" Height="30" Content="Pump ON" IsEnabled="{Binding isEnable}" />
                             <Button x:Name="BtnClickOff"  Width="70" Height="30" Content="Pump OFF"/>
                         </StackPanel>
-                        
+
+                        <Label Content="Pump2" RenderTransformOrigin="1.681,1.931" Canvas.Top="-32" Width="140" HorizontalAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+                        <StackPanel Orientation="Horizontal" >
+                            <Button x:Name="BtnClick2On"  Width="70" Height="30" Content="Pump ON"  />
+                            <Button x:Name="BtnClick2Off"  Width="70" Height="30" Content="Pump OFF"/>
+                        </StackPanel>
+
                         <UcControl:UcPipe Height="42" Canvas.Left="-60" Canvas.Top="147" Width="116" />
                         <local:UcValve Height="166" Canvas.Left="43" Canvas.Top="87" Width="102"/>
                         <local:UcPipe2 x:Name="Pump_Btn" Height="21" Canvas.Left="82" Canvas.Top="154" Width="50" RenderTransformOrigin="1.316,1.314"/>

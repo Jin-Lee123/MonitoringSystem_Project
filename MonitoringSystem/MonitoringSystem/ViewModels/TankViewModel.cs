@@ -24,8 +24,6 @@ namespace MonitoringSystem.ViewModels
         private string serverIpNum = "192.168.56.1";  // 윈도우(MQTT Broker, SQLServer) 아이피
         private string clientId = "학원";
         private string factoryId = "Kasan01";            //  Kasan01/4001/  kasan01/4002/ 
-        private string motorAddr = "4002";
-        private string tankAddr = "4001";
         private string connectionString = "Data Source=hangaramit.iptime.org;Initial Catalog=1조_database;Persist Security Info=True;User ID=team1;Password=team1_1234";
 
         #endregion
@@ -76,6 +74,28 @@ namespace MonitoringSystem.ViewModels
                 NotifyOfPropertyChange(() => LblStatus1);
             }
         }
+        // 펌프가 멈췄는지 확인
+        private bool isStop =false;
+        public bool IsStop
+        {
+            get => isStop;
+            set
+            {
+                isStop = value;
+                NotifyOfPropertyChange(() => IsStop);
+            }
+        }
+
+        private bool _isEnable = true;
+        public bool isEnable
+        {
+            get => _isEnable;
+            set
+            {
+                _isEnable = value;
+                NotifyOfPropertyChange(() => isEnable);
+            }
+        }
         // Pump 작동 색 지정
         private string btnColor;
         public string BtnColor
@@ -94,52 +114,18 @@ namespace MonitoringSystem.ViewModels
             get => mainTankValue;
             set
             {
-                if (720 <= value)
+                if(value>600)
                 {
-                    mainTankValue = 100;
-                }
-                else if (500 <= value)
-                {
-                    mainTankValue = Math.Round((value - 500) / (720 - 500) * 100 + 10);
-
-                    if (Math.Round((value - 500) / (720 - 500) * 100 + 10) >= 100)
-                    {
-                        mainTankValue = 100;
-                    }
-                }
-                else if (100<=value & value < 500)
-                {
-                    mainTankValue = 10;
-                }
-                else if (1<value & value < 100)
-                {
-                    mainTankValue = 5;
+                    mainTankValue = Math.Round(value / (value + 10) * 100, 2);
                 }
                 else
                 {
-                    mainTankValue = 0;
+                    mainTankValue = Math.Round(value / 760 * 100, 2);
                 }
                 NotifyOfPropertyChange(() => MainTankValue);
             }
         }
-        // MainTankTon 계산
-        private double mainTankTon;
-        public double MainTankTon
-        {
-            get => mainTankTon;
-            set
-            {
-                if (value <= 500)
-                {
-                    mainTankTon = 500 * 100 * 0.1;
-                }
-                else
-                { 
-                    mainTankTon = Math.Round(value / 710* 100 * 500);
-                }
-                NotifyOfPropertyChange(() => MainTankTon);
-            }
-        }
+
         // SubTankValue 계산
         private double subTankValue;
         public double SubTankValue
@@ -147,32 +133,27 @@ namespace MonitoringSystem.ViewModels
             get => subTankValue;
             set
             {
-                if (720 <= value)
+                if (value > 600)
                 {
-                    subTankValue = 100;
-                }
-                else if (500 <= value)
-                {
-                    subTankValue = Math.Round((value - 500) / (720 - 500) * 100 + 10);
-
-                    if (Math.Round((value - 500) / (720 - 500) * 100 + 10) >= 100)
-                    {
-                        subTankValue = 100;
-                    }
-                }
-                else if (100 <= value & value < 500)
-                {
-                    subTankValue = 10;
-                }
-                else if (1<= value & value < 100)
-                {
-                    subTankValue = 5;
+                    subTankValue = Math.Round(value / (value + 10) * 100, 2);
                 }
                 else
                 {
-                    subTankValue = 0;
+                    subTankValue = Math.Round(value / 760 * 100, 2);
                 }
                 NotifyOfPropertyChange(() => SubTankValue);
+            }
+        }
+
+        // MainTankTon 계산
+        private double mainTankTon;
+        public double MainTankTon
+        {
+            get => mainTankTon;
+            set
+            {
+                mainTankTon = value;
+                NotifyOfPropertyChange(() => MainTankTon);
             }
         }
         // SubTankTon 계산
@@ -182,15 +163,8 @@ namespace MonitoringSystem.ViewModels
             get => subTankTon;
             set
             {
-                if (value <= 500)
-                {
-                    subTankTon = 0.1 * 100 * 500;
-                }
-                else
-                {
-                    subTankTon = Math.Round(value / 710 * 100 * 500);
-                }
-            NotifyOfPropertyChange(() => SubTankTon);
+                subTankTon = value;
+                NotifyOfPropertyChange(() => SubTankTon);
             }
         }
 
@@ -205,7 +179,16 @@ namespace MonitoringSystem.ViewModels
             }
         }
         Task T;
-
+        private Visibility _Video = Visibility.Visible;
+        public Visibility Video
+        {
+            get => _Video;
+            set
+            {
+                _Video = value;
+                NotifyOfPropertyChange(() => Video);
+            }
+        }
         #endregion
 
         #region ### LOADING + EVENT + OXY PLOT SETTINGS ###
@@ -276,30 +259,85 @@ namespace MonitoringSystem.ViewModels
         }
         #endregion
 
+        #region ### Tank 수위 실시간 감지 ###
+        public void Feedback()
+        {
+            // subTank의 물 높이가 낮을 경우 
+            if (subTankTon > 720)
+            {
+                SendPumpOff();
+                return;
+            }
+            else if (subTankTon < 720)
+            {
+                SendPumpOn();
+            }
+            isStop = false;
+
+
+
+            while (true)
+            {
+                //수위 센서의 높이가 높을 경우 Stop
+                if (isStop)
+                {
+                    isEnable = false;
+                    SendPumpOff();
+                    isStop = false;
+                    break;
+                }
+
+                if (subTankTon > 720)
+                {
+                    SendPumpOff();
+                    isEnable = true;
+                    break;
+                }
+                Thread.Sleep(100);
+            }
+        }
+        #endregion
+
         #region ### 펌프제어 ### 
         public void BtnClickOn()
+        {
+            isEnable = false;
+            var t = Task.Run(() => {
+                Feedback();
+            });
+        }
+        public void BtnClickOff()
+        {
+            isEnable = true;
+            SendPumpOff();
+            isStop = true;
+        }
+        public void SendPumpOn()
         {
             // Publish 펌프 제어 ON
             try
             {
-                 var currtime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-                 string pubData = "{ \n" +
-                                  "   \"dev_addr\" : \"4002\", \n" +
-                                  $"   \"currtime\" : \"{currtime}\" , \n" +
-                                  "   \"code\" : \"pump\", \n" +
-                                  "   \"value\" : \"1\", \n" +
-                                  "   \"sensor\" : \"0\" \n" +
-                                  "}";
-            
-                 Client.Publish($"{factoryId}/4002/", Encoding.UTF8.GetBytes(pubData), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
-                 BtnColor = "Red";
+                var currtime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                string pubData = "{ \n" +
+                                 "   \"dev_addr\" : \"4002\", \n" +
+                                 $"   \"currtime\" : \"{currtime}\" , \n" +
+                                 "   \"code\" : \"pump\", \n" +
+                                 "   \"value\" : \"1\", \n" +
+                                 "   \"sensor\" : \"0\" \n" +
+                                 "}";
+
+                Client.Publish($"{factoryId}/4002/", Encoding.UTF8.GetBytes(pubData), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
+                BtnColor = "Red";
+
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"접속 오류 { ex.Message}");
             }
         }
-        public void BtnClickOff()
+
+
+        public void SendPumpOff()
         {
             // Publish 펌프 제어 OFF
             try
@@ -315,6 +353,49 @@ namespace MonitoringSystem.ViewModels
 
                 Client.Publish($"{factoryId}/4002/", Encoding.UTF8.GetBytes(pubData), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
                 BtnColor = "Gray";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"접속 오류 { ex.Message}");
+            }
+        }
+
+        public void BtnClick2On()
+        {
+            // Publish 펌프 제어 ON
+            try
+            {
+                var currtime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                string pubData = "{ \n" +
+                                 "   \"dev_addr\" : \"4002\", \n" +
+                                 $"   \"currtime\" : \"{currtime}\" , \n" +
+                                 "   \"code\" : \"pump2\", \n" +
+                                 "   \"value\" : \"1\", \n" +
+                                 "   \"sensor\" : \"0\" \n" +
+                                 "}";
+
+                Client.Publish($"{factoryId}/4002/", Encoding.UTF8.GetBytes(pubData), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"접속 오류 { ex.Message}");
+            }
+        }
+        public void BtnClick2Off()
+        {
+            // Publish 펌프 제어 OFF
+            try
+            {
+                var currtime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                string pubData = "{ \n" +
+                                  "   \"dev_addr\" : \"4002\", \n" +
+                                  $"   \"currtime\" : \"{currtime}\" , \n" +
+                                  "   \"code\" : \"pump2\", \n" +
+                                  "   \"value\" : \"0\", \n" +
+                                  "   \"sensor\" : \"0\" \n" +
+                                  "}";
+
+                Client.Publish($"{factoryId}/4002/", Encoding.UTF8.GetBytes(pubData), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
             }
             catch (Exception ex)
             {
@@ -493,5 +574,10 @@ namespace MonitoringSystem.ViewModels
             }
         }
         #endregion
+
+        public void Play_Button()
+        {
+            Video = Visibility.Hidden;
+        }
     }
 }
