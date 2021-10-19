@@ -61,9 +61,9 @@
                         <UcControl:UcPipe Height="42" Canvas.Left="137" Canvas.Top="147" Width="116" />
                         <Canvas/>
 
-                        <Label Content="Pump1" RenderTransformOrigin="1.681,1.931" Canvas.Left="34" Canvas.Top="55" Width="140" HorizontalAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-                        <StackPanel Orientation="Horizontal" Canvas.Left="34" Canvas.Top="87">
-
+                        <Label Content="Pump1" RenderTransformOrigin="1.681,1.931" Canvas.Top="55" Width="140" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                               VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+                        <StackPanel Orientation="Horizontal"  Canvas.Top="87">
                             <Button x:Name="BtnClickOn"  Width="70" Height="30" Content="Pump ON" IsEnabled="{Binding isEnable}" />
                             <Button x:Name="BtnClickOff"  Width="70" Height="30" Content="Pump OFF"/>
                         </StackPanel>
