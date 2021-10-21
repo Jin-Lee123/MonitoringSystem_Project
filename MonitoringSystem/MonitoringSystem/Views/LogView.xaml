@@ -10,7 +10,11 @@
       >
 
     <Grid>
-        <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="109*"/>
+            <ColumnDefinition Width="51*"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.ColumnSpan="2" Margin="0,0,0,-0.4">
             <Grid.RowDefinitions>
                 <RowDefinition Height="1*" />
                 <RowDefinition Height="5*" />
@@ -34,9 +38,9 @@
                        FontWeight="Black" FontSize="15"
                        Style="{StaticResource MahApps.Styles.Label}"
 />
-                <ComboBox HorizontalAlignment="Left"  Grid.Column="1" Width="150" Height="30"
+                <ComboBox  HorizontalAlignment="Left"  Grid.Column="1" Width="150" Height="30"
                           ItemsSource="{Binding Path=Types}"
-                          SelectedItem="{Binding Path=SelectedType}">
+                          SelectedItem="{Binding Path=SelectedType}" SelectedIndex="1">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding Type}"/>
@@ -51,12 +55,12 @@
                       Style="{StaticResource MahApps.Styles.DataGrid.Azure}"
                       AutoGenerateColumns="False" IsReadOnly="True"
                       SelectedItem="{Binding SelectedEmployee}">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="번호" Binding="{Binding ID}"       Width="*"/>
-                    <DataGridTextColumn Header="심각도" Binding="{Binding Level}" Width="*"/>
-                    <DataGridTextColumn Header="오류" Binding="{Binding Message}"  Width="1.5*"/>
+                <DataGrid.Columns >
+                    <DataGridTextColumn Header="번호" Binding="{Binding ID}"             Width="*"/>
+                    <DataGridTextColumn Header="심각도" Binding="{Binding Level}"        Width="*"/>
+                    <DataGridTextColumn Header="오류" Binding="{Binding Message}"        Width="1.5*"/>
                     <DataGridTextColumn Header="내용" Binding="{Binding AdditionalInfo}" Width="4*"/>
-                    <DataGridTextColumn Header="시간" Binding="{Binding LoggedOnDate}" Width="4*"/>
+                    <DataGridTextColumn Header="시간" Binding="{Binding LoggedOnDate}"   Width="4*" />
                 </DataGrid.Columns>
             </DataGrid>
 

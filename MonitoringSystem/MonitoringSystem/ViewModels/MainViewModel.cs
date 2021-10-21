@@ -18,7 +18,6 @@ namespace MonitoringSystem.ViewModels
 {
     public class MainViewModel : Conductor<object>
     {
-
         #region ###변수 선언###
         #region TB_SET 설정
 
@@ -144,18 +143,71 @@ namespace MonitoringSystem.ViewModels
                 NotifyOfPropertyChange(() => SDensity);
             }
         }
-        private string error;
-        public string Error
+       
+
+        #region Gas 변수
+        private float gas1;
+        private float gas2;
+        private float gas3;
+        private float gas4;
+        private float gas5;
+        private float gas6;
+
+        public float Gas1
         {
-            get => error;
+            get => gas1;
             set
             {
-                error = value;
-                NotifyOfPropertyChange(() => Error);
+                gas1 = value;
+                NotifyOfPropertyChange(() => Gas1);
             }
         }
-
-
+        public float Gas2
+        {
+            get => gas2;
+            set
+            {
+                gas2 = value;
+                NotifyOfPropertyChange(() => Gas2);
+            }
+        }
+        public float Gas3
+        {
+            get => gas3;
+            set
+            {
+                gas3 = value;
+                NotifyOfPropertyChange(() => Gas3);
+            }
+        }
+        public float Gas4
+        {
+            get => gas4;
+            set
+            {
+                gas4 = value;
+                NotifyOfPropertyChange(() => Gas4);
+            }
+        }
+        public float Gas5
+        {
+            get => gas5;
+            set
+            {
+                gas5 = value;
+                NotifyOfPropertyChange(() => Gas5);
+            }
+        }
+        public float Gas6
+        {
+            get => gas6;
+            set
+            {
+                gas6 = value;
+                NotifyOfPropertyChange(() => Gas6);
+            }
+        }
+        #endregion
 
         #endregion
 
@@ -203,8 +255,8 @@ namespace MonitoringSystem.ViewModels
             settings.ShowInTaskbar = false;
             settings.WindowState = WindowState.Normal;
             settings.ResizeMode = ResizeMode.CanMinimize;
-            settings.Height = 450;
-            settings.Width = 450;
+            settings.Height = 700;
+            settings.Width = 500;
             settings.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
             windowManager.ShowDialogAsync(viewmodel, null, settings);
@@ -243,26 +295,49 @@ namespace MonitoringSystem.ViewModels
         }
         #endregion
 
-        #region Error 처리x
-
-        #endregion
-        
         public MainViewModel()
         {
             DataConnection.Client_Start();
             GetSettings();
+            
 
             DispatcherTimer timer = new DispatcherTimer();
             timer.Tick += new EventHandler(UpdateTimer_Tick);
             timer.Interval = new TimeSpan(0, 0, 1);
             timer.Start();
+
+
         }
         private void UpdateTimer_Tick(object sender, EventArgs e)
         {
             DisplayDateTextBlock = DateTime.Now.ToString(@"HH:mm:ss");
-            PlantT = DataConnection.PlantT;
+
+            // 값 재정의
+            PlantT = DataConnection.PlantT; 
+            Gas1 = DataConnection.Gas1;
+            Gas2 = DataConnection.Gas2;
+            Gas3 = DataConnection.Gas3;
+            Gas4 = DataConnection.Gas4;
+            Gas5 = DataConnection.Gas5;
+            Gas6 = DataConnection.Gas6;
+            
+            // Error 표시
+            if (Gas1 < 2.5 || Gas2 < 3.0 || PlantT < 25)
+            {
+                DataConnection.EMessage = "위험 경보 : CO가 일정수치 이상입니다.";
+                DataConnection.Solution = "팬을 돌려서 Gas를 밖으로 내보냅니다.";
+               // ShowVMDialog(new ErrorViewModel());
+                
+            }
+            else
+            {
+
+            }
+
 
         }
     }
 }
+
+
 

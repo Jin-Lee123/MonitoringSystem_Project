@@ -113,7 +113,7 @@ namespace MonitoringSystem.ViewModels
             using (SqlConnection conn = new SqlConnection(Common.CONNSTRING))
             {
                 string Type;
-                if (SelectedType.Type == "All" )
+                if (SelectedType.Type == "All")
                 {
                     Type = "%";
                 }
@@ -122,6 +122,8 @@ namespace MonitoringSystem.ViewModels
                     Type = "%" + SelectedType.Type + "%";
                 }
                 conn.Open();
+
+
                 SqlCommand cmd = new SqlCommand(Models.TB_Log.SELECT_QUERY, conn);
                 SqlParameter TypeP = new SqlParameter("@type", Type);
                 cmd.Parameters.Add(TypeP);

@@ -21,7 +21,7 @@ namespace MonitoringSystem.ViewModels
     {
         #region ### 변수 생성 ###
 
-        private string serverIpNum = "192.168.56.1";  // 윈도우(MQTT Broker, SQLServer) 아이피
+        private string serverIpNum = "192.168.0.198";  // 윈도우(MQTT Broker, SQLServer) 아이피
         private string clientId = "학원";
         private string factoryId = "Kasan01";            //  Kasan01/4001/  kasan01/4002/ 
         private string factoryId2 = "Kasan02";            //  Kasan01/4001/  kasan01/4002/ 

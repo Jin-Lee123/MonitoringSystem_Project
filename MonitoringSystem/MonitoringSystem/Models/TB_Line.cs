@@ -27,5 +27,7 @@ namespace MonitoringSystem.Models
                                                               , ProdQty   = @ProdQty
                                                               , BadQty    = @BadQty
                                                         WHERE Plantcode = 1000";
+        public static readonly string INSERT_QUERY = @"INSERT INTO TB_LINETEMP
+                                                          VALUES (@RobotTemp, @ConveyTemp)";
     }
 }
