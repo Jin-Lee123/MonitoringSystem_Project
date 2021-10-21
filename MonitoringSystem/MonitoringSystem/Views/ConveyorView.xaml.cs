@@ -430,5 +430,10 @@ namespace MonitoringSystem.Views
             
         } //자동 opencv
         #endregion
+
+        private void test_Click(object sender, RoutedEventArgs e)
+        {
+            
+        }
     }
 }
