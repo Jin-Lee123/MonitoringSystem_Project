@@ -21,7 +21,7 @@ namespace MonitoringSystem.ViewModels
     {
         #region ### 변수 생성 ###
 
-        private string serverIpNum = "192.168.56.1";  // 윈도우(MQTT Broker, SQLServer) 아이피
+        private string serverIpNum = "192.168.0.198";  // 윈도우(MQTT Broker, SQLServer) 아이피
         private string clientId = "학원";
         private string factoryId = "Kasan01";            //  Kasan01/4001/  kasan01/4002/ 
         private string connectionString = "Data Source=hangaramit.iptime.org;Initial Catalog=1조_database;Persist Security Info=True;User ID=team1;Password=team1_1234";

@@ -30,6 +30,7 @@
 
             <Canvas Canvas.Top="35">
                 <Rectangle Fill="White"  Width="250" Height="20" Canvas.Top="60" Canvas.Left="100"  RadiusY="9" RadiusX="9"  />
+                <Rectangle Fill="#FF2245BA" Width="230" Height="100" Canvas.Top="80" Canvas.Left="100"  RadiusY="9" RadiusX="9"/>
                 <Rectangle Fill="White"  Width="250" Height="20" Canvas.Top="181" Canvas.Left="100"  RadiusY="9" RadiusX="9"  />
                 <Rectangle Fill="White"  Width="20" Height="130" Canvas.Top="64" Canvas.Left="330"  RadiusY="9" RadiusX="9"  />
                 <Rectangle Fill="White"  Width="20" Height="130" Canvas.Top="64" Canvas.Left="100" RadiusY="9" RadiusX="9" />

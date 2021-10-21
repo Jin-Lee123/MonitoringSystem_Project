@@ -115,15 +115,9 @@
 
             <StackPanel Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="2"
                         Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button x:Name="NewSetting" Content="신규"
-                        Width="90" Height="40" ToolTip="신규"
-                        Style="{StaticResource MahApps.Styles.Button}" />
                 <Button x:Name="SaveSetting" Content="저장"
                     Width="90" Height="40" ToolTip="저장"
-                    Style="{StaticResource MahApps.Styles.Button.Square.Accent}"/>
-                <Button x:Name="DelSetting" Content="삭제"
-                        Width="90" Height="40" ToolTip="삭제"
-                        Style="{StaticResource MahApps.Styles.Button.Dialogs.AccentHighlight}" />
+                    Style="{StaticResource MahApps.Styles.Button.Square}"/>
             </StackPanel>
 
         </Grid>

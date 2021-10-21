@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace MonitoringSystem.Views
 {
     /// <summary>
-    /// UcVisualization.xaml에 대한 상호 작용 논리
+    /// ErrorView.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class UcVisualization : UserControl
+    public partial class ErrorView : UserControl
     {
-        public UcVisualization()
+        public ErrorView()
         {
             InitializeComponent();
         }

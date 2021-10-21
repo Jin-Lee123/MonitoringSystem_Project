@@ -29,7 +29,69 @@ namespace MonitoringSystem.ViewModels
 
             }
         }
+        #region Gas 변수
+        private float gas1;
+        private float gas2;
+        private float gas3;
+        private float gas4;
+        private float gas5;
+        private float gas6;
 
+        public float Gas1
+        {
+            get => gas1;
+            set
+            {
+                gas1 = value;
+                NotifyOfPropertyChange(() => Gas1);
+            }
+        }
+        public float Gas2
+        {
+            get => gas2;
+            set
+            {
+                gas2 = value;
+                NotifyOfPropertyChange(() => Gas2);
+            }
+        } 
+        public float Gas3
+        {
+            get => gas3;
+            set
+            {
+                gas3 = value;
+                NotifyOfPropertyChange(() => Gas3);
+            }
+        }
+        public float Gas4
+        {
+            get => gas4;
+            set
+            {
+                gas4 = value;
+                NotifyOfPropertyChange(() => Gas4);
+            }
+        }
+        public float Gas5
+        {
+            get => gas5;
+            set
+            {
+                gas5 = value;
+                NotifyOfPropertyChange(() => Gas5);
+            }
+        }
+        public float Gas6
+        {
+            get => gas6;
+            set
+            {
+                gas6 = value;
+                NotifyOfPropertyChange(() => Gas6);
+            }
+        }
+        #endregion
 
         private float plantT;
         public float PlantT
@@ -66,9 +128,7 @@ namespace MonitoringSystem.ViewModels
             }
         }
 
-        public double Gas1 { get; private set; }
-        public double Gas2 { get; private set; }
-        public object Gas3 { get; private set; }
+
 
         private float duty;
         public float Duty
@@ -185,24 +245,24 @@ namespace MonitoringSystem.ViewModels
                 if (lData.Count == 0)
                 {
                     
-                    lData.Add(new DataPoint(dCurtime, PlantT));
+                 //   lData.Add(new DataPoint(dCurtime, Gas1));
 
-                //    lData.Add(new DataPoint(dCurtime, PlantT));
+                    lData.Add(new DataPoint(dCurtime, PlantT));
                 }
                 else
                 {
 
                     if (lData.Count <= 300)
                     {
-                        lData.Add(new DataPoint(dCurtime, PlantT));
+                //        lData.Add(new DataPoint(dCurtime, Gas1));
 
-                        //       lData.Add(new DataPoint(dCurtime, PlantT));
+                          lData.Add(new DataPoint(dCurtime, PlantT));
                     }
                     else
                     {
                         lData.RemoveAt(0);
+                 //     lData.Add(new DataPoint(dCurtime, Gas1));
                         lData.Add(new DataPoint(dCurtime, PlantT));
-                 //       lData.Add(new DataPoint(dCurtime, PlantT));
                     }
                 }
 
@@ -224,33 +284,13 @@ namespace MonitoringSystem.ViewModels
         {
             PlantT = DataConnection.PlantT;
             Duty = DataConnection.Duty;
+            Gas1 = DataConnection.Gas1;
+            Gas2 = DataConnection.Gas2;
+            Gas3 = DataConnection.Gas3;
+            Gas4 = DataConnection.Gas4;
+            Gas5 = DataConnection.Gas5;
+            Gas6 = DataConnection.Gas6;
         }
-
-        #region sql 조회 함수
-
-
-
-        /*  public void GetPlant()
-          {
-              using (SqlConnection conn = new SqlConnection(Common.CONNSTRING))
-              {
-                  conn.Open();
-                  SqlCommand cmd = new SqlCommand(Models.TB_Plant.SELECT_QUERY, conn);
-                  SqlDataReader reader = cmd.ExecuteReader();
-                  plant = new BindableCollection<TB_Plant>();
-
-                  while (reader.Read())
-                  {
-                      var empTmp = new TB_Plant
-                      {
-                          PlantT = float.Parse(reader["PlantT"].ToString()),
-                      };
-                      plant.Add(empTmp);
-                  }
-              }
-        }*/
-
-        #endregion
 
     }
 }

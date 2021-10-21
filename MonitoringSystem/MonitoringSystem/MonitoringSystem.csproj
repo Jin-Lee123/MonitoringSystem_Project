@@ -173,6 +173,7 @@
       <DependentUpon>UC_Button5.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\TB_Line.cs" />
+    <Compile Include="ViewModels\ErrorViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="Models\Common.cs" />
     <Compile Include="Models\TB_Employees.cs" />
@@ -185,7 +186,9 @@
     <Compile Include="Views\ConveyorView.xaml.cs">
       <DependentUpon>ConveyorView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\IplImage.cs" />
+    <Compile Include="Views\ErrorView.xaml.cs">
+      <DependentUpon>ErrorView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\LoginView.xaml.cs">
       <DependentUpon>LoginView.xaml</DependentUpon>
     </Compile>
@@ -229,13 +232,6 @@
     <Compile Include="Views\TankView.xaml.cs">
       <DependentUpon>TankView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\UcVisualization.xaml.cs">
-      <DependentUpon>UcVisualization.xaml</DependentUpon>
-    </Compile>
-    <Page Include="Hong\img\IconDictonary.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -296,6 +292,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\ErrorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\LoginView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -317,10 +317,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\TankView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\UcVisualization.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -379,6 +375,8 @@
     <Resource Include="4137152_building_construction_industry_pipe_icon.png" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Hong\img\Warning.jfif" />
+    <Resource Include="Hong\img\WarningWarning.jpg" />
     <Content Include="OpenCvSharpExtern.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

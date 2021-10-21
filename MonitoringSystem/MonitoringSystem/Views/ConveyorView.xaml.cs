@@ -32,7 +32,7 @@ namespace MonitoringSystem.Views
 
         private const string windowName = "src";   //opencv
 
-        private string RtspUrl = "rtsp://192.168.0.10:9000";   //아이피(라즈베리아이피) 바꿔줘야댐 192.168.191.185   192.168.0.14
+        private string RtspUrl = "rtsp://192.168.0.22:9000";   //아이피(라즈베리아이피) 바꿔줘야댐 192.168.191.185   192.168.0.14
         private DirectoryInfo libDirectory;
 
         public ConveyorView()

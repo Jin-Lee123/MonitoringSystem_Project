@@ -33,6 +33,7 @@ namespace MonitoringSystem.Models
                                                             , AdditionalInfo
                                                             , LoggedOnDate
                                                          FROM Logs
-                                                         WHERE Level LIKE @type";
+                                                         WHERE Level LIKE @type
+                                                         ORDER BY LoggedOnDate DESC"; 
     }
 }
