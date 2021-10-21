@@ -24,7 +24,7 @@ namespace MonitoringSystem.Views
     /// </summary>
     public partial class ConveyorView : UserControl, INotifyPropertyChanged
     {
-        //mqtt
+        //mqttㅇㅇ
         private string serverIpNum = "192.168.0.195";   //학원 "192.168.0.195"; //핸드폰 "192.168.21.186";  // 윈도우(MQTT Broker, SQLServer) 아이피
         private string clientId = "SCADA_system";
         private string factoryId = "kasan01";
