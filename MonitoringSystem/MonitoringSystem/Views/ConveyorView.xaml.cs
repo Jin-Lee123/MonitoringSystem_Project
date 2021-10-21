@@ -29,12 +29,15 @@ namespace MonitoringSystem.Views
         private string clientId = "SCADA_system";
         private string factoryId = "kasan01";
         private MqttClient client;
+        
+        //opencv
+        private const string windowName = "src";
 
-        private const string windowName = "src";   //opencv
-
-        private string RtspUrl = "rtsp://192.168.0.22:9000";   //아이피(라즈베리아이피) 바꿔줘야댐 192.168.191.185   192.168.0.14
+        //아이피(라즈베리아이피) 바꿔줘야댐 192.168.191.185   192.168.0.14
+        private string RtspUrl = "rtsp://192.168.0.13:9000";   
         private DirectoryInfo libDirectory;
         Uri uri;
+
         public ConveyorView()
         {
             InitializeComponent();
@@ -117,8 +120,6 @@ namespace MonitoringSystem.Views
                     }
                     // 물체감지
                     App.Logger.Fatal(new Exception("컨베이어"), "물체감지 정지");
-                    
-
                 }
             }
             catch (Exception ex)
@@ -249,7 +250,6 @@ namespace MonitoringSystem.Views
 
         #region 온도값 화살표바인딩 생성자 + 함수
         private double _value;
-
         public double Value
         {
             get { return _value; }
@@ -259,25 +259,21 @@ namespace MonitoringSystem.Views
                 OnPropertyChanged("Value");
             }
         }
-
         private void ChangeValueOnClick(object sender, RoutedEventArgs e)
         {
             Value = new Random().Next(0, 100);
         }
-
         public event PropertyChangedEventHandler PropertyChanged;
-
         protected virtual void OnPropertyChanged(string propertyName = null)
         {
             if (PropertyChanged != null) PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
-
         #endregion
 
         #region OpenCV버튼 동영상 캡처 + 오픈 CV
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Mat src = Cv2.ImRead("../Image/color.png");
+            Mat src = Cv2.ImRead("../Image/test.jpg");
             Mat image = new Mat();
             Mat dst = src.Clone();
 
@@ -288,9 +284,10 @@ namespace MonitoringSystem.Views
             Cv2.GaussianBlur(image, image, new OpenCvSharp.Size(13, 13), 3, 3, BorderTypes.Reflect101);
             Cv2.Erode(image, image, kernel, new OpenCvSharp.Point(-1, -1), 3);
 
-            CircleSegment[] circles = Cv2.HoughCircles(image, HoughModes.Gradient, 1, 100, 100, 35, 0, 0);
+            // Cv2.HoughCircles(image, HoughModes.Gradient, 1, 30, 62(캐니엣지 변경 필요), 35, 0(최소반지름), 0(최대반지름));
+            CircleSegment[] circles = Cv2.HoughCircles(image, HoughModes.Gradient, 1, 30, 61, 35, 35, 40);
 
-            LblResult.Content = "구멍 갯수 :"+circles.Length;
+            LblResult.Content = "구멍 갯수 :" + circles.Length;
             for (int i = 0; i < circles.Length; i++)
             {
                 OpenCvSharp.Point center = new OpenCvSharp.Point(circles[i].Center.X, circles[i].Center.Y);
@@ -303,7 +300,7 @@ namespace MonitoringSystem.Views
             Cv2.WaitKey(0);
             Cv2.DestroyAllWindows();
 
-            
+
         }
 
         private void AutoPlay()
@@ -324,10 +321,39 @@ namespace MonitoringSystem.Views
                 image.SourceProvider.MediaPlayer.TakeSnapshot(fi);
             }
 
-
             Mat src = Cv2.ImRead("../Image/test.jpg", ImreadModes.AnyColor);
             Mat src2 = Cv2.ImRead("../Image/test.jpg", ImreadModes.AnyColor);
-            //Cv2.ImShow("원본", src);
+
+
+            #region 구멍갯수
+            Mat image2 = new Mat();
+            Mat dst = src.Clone();
+
+            Mat kernel = Cv2.GetStructuringElement(MorphShapes.Rect, new OpenCvSharp.Size(3, 3));
+
+            Cv2.CvtColor(src, image2, ColorConversionCodes.BGR2GRAY);
+            Cv2.Dilate(image2, image2, kernel, new OpenCvSharp.Point(-1, -1), 3);
+            Cv2.GaussianBlur(image2, image2, new OpenCvSharp.Size(13, 13), 3, 3, BorderTypes.Reflect101);
+            Cv2.Erode(image2, image2, kernel, new OpenCvSharp.Point(-1, -1), 3);
+
+            // Cv2.HoughCircles(image, HoughModes.Gradient, 1, 30, 62(캐니엣지 변경 필요), 35, 0(최소반지름), 0(최대반지름    ));
+            CircleSegment[] circles = Cv2.HoughCircles(image2, HoughModes.Gradient, 1, 30, 59, 35, 35, 40);
+
+            this.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Background, new Action(() =>
+            {
+                LblResult.Content = "구멍 갯수 :" + circles.Length;
+            }));
+
+            for (int i = 0; i < circles.Length; i++)
+            {
+                OpenCvSharp.Point center = new OpenCvSharp.Point(circles[i].Center.X, circles[i].Center.Y);
+
+                Cv2.Circle(dst, center, (int)circles[i].Radius, Scalar.White, 3);
+                Cv2.Circle(dst, center, 5, Scalar.AntiqueWhite, Cv2.FILLED);
+            }
+            Cv2.ImShow("dst", dst);
+            #endregion
+
 
             Mat gray = new Mat();   // 흑백
             Mat gray2 = new Mat();   // 흑백
@@ -338,11 +364,6 @@ namespace MonitoringSystem.Views
             Mat[] mv = new Mat[3];
             Mat mask = new Mat();  //빨강색
             Mat mask2 = new Mat();  //파랑색
-
-            //Mat dst = new Mat();    //모폴리지  리사이즈
-            //OpenCvSharp.Size size = new OpenCvSharp.Size(src.Width * 2, src.Height * 2); 
-            //Cv2.Resize(src, dst, size);
-            //.ImShow("resize", dst);
 
             Cv2.CvtColor(src, src, ColorConversionCodes.BGR2HSV); //색공간을 그레이케일 영사을 변환하여 속도와 메로리 줄이기
             mv = Cv2.Split(src); //채널 분리(창하나더띠우기)
@@ -359,15 +380,16 @@ namespace MonitoringSystem.Views
             Cv2.Threshold(gray, binary, 127, 255, ThresholdTypes.Binary);  //이진화
             Cv2.Threshold(gray2, binary2, 127, 255, ThresholdTypes.Binary);  //이진화
 
-            //Cv2.ImShow("빨강이진화", binary);
-            //Cv2.ImShow("파랑이진화", binary2);
 
             int pixels = Cv2.CountNonZero(binary);
             int pixels2 = Cv2.CountNonZero(binary2);
 
             if (pixels > 50)   //숫자 늘
             {
-                LblResult2.Content = "제품 판별 : 양품";
+                this.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Background, new Action(() => {
+                    LblResult2.Content = "제품 판별 : 양품";
+                }));
+
                 Cv2.PutText(src, "red exist", new OpenCvSharp.Point(10, 400), HersheyFonts.HersheyComplex, 2, Scalar.White, 5, LineTypes.AntiAlias);
                 var currtime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                 string pubData = "{ \n" +
@@ -382,13 +404,12 @@ namespace MonitoringSystem.Views
                 client.Publish($"{factoryId}/4001/", Encoding.UTF8.GetBytes(pubData), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
 
             }
-            //else
-            //{
-            //    Cv2.PutText(src, "red notfound", new OpenCvSharp.Point(10, 400), HersheyFonts.HersheyComplex, 2, Scalar.White, 5, LineTypes.AntiAlias);
-            //}
             else if (pixels2 > 50)
             {
-                LblResult2.Content = "제품 판별 : 불량";
+                this.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Background, new Action(() => {
+                    LblResult2.Content = "제품 판별 : 불량";
+                }));
+                
                 Cv2.PutText(src2, "blue exist", new OpenCvSharp.Point(10, 400), HersheyFonts.HersheyComplex, 2, Scalar.White, 5, LineTypes.AntiAlias);
                 var currtime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                 string pubData = "{ \n" +
@@ -403,16 +424,6 @@ namespace MonitoringSystem.Views
                 client.Publish($"{factoryId}/4001/", Encoding.UTF8.GetBytes(pubData), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
 
             }
-            //else
-            //{
-            //    Cv2.PutText(src2, "blue notfound", new OpenCvSharp.Point(10, 400), HersheyFonts.HersheyComplex, 2, Scalar.White, 5, LineTypes.AntiAlias);
-            //}
-
-
-            //Debug.WriteLine($"CountNonZero : {Cv2.private string RtspUrl = "rtsp://192.168.0.22:9000";(binary)}");
-
-            //Cv2.ImShow("result1", src);
-            //Cv2.ImShow("result2", src2);
 
             Cv2.WaitKey(0);
             Cv2.DestroyAllWindows();

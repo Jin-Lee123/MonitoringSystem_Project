@@ -176,7 +176,6 @@ namespace MonitoringSystem.ViewModels
         }
         #endregion
 
-        //MqttClient Clients;
         #region ### 화면 로딩 + 이벤트 ###
         public ConveyorViewModel()
         {
@@ -189,11 +188,44 @@ namespace MonitoringSystem.ViewModels
             Client.Connect(clientId);
             Client.Subscribe(new string[] { $"{factoryId}/#" }, new byte[] { MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE });
 
-            GetEmployees();
+            GetEmployees();  //데이터베이스 조회
         }
         #endregion
-        
-       
+
+        public void InsertData(Dictionary<string, string> currData)
+        {
+            using (var conn = new SqlConnection(connectionString))  // close 자동
+            {
+                string insertQuery = $@"INSERT INTO TB_LINETEMP
+                                         VALUES
+                                               ('{currData["dev_addr"]}'
+                                               ,'{currData["currtime"]}'
+                                               ,'{currData["code"]}'
+                                               ,'{currData["value"]}'
+                                               ,'{currData["sensor"]}')";
+                try
+                {
+                    conn.Open();
+                    SqlCommand cmd = new SqlCommand(insertQuery, conn);
+
+                    if (cmd.ExecuteNonQuery() == 1) // 전송 성공
+                    {
+                        //App.LOGGER.Info("IoT 데이터 입력 성공!");
+                    }
+                    else
+                    {
+                        //App.LOGGER.Info($"오류 발생, InsertData 데이터 입력 실패 : [{insertQuery}]");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                    // App.LOGGER.Info($"예외 발생, InsertData : [{ex.Message}]");
+                }
+                conn.Close();
+            }
+        }  // 로폿팔,컨베이어 온도센서 INSERT
+
         private void GetEmployees() // 1. SELECT 문
         {
             using (SqlConnection conn = new SqlConnection(Common.CONNSTRING))
@@ -255,7 +287,7 @@ namespace MonitoringSystem.ViewModels
             AutoLabel = "현재 자동실행모드 실행중";
             
             // DB입력
-            App.Logger.Fatal(new Exception("컨베이어"), "Auto 작동");
+            App.Logger.Fatal(new Exception("컨베이어"), "LINE Auto 작동");
         } //컨베이어 AutoRun
 
         public void AutoStop()
@@ -281,7 +313,7 @@ namespace MonitoringSystem.ViewModels
             // 라벨 입력
             AutoLabel = "현재 자동실행모드 정지";
             // DB입력
-            App.Logger.Fatal(new Exception("컨베이어"), "정지");
+            App.Logger.Fatal(new Exception("컨베이어"), "LINE Auto 정지");
             //
         }// 컨베이어 AutoStop
 
@@ -421,36 +453,37 @@ namespace MonitoringSystem.ViewModels
             try
             {
                 var message = Encoding.UTF8.GetString(e.Message); //e.Message(byte[]) ==> string 변환
-                // JSON 넘어온 데이터를 확인 후 내부 SCADA 작업
+                // JSON 넘어온 데이터를ConveyTemp 확인 후 내부 SCADA 작업
                 //"dev_addr" : "4001",
                 //"currtime" : "2021-08-26 11:05:30 ",
                 //"code" : "red",
                 //"value" : "1"
                 var currData = JsonConvert.DeserializeObject<Dictionary<string, string>>(message);
 
-                if (currData["dev_addr"] == "4003" && currData["code"] == "RobotTemp") // RobotTemp 데이터 수신
+                if (currData["dev_addr"] == "4004" && currData["code"] == "RobotTemp") // RobotTemp 데이터 수신
                 {
                     RobotTemp = currData["sensor"];
+                    InsertData(currData);
+
                 }
-                else if (currData["dev_addr"] == "4003" && currData["code"] == "ConveyTemp") // ConveyTemp 데이터 수신
+                else if (currData["dev_addr"] == "4004" && currData["code"] == "ConveyTemp") // ConveyTemp 데이터 수신
                 {
                     ConveyTemp = currData["sensor"];
-                 
+                    InsertData(currData);
                 }
-                //InsertData(currData);
-                else if (currData["dev_addr"] == "4004" && currData["code"] == "Duty") // ConveyTemp 데이터 수신
-                {
-                    Duty = currData["sensor"];
-                }
-                else if (currData["dev_addr"] == "4005" && currData["code"] == "MQ5") // ConveyTemp 데이터 수신
-                {
-                    MQ5 = currData["sensor"];
-                }
-                
+
+                //else if (currData["dev_addr"] == "4004" && currData["code"] == "Duty") // ConveyTemp 데이터 수신
+                //{
+                //    Duty = currData["sensor"];
+                //}
+
                 else if (currData["dev_addr"] == "4001" && currData["code"] == "Arm" && currData["value"] == "1") //양품 DB저장
                 {
                     try
                     {
+                        // DB입력
+                        App.Logger.Fatal(new Exception("로봇팔"), "양품");
+
                         using (SqlConnection conn = new SqlConnection(Common.CONNSTRING))
                         {
                             conn.Open();
@@ -483,6 +516,9 @@ namespace MonitoringSystem.ViewModels
                 {
                     try
                     {
+                        // DB입력
+                        App.Logger.Fatal(new Exception("로봇팔"), "불량");
+
                         using (SqlConnection conn = new SqlConnection(Common.CONNSTRING))
                         {
                             conn.Open();
