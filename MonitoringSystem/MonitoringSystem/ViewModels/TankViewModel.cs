@@ -21,7 +21,7 @@ namespace MonitoringSystem.ViewModels
     {
         #region ### 변수 생성 ###
 
-        private string serverIpNum = "192.168.0.198";  // 윈도우(MQTT Broker, SQLServer) 아이피
+        private string serverIpNum = "192.168.0.201";  // 윈도우(MQTT Broker, SQLServer) 아이피
         private string clientId = "학원";
         private string factoryId = "Kasan01";            //  Kasan01/4001/  kasan01/4002/ 
         private string factoryId2 = "Kasan02";            //  Kasan01/4001/  kasan01/4002/ 
@@ -267,58 +267,14 @@ namespace MonitoringSystem.ViewModels
         #region ### Tank 수위 실시간 감지 ###
         public void Feedback()
         {
-            // subTank의 물 높이가 낮을 경우 
-            if (subTankTon > 630)
-            {
-                SendPumpOff();
-                return;
-            }
-            else if (subTankTon < 630)
-            {
-                SendPumpOn();
-            }
-            isStop = false;
 
 
 
-            while (true)
-            {
-                //수위 센서의 높이가 높을 경우 Stop
-                if (isStop)
-                {
-                    isEnable = false;
-                    SendPumpOff();
-                    isStop = false;
-                    break;
-                }
-
-                if (subTankTon > 630)
-                {
-                    SendPumpOff();
-                    isEnable = true;
-                    break;
-                }
-
-                Thread.Sleep(100);
-            }
         }
         #endregion
 
         #region ### 펌프제어 SubTank 물넘침 방지 ### 
         public void BtnClickOn()
-        {
-            isEnable = false;
-            var t = Task.Run(() => {
-                Feedback();
-            });
-        }
-        public void BtnClickOff()
-        {
-            isEnable = true;
-            SendPumpOff();
-            isStop = true;
-        }
-        public void SendPumpOn()
         {
             // Publish 펌프 제어 ON
             try
@@ -341,9 +297,7 @@ namespace MonitoringSystem.ViewModels
                 MessageBox.Show($"접속 오류 { ex.Message}");
             }
         }
-
-
-        public void SendPumpOff()
+        public void BtnClickOff()
         {
             // Publish 펌프 제어 OFF
             try

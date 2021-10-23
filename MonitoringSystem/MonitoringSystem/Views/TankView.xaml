@@ -7,8 +7,7 @@
       xmlns:local="clr-namespace:MonitoringSystem.Jang" xmlns:local1="clr-namespace:MonitoringSystem" xmlns:UcControl="clr-namespace:MonitoringSystem.Jang.UcControl"
       xmlns:JIN="clr-namespace:MonitoringSystem.JIN" xmlns:vlc="clr-namespace:Vlc.DotNet.Wpf;assembly=Vlc.DotNet.Wpf" xmlns:Oxy="http://oxyplot.org/wpf"
              mc:Ignorable="d" 
-      d:DesignHeight="600" d:DesignWidth="1200"
-      >
+      d:DesignHeight="600" d:DesignWidth="1200" Background="White" >
 
     <Grid Background="White" Margin="10">
         <Grid.ColumnDefinitions>
@@ -20,15 +19,64 @@
             <RowDefinition Height="50*"/>
             <RowDefinition Height="50*"/>
         </Grid.RowDefinitions>
-        <GroupBox Grid.Row="0" Grid.Column="0" Style="{x:Null}" Header="【 Auto 】"/>
+        <GroupBox Grid.Row="0" Grid.Column="0" Style="{x:Null}" Header="【 Auto Mode 】" Grid.ColumnSpan="2">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="50*"/>
+                    <ColumnDefinition Width="50*"/>
+                    <ColumnDefinition Width="50*"/>
+                    <ColumnDefinition Width="50*"/>
+                </Grid.ColumnDefinitions>
+                <Button x:Name="AutoRun" Grid.Column="0" Grid.Row="0" Content="Automatic Production Mode Run" Width="250" FontSize="14" Style="{StaticResource MahApps.Styles.Button.Square.Accent}" >
+                    <Button.Background>
+                        <LinearGradientBrush  StartPoint="0,0" EndPoint="1,1">
+                            <GradientStop Color="#FF93B4F6" Offset="0.0" />
+                            <GradientStop Color="Blue" Offset="0.5" />
+                            <GradientStop Color="#FF2245BA" Offset="1.0" />
+                        </LinearGradientBrush>
+                    </Button.Background>
+                </Button>
+                <Button x:Name="AutoStop" Grid.Column="1" Grid.Row="0" Content="Automatic Production Mode Stop"  Width="250" FontSize="14" Style="{StaticResource MahApps.Styles.Button.Square.Accent}" >
+                    <Button.Background>
+                        <LinearGradientBrush  StartPoint="0,0" EndPoint="1,1">
+                            <GradientStop Color="#FF93B4F6" Offset="0.0" />
+                            <GradientStop Color="Blue" Offset="0.5" />
+                            <GradientStop Color="#FF2245BA" Offset="1.0" />
+                        </LinearGradientBrush>
+                    </Button.Background>
+                </Button>
+              
+                <TextBlock x:Name="AutoLabel" Grid.Column="3" Text="{Binding AutoLabel}" FontSize="18"  HorizontalAlignment="Center" VerticalAlignment="Center"  Background="Blue">
+                    <TextBlock.Foreground>
+                        <SolidColorBrush x:Name="MySolidColorBrush" Color="Red" />
+                    </TextBlock.Foreground>
+                    <!-- Animates the text block's color. -->
+                    <TextBlock.Triggers>
+                        <EventTrigger RoutedEvent="TextBlock.Loaded">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <ColorAnimation 
+                                       Storyboard.TargetName="MySolidColorBrush"
+                                       Storyboard.TargetProperty="Color"
+                                       From="red" To="White" Duration="0:0:1"
+                                       AutoReverse="True" RepeatBehavior="Forever" />
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </TextBlock.Triggers>
+                </TextBlock>
+
+            </Grid>
+        </GroupBox>
 
         <!--#region 0,0 CCTV PLAY -->
-        <Grid Grid.Row="1" Grid.Column="0" Grid.RowSpan="2">
+        <Grid Grid.Row="1" Grid.Column="0" >
 
             <GroupBox Header="【 Line Monitoring 】" Style="{x:Null}" FontSize="16" BorderThickness="1.5" >
                 <Grid>
                     <vlc:VlcControl Grid.Column="1" Grid.Row="0" x:Name="image" />
-                    <Button Grid.Row="1" Grid.Column="1" x:Name="Play_Button" Content="Play" Click="Play_Button_Click" Height="30" Width="80" FontSize="14" Background="Yellow" Visibility="{Binding Video}" />
+                    <Button Grid.Row="1" Grid.Column="1" x:Name="Play_Button" Content="Play" Click="Play_Button_Click"
+                            Height="30" Width="80" FontSize="14" Background="Yellow" Visibility="{Binding Video}" />
                 </Grid>
             </GroupBox>
         </Grid>
@@ -53,27 +101,34 @@
                         <local1:UcTank HorizontalAlignment="Left" Height="106" VerticalAlignment="Center" Width="125" Canvas.Left="-66" Canvas.Top="-56"/>
                         <ProgressBar Value="{Binding MainTankValue, UpdateSourceTrigger=PropertyChanged}" 
                                      HorizontalAlignment="Center" VerticalAlignment="Center" Height="120" Width="44" Orientation="Vertical" Canvas.Left="-26" Canvas.Top="-62" />
-                        <!-- Label Content="{Binding LblStatus}" -->
+                        <Label Content="MAIN TANK" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                               VerticalContentAlignment="Center" FontSize="18"  HorizontalContentAlignment="Center" Style="{StaticResource MahApps.Styles.Label}" Canvas.Left="42" Canvas.Top="-55"/>
+                        <StackPanel Orientation="Horizontal"   Canvas.Left="-70" Canvas.Top="101" >
+                            <Button x:Name="BtnClickOn"  Style="{StaticResource MahApps.Styles.Button.Square.Accent}" Width="70" Height="30" Content="ON" IsEnabled="{Binding isEnable}" >
+                                <Button.Background>
+                                    <LinearGradientBrush  StartPoint="0,0" EndPoint="1,1">
+                                        <GradientStop Color="#FF93B4F6" Offset="0.0" />
+                                        <GradientStop Color="Blue" Offset="0.5" />
+                                        <GradientStop Color="#FF2245BA" Offset="1.0" />
+                                    </LinearGradientBrush>
+                                </Button.Background>
+                            </Button>
+                            <Button x:Name="BtnClickOff"  Style="{StaticResource MahApps.Styles.Button.Square.Accent}" Width="70" Height="30" Content="OFF">
+                                <Button.Background>
+                                    <LinearGradientBrush  StartPoint="0,0" EndPoint="1,1">
+                                        <GradientStop Color="#FF93B4F6" Offset="0.0" />
+                                        <GradientStop Color="Blue" Offset="0.5" />
+                                        <GradientStop Color="#FF2245BA" Offset="1.0" />
+                                    </LinearGradientBrush>
+                                </Button.Background>
+                            </Button>
+                        </StackPanel>
 
                     </Canvas>
 
                     <Canvas Grid.Row="0" Grid.Column="1" >
                         <UcControl:UcPipe Height="42" Canvas.Left="137" Canvas.Top="147" Width="116" />
                         <Canvas/>
-
-                        <Label Content="Pump1" RenderTransformOrigin="1.681,1.931" Canvas.Top="55" Width="140" HorizontalAlignment="Center" VerticalAlignment="Center" 
-                               VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-                        <StackPanel Orientation="Horizontal"  Canvas.Top="87">
-                            <Button x:Name="BtnClickOn"  Width="70" Height="30" Content="Pump ON" IsEnabled="{Binding isEnable}" />
-                            <Button x:Name="BtnClickOff"  Width="70" Height="30" Content="Pump OFF"/>
-                        </StackPanel>
-
-                        <Label Content="Pump2" RenderTransformOrigin="1.681,1.931" Canvas.Top="-32" Width="140" HorizontalAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-                        <StackPanel Orientation="Horizontal" >
-                            <Button x:Name="BtnClick2On"  Width="70" Height="30" Content="Pump ON"  />
-                            <Button x:Name="BtnClick2Off"  Width="70" Height="30" Content="Pump OFF"/>
-                        </StackPanel>
-
                         <UcControl:UcPipe Height="42" Canvas.Left="-60" Canvas.Top="147" Width="116" />
                         <local:UcValve Height="166" Canvas.Left="43" Canvas.Top="87" Width="102"/>
                         <local:UcPipe2 x:Name="Pump_Btn" Height="21" Canvas.Left="82" Canvas.Top="154" Width="50" RenderTransformOrigin="1.316,1.314"/>
@@ -83,7 +138,28 @@
                         <local1:UcTank HorizontalAlignment="Left" Height="106" VerticalAlignment="Center" Width="125" Canvas.Left="-63" Canvas.Top="-55" Margin="0"/>
                         <ProgressBar Value="{Binding SubTankValue, UpdateSourceTrigger=PropertyChanged}" 
                                      HorizontalAlignment="Center" VerticalAlignment="Center" Height="120" Width="44" Orientation="Vertical" Canvas.Left="-26" Canvas.Top="-62" />
-                        <!-- Label Content="{Binding LblStatus}" -->
+                        <Label Content="SUB TANK"  HorizontalAlignment="Center" VerticalAlignment="Center"
+                               Style="{StaticResource MahApps.Styles.Label}" FontSize="18" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Canvas.Left="-144" Canvas.Top="-55"/>
+                        <Button x:Name="BtnClick2On"  Style="{StaticResource MahApps.Styles.Button.Square.Accent}" 
+                                Width="70" Height="30" Content="ON" Canvas.Left="-70" Canvas.Top="101"  >
+                            <Button.Background>
+                                <LinearGradientBrush  StartPoint="0,0" EndPoint="1,1">
+                                    <GradientStop Color="#FF93B4F6" Offset="0.0" />
+                                    <GradientStop Color="Blue" Offset="0.5" />
+                                    <GradientStop Color="#FF2245BA" Offset="1.0" />
+                                </LinearGradientBrush>
+                            </Button.Background>
+                        </Button>
+                        <Button x:Name="BtnClick2Off" Style="{StaticResource MahApps.Styles.Button.Square.Accent}" 
+                                Width="70" Height="30" Content="OFF" Canvas.Top="101">
+                            <Button.Background>
+                                <LinearGradientBrush  StartPoint="0,0" EndPoint="1,1">
+                                    <GradientStop Color="#FF93B4F6" Offset="0.0" />
+                                    <GradientStop Color="Blue" Offset="0.5" />
+                                    <GradientStop Color="#FF2245BA" Offset="1.0" />
+                                </LinearGradientBrush>
+                            </Button.Background>
+                        </Button>
 
                     </Canvas>
                     <Ellipse x:Name="Btn" Grid.Column="1" Fill="{Binding BtnColor, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="17" Margin="98.2,156,0,0" VerticalAlignment="Top" Width="17"/>
@@ -92,19 +168,11 @@
             </GroupBox>
         </Grid>
 
-        <!--#endregion-->
+        <GroupBox  Grid.Row="2" Grid.Column="0" Style="{x:Null}" Header="【Pump Control 】"  FontSize="16" BorderThickness="1.5">
+            
+         </GroupBox>
 
-        <!--#region 1,0 Pump ON/OFF -->
-        <!--<Grid Grid.Column="0" Grid.Row="2">
-            <GroupBox Header="【 Pump Control 】" Style="{x:Null}" FontSize="16" BorderThickness="1.5">
-
-
-            </GroupBox>
-        </Grid>-->
-
-        <!--#endregion-->
-
-        <Grid Grid.Row="2" Grid.Column="1">
+                <Grid Grid.Row="2" Grid.Column="1">
             <GroupBox Header="【 Tank Chart 】" Style="{x:Null}" FontSize="16" BorderThickness="1.5">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -116,7 +184,7 @@
                         <RowDefinition Height="1.5*" />
                     </Grid.RowDefinitions>
 
-                    <Grid Grid.Row="0" Grid.Column="0" Margin="5" Background="Bisque" >
+                    <Grid Grid.Row="0" Grid.Column="0" Margin="10" Background="#b5b8bd"  >
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="1*" />
                             <ColumnDefinition Width="1*" />
@@ -125,14 +193,14 @@
                             <RowDefinition Height="1*" />
                             <RowDefinition Height="1*" />
                         </Grid.RowDefinitions>
-                        <TextBlock Grid.Row="0" Grid.Column="0" Text="수위%" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" FontWeight="Bold" />
-                        <TextBlock Grid.Row="0" Grid.Column="1" Text="총량TON" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" FontWeight="Bold" />
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="수위%" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="12" FontWeight="Bold" />
+                        <TextBlock Grid.Row="0" Grid.Column="1" Text="총량TON" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="12" FontWeight="Bold" />
                         <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding MainTankValue, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" FontWeight="Bold" />
                         <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding MainTankTon, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" FontWeight="Bold" />
 
                     </Grid>
 
-                    <Grid Grid.Row="0" Grid.Column="1" Margin="5" Background="Bisque" >
+                    <Grid Grid.Row="0" Grid.Column="1" Margin="10" Background="#b5b8bd" >
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="1*" />
                             <ColumnDefinition Width="1*" />
@@ -141,8 +209,8 @@
                             <RowDefinition Height="1*" />
                             <RowDefinition Height="1*" />
                         </Grid.RowDefinitions>
-                        <TextBlock Grid.Row="0" Grid.Column="0" Text="수위%" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" FontWeight="Bold" />
-                        <TextBlock Grid.Row="0" Grid.Column="1" Text="총량TON" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" FontWeight="Bold" />
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="수위%" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="12" FontWeight="Bold" />
+                        <TextBlock Grid.Row="0" Grid.Column="1" Text="총량TON" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="12" FontWeight="Bold" />
                         <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding SubTankValue, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" FontWeight="Bold" />
                         <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding SubTankTon, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" FontWeight="Bold" />
 
