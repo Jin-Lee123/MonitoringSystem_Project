@@ -113,13 +113,20 @@ namespace MonitoringSystem.ViewModels
             using (SqlConnection conn = new SqlConnection(Common.CONNSTRING))
             {
                 string Type;
-                if (SelectedType.Type == "All")
+                try
+                {
+                    if (SelectedType.Type == "All")
+                    {
+                        Type = "%";
+                    }
+                    else
+                    {
+                        Type = "%" + SelectedType.Type + "%";
+                    }
+                }
+                catch (Exception)
                 {
                     Type = "%";
-                }
-                else
-                {
-                    Type = "%" + SelectedType.Type + "%";
                 }
                 conn.Open();
 

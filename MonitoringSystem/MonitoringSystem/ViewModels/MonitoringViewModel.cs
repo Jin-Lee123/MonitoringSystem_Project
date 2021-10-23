@@ -104,6 +104,17 @@ namespace MonitoringSystem.ViewModels
             }
         }
 
+        private float plantH;
+        public float PlantH
+        {
+            get => plantH;
+            set
+            {
+                plantH = value;
+                NotifyOfPropertyChange(() => PlantH);
+            }
+        }
+
         private PlotModel temperature;
 
         public PlotModel Temperature
@@ -140,6 +151,29 @@ namespace MonitoringSystem.ViewModels
                 NotifyOfPropertyChange(() => Duty);
             }
         }
+        // RobotTemp
+        private float robotTemp;
+        public float RobotTemp
+        {
+            get => robotTemp;
+            set
+            {
+                robotTemp = value;
+                NotifyOfPropertyChange(() => RobotTemp);
+            }
+        }
+
+        // ConveyTemp
+        private float conveyTemp;
+        public float ConveyTemp
+        {
+            get => conveyTemp;
+            set
+            {
+                conveyTemp = value;
+                NotifyOfPropertyChange(() => ConveyTemp);
+            }
+        }
 
 
 
@@ -168,8 +202,8 @@ namespace MonitoringSystem.ViewModels
             plotModel1.Axes.Add(linearAxis1);
 
             var linearAxis2 = new LinearAxis();
-            linearAxis2.Minimum = 15;
-            linearAxis2.Maximum = 35;
+         //   linearAxis2.Minimum = 15;
+         //   linearAxis2.Maximum = 35;
             plotModel1.Axes.Add(linearAxis2);
             var lineSeries1 = new LineSeries();
             lineSeries1.Title = "LineSeries 1";
@@ -181,6 +215,7 @@ namespace MonitoringSystem.ViewModels
             categoryAxis.Labels.Add("Gas3");
             categoryAxis.Labels.Add("Gas4");
             categoryAxis.Labels.Add("Gas5");
+            categoryAxis.Labels.Add("Gas6");
             categoryAxis.Position = AxisPosition.Bottom;
 
             plotModel2.Axes.Add(categoryAxis);
@@ -228,6 +263,7 @@ namespace MonitoringSystem.ViewModels
 
             lineSeries1.MarkerType = MarkerType.Circle;
             List<DataPoint> lData = new List<DataPoint>();
+            List<DataPoint> TData = new List<DataPoint>();
             // GetPlant();
 
 
@@ -248,6 +284,7 @@ namespace MonitoringSystem.ViewModels
                  //   lData.Add(new DataPoint(dCurtime, Gas1));
 
                     lData.Add(new DataPoint(dCurtime, PlantT));
+                    TData.Add(new DataPoint(dCurtime, PlantH));
                 }
                 else
                 {
@@ -257,12 +294,17 @@ namespace MonitoringSystem.ViewModels
                 //        lData.Add(new DataPoint(dCurtime, Gas1));
 
                           lData.Add(new DataPoint(dCurtime, PlantT));
+                        TData.Add(new DataPoint(dCurtime, PlantH));
+
                     }
                     else
                     {
                         lData.RemoveAt(0);
+                        TData.RemoveAt(0);
                  //     lData.Add(new DataPoint(dCurtime, Gas1));
                         lData.Add(new DataPoint(dCurtime, PlantT));
+                        TData.Add(new DataPoint(dCurtime, PlantH));
+
                     }
                 }
 
@@ -270,7 +312,12 @@ namespace MonitoringSystem.ViewModels
                 {
                     lineSeries1.Points.Add(data);
                 }
-                barSeries.Points.Add(new DataPoint(Gas1, y : PlantT));
+                barSeries.Points.Add(new DataPoint(Gas1, y : Gas1));
+                barSeries.Points.Add(new DataPoint(Gas2, y : Gas2));
+                barSeries.Points.Add(new DataPoint(Gas3, y : Gas3));
+                barSeries.Points.Add(new DataPoint(Gas4, y : Gas4));
+                barSeries.Points.Add(new DataPoint(Gas5, y : Gas5));
+                barSeries.Points.Add(new DataPoint(Gas6, y : Gas6));
                 Otherproperty.Series.Add(barSeries);
                 Otherproperty.InvalidatePlot(true);
                 Temperature.Series.Add(lineSeries1);
@@ -283,6 +330,8 @@ namespace MonitoringSystem.ViewModels
         private void FunctionB(object sender, EventArgs e)
         {
             PlantT = DataConnection.PlantT;
+            ConveyTemp = DataConnection.ConveyTemp;
+            RobotTemp = DataConnection.RobotTemp;
             Duty = DataConnection.Duty;
             Gas1 = DataConnection.Gas1;
             Gas2 = DataConnection.Gas2;

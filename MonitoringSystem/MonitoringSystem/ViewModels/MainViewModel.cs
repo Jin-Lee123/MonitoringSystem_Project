@@ -46,7 +46,30 @@ namespace MonitoringSystem.ViewModels
                 NotifyOfPropertyChange(() => PlantT);
             }
         }
-        
+        // RobotTemp
+        private float robotTemp;
+        public float RobotTemp
+        {
+            get => robotTemp;
+            set
+            {
+                robotTemp = value;
+                NotifyOfPropertyChange(() => RobotTemp);
+            }
+        }
+
+        // ConveyTemp
+        private float conveyTemp;
+        public float ConveyTemp
+        {
+            get => conveyTemp;
+            set
+            {
+                conveyTemp = value;
+                NotifyOfPropertyChange(() => ConveyTemp);
+            }
+        }
+
 
         private string _DisplayDateTextBlock;
 
@@ -313,7 +336,9 @@ namespace MonitoringSystem.ViewModels
             DisplayDateTextBlock = DateTime.Now.ToString(@"HH:mm:ss");
 
             // 값 재정의
-            PlantT = DataConnection.PlantT; 
+            PlantT = DataConnection.PlantT;
+            ConveyTemp = DataConnection.ConveyTemp;
+            RobotTemp = DataConnection.RobotTemp;
             Gas1 = DataConnection.Gas1;
             Gas2 = DataConnection.Gas2;
             Gas3 = DataConnection.Gas3;
@@ -329,11 +354,18 @@ namespace MonitoringSystem.ViewModels
                // ShowVMDialog(new ErrorViewModel());
                 
             }
-            else
+            if (RobotTemp > 30)
             {
-
+                DataConnection.EMessage = "위험 경보 : 로봇팔의 온도가 30 보다 높습니다.";
+                DataConnection.Solution = "작동을 멈추고 30 보다 내려갔을 때 다시 작동해주세요.";
+                 ShowVMDialog(new ErrorViewModel());
             }
-
+            if (ConveyTemp > 30)
+            {
+                DataConnection.EMessage = "위험 경보 : 컨베이어의 온도가 30 보다 높습니다.";
+                DataConnection.Solution = "작동을 멈추고 30 보다 내려갔을 때 다시 작동해주세요.";
+                  ShowVMDialog(new ErrorViewModel());
+            }
 
         }
     }

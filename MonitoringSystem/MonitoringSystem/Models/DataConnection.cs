@@ -43,6 +43,32 @@ namespace MonitoringSystem.Models
             }
         }
 
+        #region Conveyor 변수
+        private static float robotTemp;
+        public static float RobotTemp
+        {
+            get => robotTemp;
+            set
+            {
+                robotTemp = value;
+                NotifyPropertyChange(() => RobotTemp);
+            }
+        }
+
+        // ConveyTemp
+        private static float conveyTemp;
+        public static float ConveyTemp
+        {
+            get => conveyTemp;
+            set
+            {
+                conveyTemp = value;
+                NotifyPropertyChange(() => ConveyTemp);
+            }
+        }
+
+        #endregion
+
         private static float plantT;
 
         public static float PlantT
@@ -191,6 +217,22 @@ namespace MonitoringSystem.Models
                     Duty = float.Parse(currData["sensor"]);
                     
                 }
+
+                #region Conveyor
+                // Conveyor Temp 값 받아오기
+
+                else if (currData["dev_addr"] == "4004" && currData["code"] == "RobotTemp") // RobotTemp 데이터 수신
+                {
+                    RobotTemp = float.Parse(currData["sensor"]);
+                    InsertData(currData);
+
+                }
+                else if (currData["dev_addr"] == "4004" && currData["code"] == "ConveyTemp") // ConveyTemp 데이터 수신
+                {
+                    ConveyTemp = float.Parse(currData["sensor"]);
+                    InsertData(currData);
+                }
+                #endregion
 
                 #region 가스값 센서
                 else if (currData["dev_addr"] == "4010")

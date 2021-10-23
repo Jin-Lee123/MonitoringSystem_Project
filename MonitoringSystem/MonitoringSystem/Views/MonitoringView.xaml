@@ -65,20 +65,20 @@
                    FontWeight="Bold"
                    Background="FloralWhite"
                    Style="{StaticResource MahApps.Styles.Label}"/>
-                <TextBlock Text="{Binding Gas1}"
+                <TextBlock Text="{Binding ConveyorTemp}"
                        Style="{StaticResource MahApps.Styles.TextBlock}"
                        FontSize="20"
                        VerticalAlignment="Center" 
                    HorizontalAlignment="Center" 
                        Height="40"
                        />
-                <Label Content="Pump 온도" 
+                <Label Content="RobotArm 온도" 
                    VerticalAlignment="Center" 
                    HorizontalAlignment="Center"
                    FontWeight="Bold"
                    Background="FloralWhite"
                    Style="{StaticResource MahApps.Styles.Label}"/>
-                <TextBlock Text="{Binding }"
+                <TextBlock Text="{Binding RobotArmTemp}"
                        Style="{StaticResource MahApps.Styles.TextBlock}"
                        VerticalAlignment="Center" 
                    HorizontalAlignment="Center" 
