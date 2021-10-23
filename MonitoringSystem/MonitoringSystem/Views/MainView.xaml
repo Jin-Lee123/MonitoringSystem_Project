@@ -82,8 +82,26 @@
                     <Grid>
                         <TextBlock
                             x:Name="DisplayDateTextBlock" 
+                            Text="{Binding DisplayDate}" 
+                            FontSize="20" 
+                            FontWeight="Bold" 
+                            Foreground="White"
+                            HorizontalAlignment="Center"/>
+                    </Grid>
+                    <Grid>
+                        <TextBlock
+                            x:Name="DisplayDate1" 
+                            Text="{Binding DisplayDate1}" 
+                            FontSize="15" 
+                            FontWeight="Bold" 
+                            Foreground="White"
+                            HorizontalAlignment="Center"/>
+                    </Grid>
+                    <Grid>
+                        <TextBlock
+                            x:Name="DisplayDate" 
                             Text="{Binding DisplayDateTextBlock}" 
-                            FontSize="30" 
+                            FontSize="35" 
                             FontWeight="Bold" 
                             Foreground="White"
                             HorizontalAlignment="Center"/>

@@ -6,12 +6,12 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:vlc="clr-namespace:Vlc.DotNet.Wpf;assembly=Vlc.DotNet.Wpf"
       xmlns:local="clr-namespace:MonitoringSystem.JIN"
-      xmlns:UcControl="clr-namespace:MonitoringSystem.Jang.UcControl" x:Class="MonitoringSystem.Views.ConveyorView"
+      xmlns:UcControl="clr-namespace:MonitoringSystem.Jang.UcControl" xmlns:cm="http://caliburnmicro.com" x:Class="MonitoringSystem.Views.ConveyorView"
       mc:Ignorable="d" 
       d:DesignHeight="600" d:DesignWidth="1200"
       Background="White"
       >
-    <Grid>
+    <Grid Background="#ecedee">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="50*"/>
             <ColumnDefinition Width="50*"/>
@@ -23,28 +23,74 @@
         </Grid.RowDefinitions>
 
         <!-- (1행 1열) 오토모드-->
-        <GroupBox Grid.Row="0" Grid.Column="0" Style="{x:Null}" Header="【 Auto 】" Grid.ColumnSpan="2">
+        <GroupBox Grid.Row="0" Grid.Column="0" Style="{x:Null}" Header="【 Auto Mode 】" Grid.ColumnSpan="2">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="50*"/>
                     <ColumnDefinition Width="50*"/>
+                    <ColumnDefinition Width="50*"/>
+                    <ColumnDefinition Width="50*"/>
                 </Grid.ColumnDefinitions>
-                <Button x:Name="AutoRun" Grid.Column="0" Grid.Row="0" Content="자동생산모드 실행" Margin="50,0,350,0" FontSize="14" Style="{StaticResource MahApps.Styles.Button.Square.Accent}"  />
-                <Button x:Name="AutoStop" Grid.Column="0" Grid.Row="0" Content="자동생산모드 중지" Margin="300,0,100.4,0" FontSize="14" Style="{StaticResource MahApps.Styles.Button.Square.Accent}"  />
-                <Label x:Name="AutoLabel" Grid.Column="1" Grid.Row="1" Content="{Binding AutoLabel}" FontSize="18" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" 
-                   Style="{StaticResource MahApps.Styles.Label}" Background="Blue"/>
+                <Button x:Name="AutoRun" Grid.Column="0" Grid.Row="0" Content="Automatic Production Mode Run" Width="250" FontSize="14" Style="{StaticResource MahApps.Styles.Button.Square.Accent}" >
+                    <Button.Background>
+                        <LinearGradientBrush  StartPoint="0,0" EndPoint="1,1">
+                            <GradientStop Color="#FF93B4F6" Offset="0.0" />
+                            <GradientStop Color="Blue" Offset="0.5" />
+                            <GradientStop Color="#FF2245BA" Offset="1.0" />
+                        </LinearGradientBrush>
+                    </Button.Background>
+                </Button>
+                <Button x:Name="AutoStop" Grid.Column="1" Grid.Row="0" Content="Automatic Production Mode Stop"  Width="250" FontSize="14" Style="{StaticResource MahApps.Styles.Button.Square.Accent}" >
+                    <Button.Background>
+                        <LinearGradientBrush  StartPoint="0,0" EndPoint="1,1">
+                            <GradientStop Color="#FF93B4F6" Offset="0.0" />
+                            <GradientStop Color="Blue" Offset="0.5" />
+                            <GradientStop Color="#FF2245BA" Offset="1.0" />
+                        </LinearGradientBrush>
+                    </Button.Background>
+                </Button>
+                <Button x:Name="LoadLineTemp" Grid.Column="2"  Content="Today LINE temperature status"  Width="250"  FontSize="14"  Style="{StaticResource MahApps.Styles.Button.Square.Accent}" Click="LoadLineTemp_Click">
+                    <Button.Background>
+                        <LinearGradientBrush  StartPoint="0,0" EndPoint="1,1">
+                            <GradientStop Color="#FF93B4F6" Offset="0.0" />
+                            <GradientStop Color="Blue" Offset="0.5" />
+                            <GradientStop Color="#FF2245BA" Offset="1.0" />
+                        </LinearGradientBrush>
+                    </Button.Background>
+                </Button>
+                <TextBlock x:Name="AutoLabel" Grid.Column="3" Text="{Binding AutoLabel}" FontSize="18"  HorizontalAlignment="Center" VerticalAlignment="Center"  Background="Blue">
+                    <TextBlock.Foreground>
+                        <SolidColorBrush x:Name="MySolidColorBrush" Color="Red" />
+                    </TextBlock.Foreground>
+                    <!-- Animates the text block's color. -->
+                    <TextBlock.Triggers>
+                        <EventTrigger RoutedEvent="TextBlock.Loaded">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <ColorAnimation 
+                                       Storyboard.TargetName="MySolidColorBrush"
+                                       Storyboard.TargetProperty="Color"
+                                       From="red" To="White" Duration="0:0:1"
+                                       AutoReverse="True" RepeatBehavior="Forever" />
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </TextBlock.Triggers>
+                </TextBlock>
+
             </Grid>
         </GroupBox>
 
         <!-- (3행 1열) 로봇팔 -->
-        <GroupBox  Grid.Row="2" Grid.Column="0" Style="{x:Null}" Header="【 Robot Control 】"  FontSize="16" BorderThickness="1.5">
+        <GroupBox  Grid.Row="2" Grid.Column="0" Style="{x:Null}" Header="【 Robot-Arm Control 】"  FontSize="16" BorderThickness="1.5">
             <Grid >
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="25*"/>
-                    <ColumnDefinition Width="45*"/>
+                    <ColumnDefinition Width="30*"/>
                     <ColumnDefinition Width="35*"/>
+                    <ColumnDefinition Width="35*"/>
+                   
                 </Grid.ColumnDefinitions>
-                <Grid Grid.Column="0"  Background="AliceBlue">
+                <Grid Grid.Column="0"  Background="#b5b8bd">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="5*"/>
                         <RowDefinition Height="10*"/>
@@ -52,9 +98,33 @@
                         <RowDefinition Height="10*"/>
                     </Grid.RowDefinitions>
                     <Label Content="수동제어버튼" Grid.Column="0" Grid.Row="0" HorizontalContentAlignment="Center" />
-                    <Button x:Name="ArmStop" Content="로봇팔 정지" Width="110" Height="45" Grid.Column="0" Grid.Row="3" Style="{StaticResource MahApps.Styles.Button.Square.Accent}" HorizontalAlignment="Center" VerticalAlignment="Center" Click="ArmStop_Click" Grid.ColumnSpan="2" Margin="20,18.6,20,18" />
-                    <Button x:Name="ArmRun2" Content="로봇팔 우회전" Width="110" Height="45" Grid.Column="0" Grid.Row="2" Style="{StaticResource MahApps.Styles.Button.Square.Accent}" HorizontalAlignment="Center" VerticalAlignment="Center" Click="ArmRun2_Click" Grid.ColumnSpan="2" Margin="20,18.2,20,18.4" />
-                    <Button x:Name="ArmRun" Content="로봇팔 좌회전" Width="110" Height="45" Grid.Column="0"  Grid.Row="1" Style="{StaticResource MahApps.Styles.Button.Square.Accent}" HorizontalAlignment="Center" VerticalAlignment="Center" Click="ArmRun_Click" Grid.ColumnSpan="2" Margin="20,18,20,17.8"  />
+                    <Button x:Name="ArmStop" Content="Robot arm Stop" Width="160" Height="55" Grid.Column="0" Grid.Row="3" Style="{StaticResource MahApps.Styles.Button.Square.Accent}" HorizontalAlignment="Center" VerticalAlignment="Center" Click="ArmStop_Click" Grid.ColumnSpan="2"  >
+                        <Button.Background>
+                            <LinearGradientBrush  StartPoint="0,0" EndPoint="1,1">
+                                <GradientStop Color="#FF93B4F6" Offset="0.0" />
+                                <GradientStop Color="Blue" Offset="0.5" />
+                                <GradientStop Color="#FF2245BA" Offset="1.0" />
+                            </LinearGradientBrush>
+                        </Button.Background>
+                    </Button>
+                    <Button x:Name="ArmRun2" Content="Robot arm turn right" Width="160" Height="55" Grid.Column="0" Grid.Row="2" Style="{StaticResource MahApps.Styles.Button.Square.Accent}" HorizontalAlignment="Center" VerticalAlignment="Center" Click="ArmRun2_Click" Grid.ColumnSpan="2" >
+                        <Button.Background>
+                            <LinearGradientBrush  StartPoint="0,0" EndPoint="1,1">
+                                <GradientStop Color="#FF93B4F6" Offset="0.0" />
+                                <GradientStop Color="Blue" Offset="0.5" />
+                                <GradientStop Color="#FF2245BA" Offset="1.0" />
+                            </LinearGradientBrush>
+                        </Button.Background>
+                    </Button>
+                    <Button x:Name="ArmRun" Content="Robot arm turn left" Width="160" Height="55" Grid.Column="0"  Grid.Row="1" Style="{StaticResource MahApps.Styles.Button.Square.Accent}" HorizontalAlignment="Center" VerticalAlignment="Center" Click="ArmRun_Click" Grid.ColumnSpan="2"  >
+                        <Button.Background>
+                            <LinearGradientBrush  StartPoint="0,0" EndPoint="1,1">
+                                <GradientStop Color="#FF93B4F6" Offset="0.0" />
+                                <GradientStop Color="Blue" Offset="0.5" />
+                                <GradientStop Color="#FF2245BA" Offset="1.0" />
+                            </LinearGradientBrush>
+                        </Button.Background>
+                    </Button>
                 </Grid>
                 <!-- 로봇팔 -->
                 <Canvas Grid.Row="0" Grid.Column="1" >
@@ -62,30 +132,29 @@
                                           Height="124" Canvas.Left="60" 
                                           Grid.Column="1" Width="167" Canvas.Top="18"/>
                     <local:UC_Robotic_Arm Canvas.Top="63"
-                        HorizontalAlignment="Left" Height="174" Width="250" Canvas.Left="2" />
+                        HorizontalAlignment="Left" Height="174" Width="250" Canvas.Left="-6" />
                 </Canvas>
                 <!-- 온도 화살표 바인딩 -->
-                <lvc:AngularGauge Grid.Row="2" Grid.Column="2" Value="{Binding ConveyTemp}" FromValue="0" ToValue="100" 
+                <lvc:AngularGauge Grid.Column="2" Value="{Binding ConveyTemp}" FromValue="0" ToValue="100" 
                           LabelsStep="10" TicksStep="10" Wedge="300"
                           TicksForeground="White" Foreground="White" 
                           FontWeight="Bold" FontSize="13"
-                          SectionsInnerRadius=".5" >
+                          SectionsInnerRadius=".5">
                     <lvc:AngularGauge.Sections>
                         <lvc:AngularSection FromValue="0" ToValue="30" Fill="#F8A725"/>
                         <lvc:AngularSection FromValue="30" ToValue="100" Fill="#FF3939"/>
                     </lvc:AngularGauge.Sections>
                 </lvc:AngularGauge>
-                <StackPanel Orientation="Horizontal"  Grid.Column="2"  HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,120" Background="AliceBlue">
-                    <Label Content="{Binding ConveyTemp}" FontSize="14" />
-                    <Label Content="˚C" FontSize="14"/>
+                <StackPanel Orientation="Horizontal"  Grid.Column="2"  HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,120"  Background="AliceBlue">
+                    <Label Content="{Binding ConveyTemp}" FontSize="14" Background="#ecedee" />
+                    <Label Content="˚C" FontSize="14" Background="#ecedee"/>
                 </StackPanel>
-                <Button x:Name="LoadLineTemp" Grid.Column="2" Content="test" Width="50" Height=" 10" Margin="73,214,73,5.8" Click="test_Click"/>
 
             </Grid>
         </GroupBox>
 
         <!-- (3행 2열) 컨베이어-->
-        <GroupBox Grid.Row="2" Grid.Column="1" Style="{x:Null}" Header="【 Conveyor Control 】"  FontSize="16" BorderThickness="1.5">
+        <GroupBox Grid.Row="2" Grid.Column="1" Style="{x:Null}" Header="【 ConveyorBelt Control 】"  FontSize="16" BorderThickness="1.5">
             <Grid >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="65*"/>
@@ -93,9 +162,9 @@
                 </Grid.ColumnDefinitions>
                 <Grid Grid.Column="0">
                     <Grid.RowDefinitions >
-                        <RowDefinition Height="60*"/>
+                        <RowDefinition Height="65*"/>
                         <RowDefinition Height="10*"/>
-                        <RowDefinition Height="30*"/>
+                        <RowDefinition Height="25*"/>
                     </Grid.RowDefinitions>
                     <!-- 컨베이어 -->
                     <local:UC_Conveyor2 HorizontalAlignment="Left" Height="164" Margin="8,24,-13.6,0" Grid.Row="0" VerticalAlignment="Top" Width="388" Grid.RowSpan="2" />
@@ -104,17 +173,42 @@
                     <local:UC_Motor x:Name="Motor3" HorizontalAlignment="Left" Height="60" Margin="203,64,0,0" Grid.Row="0" VerticalAlignment="Top" Width="96"/>
                     <local:UC_Motor x:Name="Motor4" HorizontalAlignment="Left" Height="60" Margin="290,64,-3.6,0" Grid.Row="0" VerticalAlignment="Top" Width="96"/>
 
-                    <Label Content="수동제어버튼" Grid.Row="1" Background="AliceBlue"/>
+                    <Label Content="수동제어버튼" Grid.Row="1" Background="#b5b8bd"/>
 
-                    <Grid Grid.Row="2" Background="AliceBlue">
+                    <Grid Grid.Row="2" Background="#b5b8bd">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="10*"/>
-                            <ColumnDefinition Width="10*"/>
-                            <ColumnDefinition Width="10*"/>
+                            <ColumnDefinition Width="43*"/>
+                            <ColumnDefinition Width="85*"/>
+                            <ColumnDefinition Width="128*"/>
+                            <ColumnDefinition Width="127*"/>
                         </Grid.ColumnDefinitions>
-                        <Button x:Name="ConveyRun"  Content="컨베이어 정회전" Height="45" Width="130" Grid.Column="0" Grid.Row="2" Style="{StaticResource MahApps.Styles.Button.Square.Accent}"  Click="ConveyRun_Click" />
-                        <Button x:Name="ConveyStop" Content="컨베이어 정지" Height="45" Width="130" Grid.Column="1" Grid.Row="2" Style="{StaticResource MahApps.Styles.Button.Square.Accent}"  Click="ConveyStop_Click" />
-                        <Button x:Name="ConveyBack" Content="컨베이어 역회전 " Height="45" Width="130" Grid.Column="2" Grid.Row="2" Style="{StaticResource MahApps.Styles.Button.Square.Accent}"  Click="ConveyBack_Click" />
+                        <Button x:Name="ConveyRun"  Content="컨베이어 정회전" Height="45" Width="130" Grid.Column="0" Style="{StaticResource MahApps.Styles.Button.Square.Accent}"  Click="ConveyRun_Click"  Grid.ColumnSpan="3" Margin="0,14,125.2,13.8">
+                            <Button.Background>
+                                <LinearGradientBrush  StartPoint="0,0" EndPoint="1,1">
+                                    <GradientStop Color="#FF93B4F6" Offset="0.0" />
+                                    <GradientStop Color="Blue" Offset="0.5" />
+                                    <GradientStop Color="#FF2245BA" Offset="1.0" />
+                                </LinearGradientBrush>
+                            </Button.Background>
+                        </Button>
+                        <Button x:Name="ConveyStop" Content="컨베이어 정지" Height="45" Width="130" Grid.Column="1" Style="{StaticResource MahApps.Styles.Button.Square.Accent}"  Click="ConveyStop_Click"  Grid.ColumnSpan="3" Margin="84.5,14,125.4,13.8">
+                            <Button.Background>
+                                <LinearGradientBrush  StartPoint="0,0" EndPoint="1,1">
+                                    <GradientStop Color="#FF93B4F6" Offset="0.0" />
+                                    <GradientStop Color="Blue" Offset="0.5" />
+                                    <GradientStop Color="#FF2245BA" Offset="1.0" />
+                                </LinearGradientBrush>
+                            </Button.Background>
+                        </Button>
+                        <Button x:Name="ConveyBack" Content="컨베이어 역회전 " Height="45" Width="130" Grid.Column="2" Style="{StaticResource MahApps.Styles.Button.Square.Accent}"  Click="ConveyBack_Click"  Grid.ColumnSpan="2" Margin="127.8,14,-2.6,13.8">
+                            <Button.Background>
+                                <LinearGradientBrush  StartPoint="0,0" EndPoint="1,1">
+                                    <GradientStop Color="#FF93B4F6" Offset="0.0" />
+                                    <GradientStop Color="Blue" Offset="0.5" />
+                                    <GradientStop Color="#FF2245BA" Offset="1.0" />
+                                </LinearGradientBrush>
+                            </Button.Background>
+                        </Button>
                     </Grid>
 
                 </Grid>
@@ -122,15 +216,15 @@
                           LabelsStep="10" TicksStep="10" Wedge="300"
                           TicksForeground="White" Foreground="White" 
                           FontWeight="Bold" FontSize="13"
-                          SectionsInnerRadius=".5" >
+                          SectionsInnerRadius=".5" RenderTransformOrigin="0.556,0.488" >
                     <lvc:AngularGauge.Sections>
                         <lvc:AngularSection FromValue="0" ToValue="30" Fill="#F8A725"/>
                         <lvc:AngularSection FromValue="30" ToValue="100" Fill="#FF3939"/>
                     </lvc:AngularGauge.Sections>
                 </lvc:AngularGauge>
                 <StackPanel Orientation="Horizontal"  Grid.Column="2"  HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,120"  Background="AliceBlue">
-                    <Label Content="{Binding RobotTemp}" FontSize="14" />
-                    <Label Content="˚C" FontSize="14"/>
+                    <Label Content="{Binding RobotTemp}" FontSize="14" Background="#ecedee" />
+                    <Label Content="˚C" FontSize="14" Background="#ecedee"/>
                 </StackPanel>
             </Grid>
         </GroupBox>
@@ -138,7 +232,7 @@
         <!-- (2행 1열) -->
         <Grid Grid.Row="1" Grid.Column="0">
             <!-- CCTV -->
-            <GroupBox Header="【 Line Monitoring 】" Style="{x:Null}" FontSize="16" BorderThickness="1.5">
+            <GroupBox Header="【 Line CCTV 】" Style="{x:Null}" FontSize="16" BorderThickness="1.5">
                 <Grid>
                     <vlc:VlcControl x:Name="image" Grid.Column="1" Grid.Row="0" Margin="5"/>
                     <Button x:Name="Play_Button" Content="Play"  Height="30" Width="80" FontSize="14" Background="Yellow" Margin="254,109,254,105.8" />
@@ -151,16 +245,25 @@
         </Grid>
 
         <!-- (1행 2열) -->
-        <GroupBox Grid.Row="1" Grid.Column="1" Header="【 Line CCTV 】" Style="{x:Null}" FontSize="16" BorderThickness="1.5" >
+        <GroupBox Grid.Row="1" Grid.Column="1" Header="【 Line Production Status 】" Style="{x:Null}" FontSize="16" BorderThickness="1.5" >
             <Grid Grid.Row="0" Grid.Column="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="50*"/>
                     <ColumnDefinition Width="50*"/>
                 </Grid.ColumnDefinitions>
                 <!-- 생산량 동그라미 바인딩 -->
-                <StackPanel Grid.Column="0" Orientation="Vertical" Background="Azure"  >
+                <StackPanel Grid.Column="0" Orientation="Vertical"   >
                     <Label Content="지시달성률(p)"/>
-                    <lvc:Gauge Margin="0,10,0,0" Uses360Mode="True" x:Name="myGauge"  LabelFormatter="{Binding YFormatter}" LabelsVisibility="Collapsed"  StrokeThickness="2" Value="{Binding ProdQty}" From="0" To="{Binding GoalQty}" Height="220"/>
+                    <lvc:Gauge Margin="0,10,0,0" Uses360Mode="True" x:Name="myGauge"  LabelFormatter="{Binding YFormatter}" LabelsVisibility="Collapsed"  StrokeThickness="2" Value="{Binding ProdQty}" From="0" To="{Binding GoalQty}" Height="220"  >
+                        <lvc:Gauge.GaugeActiveFill>
+                            <LinearGradientBrush>
+                                <GradientStop Color="AliceBlue" Offset="0.0" />
+                                <GradientStop Color="Blue" Offset="0.5" />
+                                <GradientStop Color="#FF2245BA" Offset="1.0" />
+                            </LinearGradientBrush>
+                        </lvc:Gauge.GaugeActiveFill>
+                    </lvc:Gauge>
+
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                         <Label Content="생산 총 지시량:"/>
                         <Label Content="{Binding GoalQty}"/>
@@ -168,9 +271,17 @@
                         <Label Content="{Binding ProdQty}"/>
                     </StackPanel>
                 </StackPanel>
-                <StackPanel Grid.Column="1" Orientation="Vertical" Background="AliceBlue">
+                <StackPanel Grid.Column="1" Orientation="Vertical" >
                     <Label Content="불량현황(q)"/>
-                    <lvc:Gauge Margin="0,10,0,0" Uses360Mode="True" x:Name="myGauge_Copy"  LabelFormatter="{Binding YFormatter2}" LabelsVisibility="Collapsed"  StrokeThickness="2" Value="{Binding BadQty}" From="0" To="{Binding TotalQty}" Height="220" />
+                    <lvc:Gauge Margin="0,10,0,0" Uses360Mode="True" x:Name="myGauge_Copy"  LabelFormatter="{Binding YFormatter2}" LabelsVisibility="Collapsed"  StrokeThickness="2" Value="{Binding BadQty}" From="0" To="{Binding TotalQty}" Height="220" >
+                        <lvc:Gauge.GaugeActiveFill>
+                            <LinearGradientBrush>
+                                <GradientStop Color="AliceBlue" Offset="0.0" />
+                                <GradientStop Color="Blue" Offset="0.5" />
+                                <GradientStop Color="#FF2245BA" Offset="1.0" />
+                            </LinearGradientBrush>
+                        </lvc:Gauge.GaugeActiveFill>
+                    </lvc:Gauge>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                         <Label Content="생산량:"/>
                         <Label Content="{Binding TotalQty}"/>

@@ -384,13 +384,14 @@ namespace MonitoringSystem.Views
             int pixels = Cv2.CountNonZero(binary);
             int pixels2 = Cv2.CountNonZero(binary2);
 
-            if (pixels > 50)   //숫자 늘
+            #region 구멍갯수 판별
+            if (circles.Length > 3)
             {
-                this.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Background, new Action(() => {
+                this.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Background, new Action(() =>
+                {
                     LblResult2.Content = "제품 판별 : 양품";
                 }));
 
-                Cv2.PutText(src, "red exist", new OpenCvSharp.Point(10, 400), HersheyFonts.HersheyComplex, 2, Scalar.White, 5, LineTypes.AntiAlias);
                 var currtime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                 string pubData = "{ \n" +
                                  "   \"dev_addr\" : \"4001\", \n" +
@@ -399,18 +400,13 @@ namespace MonitoringSystem.Views
                                  "   \"value\" : \"1\", \n" +
                                  "   \"sensor\" : \"0\" \n" +
                                  "}";
-
-
                 client.Publish($"{factoryId}/4001/", Encoding.UTF8.GetBytes(pubData), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
-
             }
-            else if (pixels2 > 50)
+            else
             {
                 this.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Background, new Action(() => {
                     LblResult2.Content = "제품 판별 : 불량";
                 }));
-                
-                Cv2.PutText(src2, "blue exist", new OpenCvSharp.Point(10, 400), HersheyFonts.HersheyComplex, 2, Scalar.White, 5, LineTypes.AntiAlias);
                 var currtime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                 string pubData = "{ \n" +
                                  "   \"dev_addr\" : \"4001\", \n" +
@@ -419,11 +415,53 @@ namespace MonitoringSystem.Views
                                  "   \"value\" : \"2\", \n" +
                                  "   \"sensor\" : \"0\" \n" +
                                  "}";
-
-
                 client.Publish($"{factoryId}/4001/", Encoding.UTF8.GetBytes(pubData), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
-
             }
+            #endregion
+
+
+            //#region 색상 판별
+            //if (pixels > 50)   
+            //{
+            //    this.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Background, new Action(() => {
+            //        LblResult2.Content = "제품 판별 : 양품";
+            //    }));
+
+            //    Cv2.PutText(src, "red exist", new OpenCvSharp.Point(10, 400), HersheyFonts.HersheyComplex, 2, Scalar.White, 5, LineTypes.AntiAlias);
+            //    var currtime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            //    string pubData = "{ \n" +
+            //                     "   \"dev_addr\" : \"4001\", \n" +
+            //                     $"   \"currtime\" : \"{currtime}\" , \n" +
+            //                     "   \"code\" : \"Arm\", \n" +
+            //                     "   \"value\" : \"1\", \n" +
+            //                     "   \"sensor\" : \"0\" \n" +
+            //                     "}";
+
+
+            //    client.Publish($"{factoryId}/4001/", Encoding.UTF8.GetBytes(pubData), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
+
+            //}
+            //else if (pixels2 > 50)
+            //{
+            //    this.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Background, new Action(() => {
+            //        LblResult2.Content = "제품 판별 : 불량";
+            //    }));
+                
+            //    Cv2.PutText(src2, "blue exist", new OpenCvSharp.Point(10, 400), HersheyFonts.HersheyComplex, 2, Scalar.White, 5, LineTypes.AntiAlias);
+            //    var currtime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            //    string pubData = "{ \n" +
+            //                     "   \"dev_addr\" : \"4001\", \n" +
+            //                     $"   \"currtime\" : \"{currtime}\" , \n" +
+            //                     "   \"code\" : \"Arm\", \n" +
+            //                     "   \"value\" : \"2\", \n" +
+            //                     "   \"sensor\" : \"0\" \n" +
+            //                     "}";
+
+
+            //    client.Publish($"{factoryId}/4001/", Encoding.UTF8.GetBytes(pubData), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
+
+            //}
+            //#endregion
 
             Cv2.WaitKey(0);
             Cv2.DestroyAllWindows();
@@ -431,9 +469,13 @@ namespace MonitoringSystem.Views
         } //자동 opencv
         #endregion
 
-        private void test_Click(object sender, RoutedEventArgs e)
+        #region 공장 온도 차트그래프 버튼이벤트
+        private void LoadLineTemp_Click(object sender, RoutedEventArgs e)
         {
-            
+            var win = new LineTempView();
+            win.Topmost = true;
+            win.ShowDialog();
         }
+        #endregion
     }
 }

@@ -1,11 +1,13 @@
 ﻿using Caliburn.Micro;
 using MonitoringSystem.Models;
+using MonitoringSystem.Views;
 using Newtonsoft.Json;
 using OpenCvSharp;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Diagnostics;
+using System.Dynamic;
 using System.IO;
 using System.Text;
 using System.Threading;
@@ -445,6 +447,11 @@ namespace MonitoringSystem.ViewModels
             App.Logger.Fatal(new Exception("로봇팔"), "불량");
             //
         } // 로봇팔 우회전
+
+        //public void LoadLineTemp()
+        //{
+        //    MainViewModel.ShowWindow(new LineTempViewModel());
+        //} // 온도 그래프 창 띠우기
 
 
         #region ### MQTT Subscribe ###   // Subscribe 한 값을 바인딩 해주는 곳

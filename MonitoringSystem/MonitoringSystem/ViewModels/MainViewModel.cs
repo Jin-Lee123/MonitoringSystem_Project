@@ -59,6 +59,31 @@ namespace MonitoringSystem.ViewModels
                 NotifyOfPropertyChange(() => DisplayDateTextBlock);
             }
         }
+
+        private string _DisplayDate;
+
+        public string DisplayDate
+        {
+            get => _DisplayDate;
+            set
+            {
+                _DisplayDate = value;
+                NotifyOfPropertyChange(() => DisplayDate);
+                NotifyOfPropertyChange(() => DisplayDate);
+            }
+        }
+        private string _DisplayDate1;
+        public string DisplayDate1
+        {
+            get => _DisplayDate1;
+            set
+            {
+                _DisplayDate1 = value;
+                NotifyOfPropertyChange(() => DisplayDate1);
+                NotifyOfPropertyChange(() => DisplayDate1);
+            }
+        }
+
         private float SplantT;
 
         public float SPlantT
@@ -211,7 +236,7 @@ namespace MonitoringSystem.ViewModels
 
         #endregion
 
-
+        
 
         #endregion
 
@@ -247,16 +272,27 @@ namespace MonitoringSystem.ViewModels
             ActivateItemAsync(new ConveyorViewModel());
         }
 
+        public static void ShowWindow(PropertyChangedBase viewmodel)
+        {
+            WindowManager windowManager = new WindowManager();
+            dynamic settings = new ExpandoObject();
+            settings.Height = 450;
+            settings.Width = 700;
+            settings.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+
+            windowManager.ShowWindowAsync(viewmodel, null, settings);
+        }
+
         public static void ShowVMDialog(PropertyChangedBase viewmodel)
         {
             WindowManager windowManager = new WindowManager();
             dynamic settings = new ExpandoObject();
-            settings.WindowStyle = WindowStyle.None;
+           // settings.WindowStyle = WindowStyle.None;
             settings.ShowInTaskbar = false;
-            settings.WindowState = WindowState.Normal;
-            settings.ResizeMode = ResizeMode.CanMinimize;
-            settings.Height = 700;
-            settings.Width = 500;
+            settings.WindowState = WindowState.Maximized;
+         //   settings.ResizeMode = ResizeMode.CanMinimize;
+            settings.Height = 1000;
+            settings.Width = 1000;
             settings.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
             windowManager.ShowDialogAsync(viewmodel, null, settings);
@@ -311,7 +347,8 @@ namespace MonitoringSystem.ViewModels
         private void UpdateTimer_Tick(object sender, EventArgs e)
         {
             DisplayDateTextBlock = DateTime.Now.ToString(@"HH:mm:ss");
-
+            DisplayDate = DateTime.Now.ToString(@"yyyy-MM-dd");
+            DisplayDate1 = DateTime.Now.ToString(@"ddd"+"요일");
             // 값 재정의
             PlantT = DataConnection.PlantT; 
             Gas1 = DataConnection.Gas1;
