@@ -29,25 +29,28 @@
 
 
             <Canvas Canvas.Top="35">
-                <Rectangle Fill="White"  Width="70" Height="20" Canvas.Top="209" Canvas.Left="133"  RadiusY="9" RadiusX="9"  />
-                <Rectangle Fill="White"  Width="182" Height="20" Canvas.Top="150" Canvas.Left="166"  RadiusY="9" RadiusX="9" RenderTransformOrigin="0.5,0.5"  >
-                    <Rectangle.RenderTransform>
-                        <TransformGroup>
-                            <ScaleTransform/>
-                            <SkewTransform/>
-                            <RotateTransform Angle="-45"/>
-                            <TranslateTransform/>
-                        </TransformGroup>
-                    </Rectangle.RenderTransform>
-                </Rectangle>
+                <Ellipse Fill="#FF2245BA" Width="88" Height="85" Canvas.Left="133" Canvas.Top="144" />
                 <Rectangle Fill="White"  Width="229" Height="20" Canvas.Top="244" Canvas.Left="115"  RadiusY="9" RadiusX="9"  />
                 <Rectangle Fill="White"  Width="20" Height="70" Canvas.Top="158" Canvas.Left="133"  RadiusY="9" RadiusX="9"  />
+                <Rectangle Fill="White"  Width="70" Height="20" Canvas.Top="209" Canvas.Left="133"  RadiusY="9" RadiusX="9"  />
+                <Ellipse Fill="#FF2245BA" Width="88" Height="85" Canvas.Left="177" Canvas.Top="104" />
+                <Ellipse Fill="#FF2245BA" Width="88" Height="85" Canvas.Left="221" Canvas.Top="60" />
                 <Rectangle Fill="White"  Width="20" Height="180" Canvas.Top="20" Canvas.Left="190"  RadiusY="9" RadiusX="9" RenderTransformOrigin="0.5,0.5"  >
                     <Rectangle.RenderTransform>
                         <TransformGroup>
                             <ScaleTransform/>
                             <SkewTransform/>
                             <RotateTransform Angle="45"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Rectangle.RenderTransform>
+                </Rectangle>
+                <Rectangle Fill="White"  Width="182" Height="20" Canvas.Top="150" Canvas.Left="166"  RadiusY="9" RadiusX="9" RenderTransformOrigin="0.5,0.5"  >
+                    <Rectangle.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="-45"/>
                             <TranslateTransform/>
                         </TransformGroup>
                     </Rectangle.RenderTransform>

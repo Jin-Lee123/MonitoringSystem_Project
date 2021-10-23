@@ -24,6 +24,7 @@ namespace MonitoringSystem.ViewModels
         private string serverIpNum = "192.168.0.198";  // 윈도우(MQTT Broker, SQLServer) 아이피
         private string clientId = "학원";
         private string factoryId = "Kasan01";            //  Kasan01/4001/  kasan01/4002/ 
+        private string factoryId2 = "Kasan02";            //  Kasan01/4001/  kasan01/4002/ 
         private string connectionString = "Data Source=hangaramit.iptime.org;Initial Catalog=1조_database;Persist Security Info=True;User ID=team1;Password=team1_1234";
 
         #endregion
@@ -114,13 +115,17 @@ namespace MonitoringSystem.ViewModels
             get => mainTankValue;
             set
             {
-                if(value>600)
+                if(value>=1000)
                 {
-                    mainTankValue = Math.Round(value / (value + 10) * 100, 2);
+                    mainTankValue = 100;
+                }
+                else if (1000 > value && value >= 600)
+                {
+                    mainTankValue = Math.Round(value / 1000 * 100, 2);
                 }
                 else
                 {
-                    mainTankValue = Math.Round(value / 760 * 100, 2);
+                    mainTankValue = Math.Round(value / 1200 * 100, 2);
                 }
                 NotifyOfPropertyChange(() => MainTankValue);
             }
@@ -263,12 +268,12 @@ namespace MonitoringSystem.ViewModels
         public void Feedback()
         {
             // subTank의 물 높이가 낮을 경우 
-            if (subTankTon > 720)
+            if (subTankTon > 630)
             {
                 SendPumpOff();
                 return;
             }
-            else if (subTankTon < 720)
+            else if (subTankTon < 630)
             {
                 SendPumpOn();
             }
@@ -287,18 +292,19 @@ namespace MonitoringSystem.ViewModels
                     break;
                 }
 
-                if (subTankTon > 720)
+                if (subTankTon > 630)
                 {
                     SendPumpOff();
                     isEnable = true;
                     break;
                 }
+
                 Thread.Sleep(100);
             }
         }
         #endregion
 
-        #region ### 펌프제어 ### 
+        #region ### 펌프제어 SubTank 물넘침 방지 ### 
         public void BtnClickOn()
         {
             isEnable = false;
@@ -367,14 +373,14 @@ namespace MonitoringSystem.ViewModels
             {
                 var currtime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                 string pubData = "{ \n" +
-                                 "   \"dev_addr\" : \"4002\", \n" +
+                                 "   \"dev_addr\" : \"4005\", \n" +
                                  $"   \"currtime\" : \"{currtime}\" , \n" +
                                  "   \"code\" : \"pump2\", \n" +
                                  "   \"value\" : \"1\", \n" +
                                  "   \"sensor\" : \"0\" \n" +
                                  "}";
 
-                Client.Publish($"{factoryId}/4002/", Encoding.UTF8.GetBytes(pubData), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
+                Client.Publish($"{factoryId2}/4005/", Encoding.UTF8.GetBytes(pubData), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
             }
             catch (Exception ex)
             {
@@ -388,14 +394,14 @@ namespace MonitoringSystem.ViewModels
             {
                 var currtime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                 string pubData = "{ \n" +
-                                  "   \"dev_addr\" : \"4002\", \n" +
+                                  "   \"dev_addr\" : \"40S05\", \n" +
                                   $"   \"currtime\" : \"{currtime}\" , \n" +
                                   "   \"code\" : \"pump2\", \n" +
                                   "   \"value\" : \"0\", \n" +
                                   "   \"sensor\" : \"0\" \n" +
                                   "}";
 
-                Client.Publish($"{factoryId}/4002/", Encoding.UTF8.GetBytes(pubData), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
+                Client.Publish($"{factoryId2}/4005/", Encoding.UTF8.GetBytes(pubData), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
             }
             catch (Exception ex)
             {
