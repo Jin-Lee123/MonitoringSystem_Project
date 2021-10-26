@@ -76,9 +76,10 @@
             <GroupBox Header="【 Line Monitoring 】" Style="{x:Null}" FontSize="16" BorderThickness="1.5" >
                 <Grid>
                     <vlc:VlcControl Grid.Column="1" Grid.Row="0" x:Name="CCTV" />
-                    <Button Grid.Column="1" Grid.Row="1" x:Name="Capture" Content="Captuer" Click="Capture_Button_Click" Height="30" Width="80" FontSize="14" Foreground="Red" Background="Black" VerticalAlignment="Top" HorizontalAlignment="Right"/>
-                    <Button Grid.Row="1" Grid.Column="1" x:Name="Play_Button" Content="Play" Click="Play_Button_Click"
-                            Height="30" Width="80" FontSize="14" Background="Yellow"  />
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button Grid.Column="1" Grid.Row="1" x:Name="Capture" Content="Capture" Click="Capture_Button_Click" Height="30" Width="80" FontSize="14" Foreground="Red" Background="Black" VerticalAlignment="Top" HorizontalAlignment="Right"/>
+                        <Button Grid.Column="1" Grid.Row="1" x:Name="Details" Content="Details" Click="Details_Button_Click" Height="30" Width="80" FontSize="14" Foreground="Red" Background="Black" VerticalAlignment="Top" HorizontalAlignment="Right"/>
+                    </StackPanel>
                 </Grid>
             </GroupBox>
         </Grid>
@@ -237,7 +238,7 @@
                     </StackPanel>
                 </Grid>
 
-                <Grid x:Name="Captured_Image" Grid.Row="1" Grid.Column="1" />
+                <Grid x:Name="Captured_Image" Grid.Row="1" Grid.Column="1" MouseRightButtonUp="Captured_Image_MouseRightButtonUp" />
 
 
             </Grid>

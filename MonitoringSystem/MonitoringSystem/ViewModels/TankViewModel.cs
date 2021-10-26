@@ -27,6 +27,7 @@ namespace MonitoringSystem.ViewModels
         private string factoryId = "Kasan01";            //  Kasan01/4001/  kasan01/4002/ 
         private string factoryId2 = "Kasan02";            //  Kasan01/4001/  kasan01/4002/ 
         private string connectionString = "Data Source=hangaramit.iptime.org;Initial Catalog=1조_database;Persist Security Info=True;User ID=team1;Password=team1_1234";
+        Task t;
 
         #endregion
 
@@ -77,7 +78,7 @@ namespace MonitoringSystem.ViewModels
             }
         }
         // 펌프가 멈췄는지 확인
-        private bool isStop =false;
+        private bool isStop =true;
         public bool IsStop
         {
             get => isStop;
@@ -277,17 +278,16 @@ namespace MonitoringSystem.ViewModels
         #region ### Tank 수위 실시간 감지 ###
         public void Feedback()
         {
+            Task t = new Task(Feedback);
             try
             {
-                while (true)
+                IsStop = true;
+                while (isStop)
                 {
                     // sub tank 수위가 높을경우 stop
                     if (subTankTon < 300)
                     {
-                        Thread.Sleep(5000);
-                        // 사진을 찍는 로직을 넣고
-                        // 그걸 인식했다고 하고
-                        // 
+                        t.Wait(1000);
                         BtnClickOn();
                     }
                     else if (subTankTon > 630)
@@ -295,8 +295,7 @@ namespace MonitoringSystem.ViewModels
                         BtnClickOff();
                         BtnClick2On();
                     }
-
-                    Thread.Sleep(1000);
+                    t.Wait(1000);
                 }
             }
             catch (Exception ex)
@@ -313,6 +312,7 @@ namespace MonitoringSystem.ViewModels
 
         }
         #endregion
+
 
         #region ### 펌프제어 Publish ### 
         public void BtnClickOn()
@@ -331,8 +331,9 @@ namespace MonitoringSystem.ViewModels
 
                 Client.Publish($"{factoryId}/4002/", Encoding.UTF8.GetBytes(pubData), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
                 BtnColor = "Red";
-                var t = Task.Run(() => { Feedback(); });
 
+
+                var t = Task.Run(() => { Feedback(); });
             }
             catch (Exception ex)
             {
@@ -577,9 +578,30 @@ namespace MonitoringSystem.ViewModels
         }
         #endregion
 
+        #region ### CCTV PLAY BUTTON HIDDEN ###
         public void Play_Button()
         {
             Video = Visibility.Hidden;
         }
+
+        #endregion
+
+        #region ### AUTO ###
+        public void AutoRun()
+        {
+            BtnClickOn();
+        }
+
+        #region 정지 로직 구현 어찌할 지 고민
+        public void AutoStop()
+        {
+            // Thread 정지 이벤트 발생
+            isStop = false;
+            Task t = new Task(Feedback);
+            t.Wait(5000);
+        } 
+        #endregion
+
+        #endregion
     }
 }

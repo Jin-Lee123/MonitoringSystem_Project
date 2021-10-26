@@ -31,18 +31,10 @@ namespace MonitoringSystem.Views
             CCTV.SourceProvider.CreatePlayer(libDirectory);
             CCTV.SourceProvider.MediaPlayer.Play(new Uri(RtspUrl));
         }
-        #region CCTV Play Button
 
-        private void Play_Button_Click(object sender, RoutedEventArgs e)
+        #region 사진 캡쳐 로직 구현
+        private void Capture_Button_Click(object sender, RoutedEventArgs e)
         {
-            AutoPlay();
-        }
-
-        #endregion
-
-        private void AutoPlay()
-        {
-            Thread.Sleep(4000);
             FileInfo fi = new FileInfo("C:\\GitRepository\\MonitoringSystem_Project\\MonitoringSystem\\MonitoringSystem\\bin\\Image\\CCTV.jpg");
 
             // 동영상 멈추면 다시 실행시키고 사진찍게함
@@ -58,10 +50,12 @@ namespace MonitoringSystem.Views
                 CCTV.SourceProvider.MediaPlayer.TakeSnapshot(fi);
             }
             Mat src = Cv2.ImRead("../Image/CCTV.jpg", ImreadModes.AnyColor);
-        }
 
-        #region 사진 캡쳐 로직 구현
-        private void Capture_Button_Click(object sender, RoutedEventArgs e)
+        }
+        #endregion
+
+        #region 분석 로직 구현
+        private void Details_Button_Click(object sender, RoutedEventArgs e)
         {
             // Create Image and set its width and height  
             Image dynamicImage = new Image();
@@ -80,6 +74,16 @@ namespace MonitoringSystem.Views
             // Add Image to Window  
             Captured_Image.Children.Add(dynamicImage);
         }
+        #endregion
+
+        #region 팝업창 화면 오픈
+
+        private void Captured_Image_MouseRightButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            var win2 = new CCTV_View();
+            win2.Topmost = true;
+            win2.ShowDialog();
+        } 
         #endregion
     }
 }
