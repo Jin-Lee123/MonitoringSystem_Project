@@ -26,9 +26,9 @@ namespace MonitoringSystem.ViewModels
             }
         }
 
-        private float SplantT;
+        private double SplantT;
 
-        public float SPlantT
+        public double SPlantT
         {
             get => SplantT;
             set
@@ -38,9 +38,9 @@ namespace MonitoringSystem.ViewModels
             }
         }
 
-        private float SplantH;
+        private double SplantH;
 
-        public float SPlantH
+        public double SPlantH
         {
             get => SplantH;
             set
@@ -49,9 +49,9 @@ namespace MonitoringSystem.ViewModels
                 NotifyOfPropertyChange(() => SPlantH);
             }
         }
-        private float SrobotArm;
+        private double SrobotArm;
 
-        public float SRobotArm
+        public double SRobotArm
         {
             get => SrobotArm;
             set
@@ -61,9 +61,9 @@ namespace MonitoringSystem.ViewModels
             }
         }
 
-        private float Sconveyor;
+        private double Sconveyor;
 
-        public float SConveyor
+        public double SConveyor
         {
             get => Sconveyor;
             set
@@ -73,9 +73,9 @@ namespace MonitoringSystem.ViewModels
             }
         }
 
-        private float SpumpT;
+        private double SpumpT;
 
-        public float SPumpT
+        public double SPumpT
         {
             get => SpumpT;
             set
@@ -85,9 +85,9 @@ namespace MonitoringSystem.ViewModels
             }
         }
 
-        private float SflowRate;
+        private double SflowRate;
 
-        public float SFlowRate
+        public double SFlowRate
         {
             get => SflowRate;
             set
@@ -97,9 +97,9 @@ namespace MonitoringSystem.ViewModels
             }
         }
 
-        private float Sdensity;
+        private double Sdensity;
 
-        public float SDensity
+        public double SDensity
         {
             get => Sdensity;
             set
@@ -168,13 +168,13 @@ namespace MonitoringSystem.ViewModels
                 conn.Open();
                 SqlDataReader reader = cmd.ExecuteReader();
                     reader.Read();
-                    SPlantT = float.Parse(reader["PlantT"].ToString());
-                    SPlantH = float.Parse(reader["PlantH"].ToString());
-                    SRobotArm = float.Parse(reader["RobotArm"].ToString());
-                    SConveyor = float.Parse(reader["Conveyor"].ToString());
-                    SPumpT = float.Parse(reader["PumpT"].ToString());
-                    SFlowRate = float.Parse(reader["FlowRate"].ToString());
-                    SDensity = float.Parse(reader["Density"].ToString());
+                    SPlantT = double.Parse(reader["PlantT"].ToString());
+                    SPlantH = double.Parse(reader["PlantH"].ToString());
+                    SRobotArm = double.Parse(reader["RobotArm"].ToString());
+                    SConveyor = double.Parse(reader["Conveyor"].ToString());
+                    SPumpT = double.Parse(reader["PumpT"].ToString());
+                    SFlowRate = double.Parse(reader["FlowRate"].ToString());
+                    SDensity = double.Parse(reader["Density"].ToString());
                 }
                 catch (Exception)
                 {

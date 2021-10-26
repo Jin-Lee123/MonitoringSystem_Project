@@ -9,6 +9,10 @@ using System.Threading;
 using System.Windows.Threading;
 using DocumentFormat.OpenXml.Spreadsheet;
 using MarkerType = OxyPlot.MarkerType;
+using LiveCharts;
+using LiveCharts.Wpf;
+using System.Threading.Tasks;
+using System.Windows;
 
 namespace MonitoringSystem.ViewModels
 {
@@ -16,6 +20,29 @@ namespace MonitoringSystem.ViewModels
     {
 
         #region Property 설정
+
+        private SeriesCollection seriesCollection;
+
+        public SeriesCollection SeriesCollection
+        {
+            get => seriesCollection;
+            set
+            {
+                seriesCollection = value;
+            }
+        }
+/*
+        private double values;
+        public double Values
+        {
+            get => values;
+            set
+            {
+                values = value;
+                NotifyOfPropertyChange(() => Values);
+            }
+        }
+*/
 
         private BindableCollection<TB_Plant> plant;
 
@@ -30,14 +57,14 @@ namespace MonitoringSystem.ViewModels
             }
         }
         #region Gas 변수
-        private float gas1;
-        private float gas2;
-        private float gas3;
-        private float gas4;
-        private float gas5;
-        private float gas6;
+        private double gas1;
+        private double gas2;
+        private double gas3;
+        private double gas4;
+        private double gas5;
+        private double gas6;
 
-        public float Gas1
+        public double Gas1
         {
             get => gas1;
             set
@@ -46,7 +73,7 @@ namespace MonitoringSystem.ViewModels
                 NotifyOfPropertyChange(() => Gas1);
             }
         }
-        public float Gas2
+        public double Gas2
         {
             get => gas2;
             set
@@ -55,7 +82,7 @@ namespace MonitoringSystem.ViewModels
                 NotifyOfPropertyChange(() => Gas2);
             }
         } 
-        public float Gas3
+        public double Gas3
         {
             get => gas3;
             set
@@ -64,7 +91,7 @@ namespace MonitoringSystem.ViewModels
                 NotifyOfPropertyChange(() => Gas3);
             }
         }
-        public float Gas4
+        public double Gas4
         {
             get => gas4;
             set
@@ -73,7 +100,7 @@ namespace MonitoringSystem.ViewModels
                 NotifyOfPropertyChange(() => Gas4);
             }
         }
-        public float Gas5
+        public double Gas5
         {
             get => gas5;
             set
@@ -82,7 +109,7 @@ namespace MonitoringSystem.ViewModels
                 NotifyOfPropertyChange(() => Gas5);
             }
         }
-        public float Gas6
+        public double Gas6
         {
             get => gas6;
             set
@@ -93,8 +120,8 @@ namespace MonitoringSystem.ViewModels
         }
         #endregion
 
-        private float plantT;
-        public float PlantT
+        private double plantT;
+        public double PlantT
         {
             get => plantT;
             set
@@ -104,8 +131,8 @@ namespace MonitoringSystem.ViewModels
             }
         }
 
-        private float plantH;
-        public float PlantH
+        private double plantH;
+        public double PlantH
         {
             get => plantH;
             set
@@ -141,8 +168,8 @@ namespace MonitoringSystem.ViewModels
 
 
 
-        private float duty;
-        public float Duty
+        private double duty;
+        public double Duty
         {
             get => duty;
             set
@@ -152,8 +179,8 @@ namespace MonitoringSystem.ViewModels
             }
         }
         // RobotTemp
-        private float robotTemp;
-        public float RobotTemp
+        private double robotTemp;
+        public double RobotTemp
         {
             get => robotTemp;
             set
@@ -164,8 +191,9 @@ namespace MonitoringSystem.ViewModels
         }
 
         // ConveyTemp
-        private float conveyTemp;
-        public float ConveyTemp
+        private double conveyTemp;
+
+        public double ConveyTemp
         {
             get => conveyTemp;
             set
@@ -175,7 +203,8 @@ namespace MonitoringSystem.ViewModels
             }
         }
 
-
+        public string[] GasName { get; set; }
+        public Func<double, string> Formatter { get; set; }
 
         #region Setting값 Property
 
@@ -186,150 +215,53 @@ namespace MonitoringSystem.ViewModels
         #region 차트 설정
         public MonitoringViewModel()
         {
+            SeriesCollection = new SeriesCollection
+            {
+                new LiveCharts.Wpf.ColumnSeries
+                {
+                 Values = new ChartValues<double> {1, 2, 3, 4, 5, 6}
+                }
+            };
+
+            GasName = new[] { "CO", "CO2", "FF", "AA", "BB", "DD" };
+            Formatter = value => value.ToString("N");
+
             //         App.LOGGER.Info($"예외발생, Client_MqttMsgPublishReceived : []");
             DispatcherTimer timer = new DispatcherTimer();
-
-
-             var plotModel1 = new PlotModel();
-             var plotModel2 = new PlotModel();
-
-
-            plotModel1.Title = "Temperature";
-            plotModel2.Title = "Gas";
-            
-            var linearAxis1 = new DateTimeAxis();
-            linearAxis1.Position = AxisPosition.Bottom;
-            plotModel1.Axes.Add(linearAxis1);
-
-            var linearAxis2 = new LinearAxis();
-         //   linearAxis2.Minimum = 15;
-         //   linearAxis2.Maximum = 35;
-            plotModel1.Axes.Add(linearAxis2);
-            var lineSeries1 = new LineSeries();
-            lineSeries1.Title = "LineSeries 1";
-            
-            
-            var categoryAxis = new CategoryAxis();
-            categoryAxis.Labels.Add("Gas1");
-            categoryAxis.Labels.Add("Gas2");
-            categoryAxis.Labels.Add("Gas3");
-            categoryAxis.Labels.Add("Gas4");
-            categoryAxis.Labels.Add("Gas5");
-            categoryAxis.Labels.Add("Gas6");
-            categoryAxis.Position = AxisPosition.Bottom;
-
-            plotModel2.Axes.Add(categoryAxis);
-            
-
-            var linearAxis4 = new LinearAxis();
-            plotModel2.Axes.Add(linearAxis4);
-            linearAxis4.Maximum = 30;
-            linearAxis4.Minimum = 20;
-            var barSeries = new LinearBarSeries();
-            barSeries.BarWidth = 40;
-            
-            plotModel1.Series.Add(lineSeries1);
-            Temperature = plotModel1;
-            Temperature.InvalidatePlot(true);
-
-            plotModel2.Series.Add(barSeries);
-            Otherproperty = plotModel2;
-            Otherproperty.InvalidatePlot(true);
 
             timer.Tick += new EventHandler(FunctionB);
             timer.Interval = new TimeSpan(0, 0, 1);
             timer.Start();
 
-            Thread thread1 = new Thread(new ThreadStart(FunctionA));
-            thread1.IsBackground = true;
-            thread1.Start();
-
-
-        }
-
-    
-
-        #endregion
-
-        #region Plot 함수
-
-
-        public void FunctionA()
-        {
-            DateTime curtime;
-            var lineSeries1 = new LineSeries();
-            var barSeries = new LinearBarSeries();
-            
-
-            lineSeries1.MarkerType = MarkerType.Circle;
-            List<DataPoint> lData = new List<DataPoint>();
-            List<DataPoint> TData = new List<DataPoint>();
-            // GetPlant();
-
-
-
-
-            while (true)
+            Task.Run(() =>
             {
-                Thread.Sleep(100);
-                Temperature.Series.Clear();
-                lineSeries1.Points.Clear();
-                Otherproperty.Series.Clear();
-                barSeries.Points.Clear();
-                curtime = DateTime.Now;
-                double dCurtime = curtime.ToOADate();
-                if (lData.Count == 0)
+                while (true)
                 {
-                    
-                 //   lData.Add(new DataPoint(dCurtime, Gas1));
-
-                    lData.Add(new DataPoint(dCurtime, PlantT));
-                    TData.Add(new DataPoint(dCurtime, PlantH));
-                }
-                else
-                {
-
-                    if (lData.Count <= 300)
+                    Thread.Sleep(100);
+                    Application.Current.Dispatcher.Invoke(() =>
                     {
-                //        lData.Add(new DataPoint(dCurtime, Gas1));
-
-                          lData.Add(new DataPoint(dCurtime, PlantT));
-                        TData.Add(new DataPoint(dCurtime, PlantH));
-
-                    }
-                    else
-                    {
-                        lData.RemoveAt(0);
-                        TData.RemoveAt(0);
-                 //     lData.Add(new DataPoint(dCurtime, Gas1));
-                        lData.Add(new DataPoint(dCurtime, PlantT));
-                        TData.Add(new DataPoint(dCurtime, PlantH));
-
-                    }
+                        SeriesCollection[0].Values.Clear();
+                        SeriesCollection[0].Values.Add(Gas1);
+                        SeriesCollection[0].Values.Add(Gas2);
+                        SeriesCollection[0].Values.Add(Gas3);
+                        SeriesCollection[0].Values.Add(Gas4);
+                        SeriesCollection[0].Values.Add(Gas5);
+                        SeriesCollection[0].Values.Add(Gas6);
+                    });
                 }
 
-                foreach (var data in lData)
-                {
-                    lineSeries1.Points.Add(data);
-                }
-                barSeries.Points.Add(new DataPoint(Gas1, y : Gas1));
-                barSeries.Points.Add(new DataPoint(Gas2, y : Gas2));
-                barSeries.Points.Add(new DataPoint(Gas3, y : Gas3));
-                barSeries.Points.Add(new DataPoint(Gas4, y : Gas4));
-                barSeries.Points.Add(new DataPoint(Gas5, y : Gas5));
-                barSeries.Points.Add(new DataPoint(Gas6, y : Gas6));
-                Otherproperty.Series.Add(barSeries);
-                Otherproperty.InvalidatePlot(true);
-                Temperature.Series.Add(lineSeries1);
-                Temperature.InvalidatePlot(true);
-
-            }
+            });
         }
+
+
         #endregion
 
+        
         private void FunctionB(object sender, EventArgs e)
         {
             PlantT = DataConnection.PlantT;
+            PlantH = DataConnection.PlantH;
+            Duty = DataConnection.Duty;
             ConveyTemp = DataConnection.ConveyTemp;
             RobotTemp = DataConnection.RobotTemp;
             Duty = DataConnection.Duty;
@@ -339,6 +271,9 @@ namespace MonitoringSystem.ViewModels
             Gas4 = DataConnection.Gas4;
             Gas5 = DataConnection.Gas5;
             Gas6 = DataConnection.Gas6;
+
+
+            
         }
 
     }

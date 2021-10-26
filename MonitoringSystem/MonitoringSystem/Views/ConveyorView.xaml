@@ -49,7 +49,7 @@
                         </LinearGradientBrush>
                     </Button.Background>
                 </Button>
-                <Button x:Name="LoadLineTemp" Grid.Column="2"  Content="Today LINE temperature status"  Width="250"  FontSize="14"  Style="{StaticResource MahApps.Styles.Button.Square.Accent}" Click="LoadLineTemp_Click">
+                <Button x:Name="LoadLineTemp" Grid.Column="2"  Content="Today LINE temperature status"  Width="250"  FontSize="14"  Style="{StaticResource MahApps.Styles.Button.Square.Accent}" >
                     <Button.Background>
                         <LinearGradientBrush  StartPoint="0,0" EndPoint="1,1">
                             <GradientStop Color="#FF93B4F6" Offset="0.0" />

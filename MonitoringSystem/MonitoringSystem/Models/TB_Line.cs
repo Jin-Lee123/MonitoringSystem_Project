@@ -17,8 +17,8 @@ namespace MonitoringSystem.Models
         public string Dev_addr { get; set; }
         public string CurrTime { get; set; }
         public string Code { get; set; }
-        public float Value { get; set; }
-        public float Sensor { get; set; }
+        public double Value { get; set; }
+        public double Sensor { get; set; }
 
 
         public static readonly string SELECT_QUERY = @"SELECT Plantcode

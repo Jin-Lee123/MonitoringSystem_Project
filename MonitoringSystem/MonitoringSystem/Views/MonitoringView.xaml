@@ -8,7 +8,7 @@
       xmlns:local="clr-namespace:MonitoringSystem.JIN"
       xmlns:ox="http://oxyplot.org/wpf"
       xmlns:vlc="clr-namespace:Vlc.DotNet.Wpf;assembly=Vlc.DotNet.Wpf"
-      mc:Ignorable="d" Background="White"
+      mc:Ignorable="d" Background="#ecedee"
       d:DesignHeight="450" d:DesignWidth="800">
 
     <Grid ShowGridLines="True">
@@ -33,58 +33,184 @@
             </Grid.RowDefinitions>
             <GroupBox Grid.Row ="1" Grid.ColumnSpan="2" Header="【 통합 모니터링 】" Style="{x:Null}" FontSize="16" BorderThickness="1.5">
                 <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <ox:PlotView  Model="{Binding Temperature}"/>
-                    <ox:PlotView  Grid.Column="1" Model="{Binding Otherproperty}"/>
+                    <Grid Grid.Row="0" Grid.Column="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="106*"/>
+                            <RowDefinition Height="59*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="7.5*"/>
+                            <ColumnDefinition Width="25*"/>
+                            <ColumnDefinition Width="7.5*"/>
+                            <ColumnDefinition Width="25*"/>
+                            <ColumnDefinition Width="7.5*"/>
+                            <ColumnDefinition Width="25*"/>
+                            <ColumnDefinition Width="7.5*"/>
+                        </Grid.ColumnDefinitions>
+                        <GroupBox Grid.Column="3"  Header="【 공장 내부 습도 】" Style="{x:Null}" FontSize="16" BorderThickness="1.5" Grid.RowSpan="2">
+                            <lvc:AngularGauge Grid.Column="1" Value="{Binding PlantH}" FromValue="0" ToValue="40" 
+                          LabelsStep="10" TicksStep="5" Wedge="200"
+                          TicksForeground="White" Foreground="White" 
+                          FontWeight="Bold" FontSize="13"
+                          SectionsInnerRadius=".5">
+                                <lvc:AngularGauge.Sections>
+                                    <lvc:AngularSection FromValue="0" ToValue="40" Fill="#9FC6EE"/>
+                                </lvc:AngularGauge.Sections>
+                            </lvc:AngularGauge>
+                        </GroupBox>
+                        <GroupBox Grid.Column="1"  Header="【 공장 내부 온도 】" Style="{x:Null}" FontSize="16" BorderThickness="1.5" Grid.RowSpan="2">
+                            <lvc:AngularGauge Grid.Column="1" Value="{Binding PlantT}" FromValue="0" ToValue="40" 
+                          LabelsStep="10" TicksStep="5" Wedge="200"
+                          TicksForeground="White" Foreground="White" 
+                          FontWeight="Bold" FontSize="13"
+                          SectionsInnerRadius=".5">
+                                <lvc:AngularGauge.Sections>
+                                    <lvc:AngularSection FromValue="0" ToValue="40" Fill="#9FC6EE"/>
+                                </lvc:AngularGauge.Sections>
+                            </lvc:AngularGauge>
+                        </GroupBox>
+                        <GroupBox Grid.Column="5"  Header="【  미세먼지 농도 】" Style="{x:Null}" FontSize="16" BorderThickness="1.5" Grid.RowSpan="2">
+                            <lvc:AngularGauge Grid.Column="1" Value="{Binding Duty}" FromValue="0" ToValue="40" 
+                          LabelsStep="10" TicksStep="5" Wedge="200"
+                          TicksForeground="White" Foreground="White" 
+                          FontWeight="Bold" FontSize="13"
+                          SectionsInnerRadius=".5">
+                                <lvc:AngularGauge.Sections>
+                                    <lvc:AngularSection FromValue="0" ToValue="40" Fill="#9FC6EE"/>
+                                </lvc:AngularGauge.Sections>
+                            </lvc:AngularGauge>
+                        </GroupBox>
+
+                    </Grid>
+
                 </Grid>
             </GroupBox>
         </Grid>
 
         <!-- 오른쪽 Data 설명 화면 !-->
         <GroupBox Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" Header="【 공장 정보 】" Style="{x:Null}" FontSize="12" BorderThickness="1.5">
-            <StackPanel Margin="0,0,0,-187.6">
-                <Label Content="공장 온도" 
+            <StackPanel>
+                <StackPanel Margin="0, 20, 0, 0">
+                    <Label Content="공장 온도"
                    VerticalAlignment="Center" 
                    HorizontalAlignment="Center" 
                    FontWeight="Bold"
-                   Background="FloralWhite"
+                   Background="#deedfc"
+                   Width="200"
+                   HorizontalContentAlignment="Center"
+                   FontSize="25"
                    Style="{StaticResource MahApps.Styles.Label}"/>
-                <TextBlock Text="{Binding PlantT}"
+                    <TextBlock Text="{Binding PlantT}"
                        Style="{StaticResource MahApps.Styles.TextBlock}"
                        VerticalAlignment="Center" 
                    HorizontalAlignment="Center" 
                        FontSize="20"
                        Height="40"
+                       Background="#dbedff"
                        />
-                <Label Content="Conveyor 온도" 
-                   VerticalAlignment="Center" 
-                   HorizontalAlignment="Center"
-                   FontWeight="Bold"
-                   Background="FloralWhite"
-                   Style="{StaticResource MahApps.Styles.Label}"/>
-                <TextBlock Text="{Binding ConveyorTemp}"
-                       Style="{StaticResource MahApps.Styles.TextBlock}"
-                       FontSize="20"
-                       VerticalAlignment="Center" 
-                   HorizontalAlignment="Center" 
-                       Height="40"
-                       />
-                <Label Content="RobotArm 온도" 
+                </StackPanel>
+                <Border BorderBrush="Aqua" BorderThickness="1"/>
+                <StackPanel Margin="0, 20, 0, 0">
+                    <Label Content="공장 습도" 
                    VerticalAlignment="Center" 
                    HorizontalAlignment="Center"
                    FontWeight="Bold"
-                   Background="FloralWhite"
+                   Background="#deedfc"
+                   Width="200"
+                   HorizontalContentAlignment="Center"
+                   FontSize="25"
                    Style="{StaticResource MahApps.Styles.Label}"/>
-                <TextBlock Text="{Binding RobotArmTemp}"
+                <TextBlock Text="{Binding PlantH}"
+                       Style="{StaticResource MahApps.Styles.TextBlock}"
+                       FontSize="20"
+                       VerticalAlignment="Center" 
+                   HorizontalAlignment="Center" 
+                       Height="40"
+                       />
+            </StackPanel>
+                <Border BorderBrush="Aqua" BorderThickness="1"/>
+
+                <StackPanel Margin="0, 20, 0, 0">
+                    <Label Content="미세먼지 농도" 
+                   VerticalAlignment="Center" 
+                   HorizontalAlignment="Center"
+                   FontWeight="Bold"
+                   Background="#deedfc"
+                   Width="200"
+                   HorizontalContentAlignment="Center"
+                   FontSize="25"
+                   Style="{StaticResource MahApps.Styles.Label}"/>
+                <TextBlock Text="{Binding Duty}"
+                       Style="{StaticResource MahApps.Styles.TextBlock}"
+                       FontSize="20"
+                       VerticalAlignment="Center" 
+                   HorizontalAlignment="Center" 
+                       Height="40"
+                       />
+                </StackPanel>
+                <Border BorderBrush="Aqua" BorderThickness="1"/>
+
+                <StackPanel Margin="0, 20, 0, 0">
+                    <Label Content="Pump" 
+                   VerticalAlignment="Center" 
+                   HorizontalAlignment="Center"
+                   FontWeight="Bold"
+                   Background="#deedfc"
+                   Width="200"
+                   HorizontalContentAlignment="Center"
+                   FontSize="25"
+                   Style="{StaticResource MahApps.Styles.Label}"/>
+                <TextBlock Text="{Binding Gas2}"
+                       Style="{StaticResource MahApps.Styles.TextBlock}"
+                       FontSize="20"
+                       VerticalAlignment="Center" 
+                   HorizontalAlignment="Center" 
+                       Height="40"
+                       />
+                </StackPanel>
+                <Border BorderBrush="Aqua" BorderThickness="1"/>
+
+                <StackPanel Margin="0, 20, 0, 0">
+                    <Label Content="Conveyor 온도" 
+                   VerticalAlignment="Center" 
+                   HorizontalAlignment="Center"
+                   FontWeight="Bold"
+                   Background="#deedfc"
+                   Width="200"
+                   HorizontalContentAlignment="Center"
+                   FontSize="25"
+                   Style="{StaticResource MahApps.Styles.Label}"/>
+                <TextBlock Text="{Binding Gas3}"
+                       Style="{StaticResource MahApps.Styles.TextBlock}"
+                       FontSize="20"
+                       VerticalAlignment="Center" 
+                   HorizontalAlignment="Center" 
+                       Height="40"
+                       />
+                </StackPanel>
+                <Border BorderBrush="Aqua" BorderThickness="1"/>
+
+                <StackPanel Margin="0, 20, 0, 0">
+                    <Label Content="RobotArm 온도" 
+                   VerticalAlignment="Center" 
+                   HorizontalAlignment="Center"
+                   FontWeight="Bold"
+                   Background="#deedfc"
+                   Width="200"
+                   HorizontalContentAlignment="Center"
+                   FontSize="25"
+                   Style="{StaticResource MahApps.Styles.Label}"/>
+                <TextBlock Text="{Binding Gas4}"
                        Style="{StaticResource MahApps.Styles.TextBlock}"
                        VerticalAlignment="Center" 
                    HorizontalAlignment="Center" 
                        FontSize="20"
                        Height="40"
                        />
+                </StackPanel>
+                <Border BorderBrush="Aqua" BorderThickness="1"/>
+
+                <Button x:Name="Play_Button" Content="Play" Click="Play_Button_Click"/>
             </StackPanel>
         </GroupBox>
         <Grid Grid.Row="1" >
@@ -92,25 +218,35 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <GroupBox Grid.Column="1"  Header="【 미세먼지 농도 】" Style="{x:Null}" FontSize="16" BorderThickness="1.5">
-        <lvc:AngularGauge Grid.Column="1" Value="{Binding Duty}" FromValue="0" ToValue="200" 
-                          LabelsStep="15" TicksStep="10" Wedge="300"
-                          TicksForeground="White" Foreground="White" 
-                          FontWeight="Bold" FontSize="13"
-                          SectionsInnerRadius=".5">
-            <lvc:AngularGauge.Sections>
-                <lvc:AngularSection FromValue="0" ToValue="30" Fill="Blue"/>
-                <lvc:AngularSection FromValue="30" ToValue="80" Fill="Green"/>
-                <lvc:AngularSection FromValue="80" ToValue="150" Fill="#F8A725"/>
-                <lvc:AngularSection FromValue="150" ToValue="199" Fill="#FF3939"/>
-            </lvc:AngularGauge.Sections>
-        </lvc:AngularGauge>
-            </GroupBox>
-            <GroupBox Grid.Column="0"  Header="【 공장 】" Style="{x:Null}" FontSize="16" BorderThickness="1.5">
-                <vlc:VlcControl x:Name="image" Grid.Column="0"/>
-                <!--=     <Button Margin="129,110.2,375,69.6" x:Name="Play_Button" Content="Play" Click="Play_Button_Click" Grid.Row="1"/>=-->
-            </GroupBox>
 
+            <GroupBox Grid.Column="0"  Header="【 공장 】" Style="{x:Null}" FontSize="16" BorderThickness="1.5"/>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+            </Grid>
+            <Ellipse Width="10" Height="10"></Ellipse>
+            <GroupBox Grid.Column="1" Header="【 가스 】" Style="{x:Null}" FontSize="16" BorderThickness="1.5">
+
+                <lvc:CartesianChart  Zoom="Xy" Series="{Binding SeriesCollection}" LegendLocation="None">
+                    <lvc:CartesianChart.AxisX>
+                        <lvc:Axis Title="Gas" Labels="{Binding GasName}" />
+                    </lvc:CartesianChart.AxisX>
+                    <lvc:CartesianChart.AxisY>
+                        <lvc:Axis Title="가스 농도" LabelFormatter="{Binding Formatter}"></lvc:Axis>
+                    </lvc:CartesianChart.AxisY>
+                    
+                </lvc:CartesianChart>
+            </GroupBox>
         </Grid>
     </Grid>
 </UserControl>
