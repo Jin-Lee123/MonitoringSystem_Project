@@ -10,5 +10,6 @@ namespace MonitoringSystem.Models
     {
         public static readonly string CONNSTRING = "Data Source=hangaramit.iptime.org;Initial Catalog=1조_database;Persist Security Info=True;User ID=team1;Password=team1_1234";
 
+
     }
 }

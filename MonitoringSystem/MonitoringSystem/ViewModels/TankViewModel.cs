@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Documents;
 using System.Windows.Threading;
 using uPLibrary.Networking.M2Mqtt;
 using uPLibrary.Networking.M2Mqtt.Messages;
@@ -138,14 +139,19 @@ namespace MonitoringSystem.ViewModels
             get => subTankValue;
             set
             {
-                if (value > 600)
+                if (value >= 1000)
                 {
-                    subTankValue = Math.Round(value / (value + 10) * 100, 2);
+                    subTankValue = 100;
                 }
-                else
+                else if (1000 > value && value >= 600)
                 {
-                    subTankValue = Math.Round(value / 760 * 100, 2);
+                    subTankValue = Math.Round(value / 1000 * 100, 2);
                 }
+                else if ( value < 300)
+                {
+                    subTankValue = 50;
+                }
+                
                 NotifyOfPropertyChange(() => SubTankValue);
             }
         }
@@ -168,6 +174,10 @@ namespace MonitoringSystem.ViewModels
             get => subTankTon;
             set
             {
+                if (subTankTon <100)
+                {
+                    subTankTon = 50;
+                }
                 subTankTon = value;
                 NotifyOfPropertyChange(() => SubTankTon);
             }
@@ -267,13 +277,44 @@ namespace MonitoringSystem.ViewModels
         #region ### Tank 수위 실시간 감지 ###
         public void Feedback()
         {
+            try
+            {
+                while (true)
+                {
+                    // sub tank 수위가 높을경우 stop
+                    if (subTankTon < 300)
+                    {
+                        Thread.Sleep(5000);
+                        // 사진을 찍는 로직을 넣고
+                        // 그걸 인식했다고 하고
+                        // 
+                        BtnClickOn();
+                    }
+                    else if (subTankTon > 630)
+                    {
+                        BtnClickOff();
+                        BtnClick2On();
+                    }
 
-
+                    Thread.Sleep(1000);
+                }
+            }
+            catch (Exception ex)
+            {
+                BtnClickOff();
+                BtnClick2Off();
+                MessageBox.Show("Thread 오류발생", ex.ToString());
+            }
+            finally
+            {
+                BtnClickOff();
+                BtnClick2Off();
+            }
 
         }
         #endregion
 
-        #region ### 펌프제어 SubTank 물넘침 방지 ### 
+        #region ### 펌프제어 Publish ### 
         public void BtnClickOn()
         {
             // Publish 펌프 제어 ON
@@ -290,11 +331,12 @@ namespace MonitoringSystem.ViewModels
 
                 Client.Publish($"{factoryId}/4002/", Encoding.UTF8.GetBytes(pubData), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
                 BtnColor = "Red";
+                var t = Task.Run(() => { Feedback(); });
 
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"접속 오류 { ex.Message}");
+                MessageBox.Show($"main pump on 접속 오류 { ex.Message}");
             }
         }
         public void BtnClickOff()
@@ -316,7 +358,7 @@ namespace MonitoringSystem.ViewModels
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"접속 오류 { ex.Message}");
+                MessageBox.Show($"main pump off 접속 오류 { ex.Message}");
             }
         }
 
@@ -338,7 +380,7 @@ namespace MonitoringSystem.ViewModels
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"접속 오류 { ex.Message}");
+                MessageBox.Show($"sub pump on 접속 오류 { ex.Message}");
             }
         }
         public void BtnClick2Off()
@@ -348,7 +390,7 @@ namespace MonitoringSystem.ViewModels
             {
                 var currtime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                 string pubData = "{ \n" +
-                                  "   \"dev_addr\" : \"40S05\", \n" +
+                                  "   \"dev_addr\" : \"4005\", \n" +
                                   $"   \"currtime\" : \"{currtime}\" , \n" +
                                   "   \"code\" : \"pump2\", \n" +
                                   "   \"value\" : \"0\", \n" +
@@ -359,7 +401,7 @@ namespace MonitoringSystem.ViewModels
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"접속 오류 { ex.Message}");
+                MessageBox.Show($"sub pump off 접속 오류 { ex.Message}");
             }
         }
         #endregion
