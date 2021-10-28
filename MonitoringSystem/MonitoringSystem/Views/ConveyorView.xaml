@@ -6,11 +6,71 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:vlc="clr-namespace:Vlc.DotNet.Wpf;assembly=Vlc.DotNet.Wpf"
       xmlns:local="clr-namespace:MonitoringSystem.JIN"
+      xmlns:core="clr-namespace:MonitoringSystem"
       xmlns:UcControl="clr-namespace:MonitoringSystem.Jang.UcControl" xmlns:cm="http://caliburnmicro.com" x:Class="MonitoringSystem.Views.ConveyorView"
       mc:Ignorable="d" 
       d:DesignHeight="600" d:DesignWidth="1200"
-      Background="White"
-      >
+      Background="White">
+    <UserControl.Resources>
+        <Style x:Key="RoundCorner" TargetType="{x:Type Button}">
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid x:Name="grid">
+                            <Border x:Name="border" CornerRadius="28" BorderBrush="Black" BorderThickness="2" Margin="1,0,-1,0.2">
+                                <Border.Background>
+                                    <RadialGradientBrush GradientOrigin="0.496,1.052">
+                                        <RadialGradientBrush.RelativeTransform>
+                                            <TransformGroup>
+                                                <ScaleTransform CenterX="0.5" CenterY="0.5" 
+                                                        ScaleX="1.5" ScaleY="1.5"/>
+                                                <TranslateTransform X="0.02" Y="0.3"/>
+                                            </TransformGroup>
+                                        </RadialGradientBrush.RelativeTransform>
+                                        <GradientStop Offset="1" Color="#FF0000FF"/>
+                                        <GradientStop Offset="0.3" Color="#FFFFFFFF"/>
+                                    </RadialGradientBrush>
+                                </Border.Background>
+                                <ContentPresenter HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"
+                                          TextElement.FontWeight="Bold">
+                                </ContentPresenter>
+                            </Border>
+
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" TargetName="border">
+                                    <Setter.Value>
+                                        <RadialGradientBrush GradientOrigin="0.496,1.052">
+                                            <RadialGradientBrush.RelativeTransform>
+                                                <TransformGroup>
+                                                    <ScaleTransform CenterX="0.5" CenterY="0.5" ScaleX="1.5" ScaleY="1.5"/>
+                                                    <TranslateTransform X="0.02" Y="0.3"/>
+                                                </TransformGroup>
+                                            </RadialGradientBrush.RelativeTransform>
+                                            <GradientStop Color="#00000000" Offset="1"/>
+                                            <GradientStop Color="#FF303030" Offset="0.3"/>
+                                        </RadialGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="BorderBrush" TargetName="border" Value="#FF33962B"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" TargetName="grid" Value="0.25"/>
+                            </Trigger>
+
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
     <Grid Background="#ecedee">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="50*"/>
@@ -31,7 +91,7 @@
                     <ColumnDefinition Width="50*"/>
                     <ColumnDefinition Width="50*"/>
                 </Grid.ColumnDefinitions>
-                <Button x:Name="AutoRun" Grid.Column="0" Grid.Row="0" Content="Automatic Production Mode Run" Width="250" FontSize="14" Style="{StaticResource MahApps.Styles.Button.Square.Accent}" >
+                <Button x:Name="AutoRun" Grid.Column="0" Grid.Row="0" Content="Automatic Production Mode Run" Width="250" FontSize="14" Style="{StaticResource MahApps.Styles.Button.Square.Accent}" Click="AutoRun_Click">
                     <Button.Background>
                         <LinearGradientBrush  StartPoint="0,0" EndPoint="1,1">
                             <GradientStop Color="#FF93B4F6" Offset="0.0" />
@@ -40,7 +100,7 @@
                         </LinearGradientBrush>
                     </Button.Background>
                 </Button>
-                <Button x:Name="AutoStop" Grid.Column="1" Grid.Row="0" Content="Automatic Production Mode Stop"  Width="250" FontSize="14" Style="{StaticResource MahApps.Styles.Button.Square.Accent}" >
+                <Button x:Name="AutoStop" Grid.Column="1" Grid.Row="0" Content="Automatic Production Mode Stop"  Width="250" FontSize="14" Style="{StaticResource MahApps.Styles.Button.Square.Accent}" Click="AutoStop_Click" >
                     <Button.Background>
                         <LinearGradientBrush  StartPoint="0,0" EndPoint="1,1">
                             <GradientStop Color="#FF93B4F6" Offset="0.0" />
@@ -52,9 +112,9 @@
                 <Button x:Name="LoadLineTemp" Grid.Column="2"  Content="Today LINE temperature status"  Width="250"  FontSize="14"  Style="{StaticResource MahApps.Styles.Button.Square.Accent}" Click="LoadLineTemp_Click">
                     <Button.Background>
                         <LinearGradientBrush  StartPoint="0,0" EndPoint="1,1">
-                            <GradientStop Color="#FF93B4F6" Offset="0.0" />
-                            <GradientStop Color="Blue" Offset="0.5" />
-                            <GradientStop Color="#FF2245BA" Offset="1.0" />
+                            <GradientStop Color="#FFF9706B" Offset="0.0" />
+                            <GradientStop Color="#FFA61D1D" Offset="0.5" />
+                            <GradientStop Color="Red" Offset="1.0" />
                         </LinearGradientBrush>
                     </Button.Background>
                 </Button>
@@ -85,54 +145,67 @@
         <GroupBox  Grid.Row="2" Grid.Column="0" Style="{x:Null}" Header="【 Robot-Arm Control 】"  FontSize="16" BorderThickness="1.5">
             <Grid >
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="30*"/>
+                    <ColumnDefinition Width="33*"/>
+                    <ColumnDefinition Width="32*"/>
                     <ColumnDefinition Width="35*"/>
-                    <ColumnDefinition Width="35*"/>
-                   
+
                 </Grid.ColumnDefinitions>
-                <Grid Grid.Column="0"  Background="#b5b8bd">
+                <Grid Grid.Column="0"  >
+
                     <Grid.RowDefinitions>
                         <RowDefinition Height="5*"/>
                         <RowDefinition Height="10*"/>
                         <RowDefinition Height="10*"/>
                         <RowDefinition Height="10*"/>
                     </Grid.RowDefinitions>
-                    <Label Content="수동제어버튼" Grid.Column="0" Grid.Row="0" HorizontalContentAlignment="Center" />
-                    <Button x:Name="ArmStop" Content="Robot arm Stop" Width="160" Height="55" Grid.Column="0" Grid.Row="3" Style="{StaticResource MahApps.Styles.Button.Square.Accent}" HorizontalAlignment="Center" VerticalAlignment="Center" Click="ArmStop_Click" Grid.ColumnSpan="2"  >
+
+                    <Grid Grid.Row="0" Grid.Column="0">
+                        <Rectangle Fill="Black" RadiusX="5" RadiusY="5"/>
+                        <Label Content="emergency control button" HorizontalContentAlignment="Center" VerticalAlignment="Center" FontSize="14" FontWeight="Bold" Foreground="Red"/>
+                    </Grid>
+                    
+                    <Border Grid.Row="1" Grid.Column="0" BorderBrush="White" BorderThickness="1" CornerRadius="5" Background="#b5b8bd" />
+                    <Border Grid.Row="2" Grid.Column="0" BorderBrush="White" BorderThickness="1" CornerRadius="5" Background="#b5b8bd"  />
+                    <Border Grid.Row="3" Grid.Column="0" BorderBrush="White" BorderThickness="1" CornerRadius="5" Background="#b5b8bd"  />
+                    <!-- Style="{StaticResource MahApps.Styles.Button.Square.Accent}"  -->
+                    <Button x:Name="ArmRun" Content="Robot arm turn left" Width="160" Height="55" Grid.Column="0" Grid.Row="1" Style="{StaticResource MahApps.Styles.Button.Square.Accent}" HorizontalAlignment="Center" VerticalAlignment="Center" Click="ArmRun_Click"  >
                         <Button.Background>
-                            <LinearGradientBrush  StartPoint="0,0" EndPoint="1,1">
-                                <GradientStop Color="#FF93B4F6" Offset="0.0" />
-                                <GradientStop Color="Blue" Offset="0.5" />
-                                <GradientStop Color="#FF2245BA" Offset="1.0" />
-                            </LinearGradientBrush>
-                        </Button.Background>
-                    </Button>
+                                <LinearGradientBrush  StartPoint="0,0" EndPoint="1,1">
+                                    <GradientStop Color="#FF93B4F6" Offset="0.0" />
+                                    <GradientStop Color="Blue" Offset="0.5" />
+                                    <GradientStop Color="#FF2245BA" Offset="1.0" />
+                                </LinearGradientBrush>
+                            </Button.Background>
+                        </Button>
+                    
+                   
+                        <Button x:Name="ArmStop" Content="Robot arm Stop" Width="160" Height="55" Grid.Column="0" Grid.Row="3" Style="{StaticResource MahApps.Styles.Button.Square.Accent}" HorizontalAlignment="Center" VerticalAlignment="Center" Click="ArmStop_Click" Grid.ColumnSpan="2"  >
+                            <Button.Background>
+                                <LinearGradientBrush  StartPoint="0,0" EndPoint="1,1">
+                                    <GradientStop Color="#FF93B4F6" Offset="0.0" />
+                                    <GradientStop Color="Blue" Offset="0.5" />
+                                    <GradientStop Color="#FF2245BA" Offset="1.0" />
+                                </LinearGradientBrush>
+                            </Button.Background>
+                        </Button>
                     <Button x:Name="ArmRun2" Content="Robot arm turn right" Width="160" Height="55" Grid.Column="0" Grid.Row="2" Style="{StaticResource MahApps.Styles.Button.Square.Accent}" HorizontalAlignment="Center" VerticalAlignment="Center" Click="ArmRun2_Click" Grid.ColumnSpan="2" >
-                        <Button.Background>
-                            <LinearGradientBrush  StartPoint="0,0" EndPoint="1,1">
-                                <GradientStop Color="#FF93B4F6" Offset="0.0" />
-                                <GradientStop Color="Blue" Offset="0.5" />
-                                <GradientStop Color="#FF2245BA" Offset="1.0" />
-                            </LinearGradientBrush>
-                        </Button.Background>
-                    </Button>
-                    <Button x:Name="ArmRun" Content="Robot arm turn left" Width="160" Height="55" Grid.Column="0"  Grid.Row="1" Style="{StaticResource MahApps.Styles.Button.Square.Accent}" HorizontalAlignment="Center" VerticalAlignment="Center" Click="ArmRun_Click" Grid.ColumnSpan="2"  >
-                        <Button.Background>
-                            <LinearGradientBrush  StartPoint="0,0" EndPoint="1,1">
-                                <GradientStop Color="#FF93B4F6" Offset="0.0" />
-                                <GradientStop Color="Blue" Offset="0.5" />
-                                <GradientStop Color="#FF2245BA" Offset="1.0" />
-                            </LinearGradientBrush>
-                        </Button.Background>
-                    </Button>
+                             <Button.Background>
+                                <LinearGradientBrush  StartPoint="0,0" EndPoint="1,1">
+                                    <GradientStop Color="#FF93B4F6" Offset="0.0" />
+                                    <GradientStop Color="Blue" Offset="0.5" />
+                                    <GradientStop Color="#FF2245BA" Offset="1.0" />
+                              </LinearGradientBrush>
+                           </Button.Background>
+                        </Button>
+                
                 </Grid>
                 <!-- 로봇팔 -->
                 <Canvas Grid.Row="0" Grid.Column="1" >
                     <local:UC_Robotc_Arm2 x:Name="Arm" 
-                                          Height="124" Canvas.Left="60" 
+                                          Height="124" Canvas.Left="55" 
                                           Grid.Column="1" Width="167" Canvas.Top="18"/>
                     <local:UC_Robotic_Arm Canvas.Top="63"
-                        HorizontalAlignment="Left" Height="174" Width="250" Canvas.Left="-6" />
+                        HorizontalAlignment="Left" Height="174" Width="250" Canvas.Left="-13" />
                 </Canvas>
                 <!-- 온도 화살표 바인딩 -->
                 <lvc:AngularGauge Grid.Column="2" Value="{Binding ConveyTemp}" FromValue="0" ToValue="100" 
@@ -173,16 +246,23 @@
                     <local:UC_Motor x:Name="Motor3" HorizontalAlignment="Left" Height="60" Margin="203,64,0,0" Grid.Row="0" VerticalAlignment="Top" Width="96"/>
                     <local:UC_Motor x:Name="Motor4" HorizontalAlignment="Left" Height="60" Margin="290,64,-3.6,0" Grid.Row="0" VerticalAlignment="Top" Width="96"/>
 
-                    <Label Content="수동제어버튼" Grid.Row="1" Background="#b5b8bd"/>
-
-                    <Grid Grid.Row="2" Background="#b5b8bd">
+                    <Grid  Grid.Row="1">
+                        <Rectangle Fill="Black" RadiusX="5" RadiusY="5"/>
+                        <Label Content="emergency control button"  HorizontalContentAlignment="Center"  FontSize="15" FontWeight="Bold" Foreground="Red"/>
+                    </Grid>
+                    
+                    <Grid Grid.Row="2">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="43*"/>
-                            <ColumnDefinition Width="85*"/>
-                            <ColumnDefinition Width="128*"/>
-                            <ColumnDefinition Width="127*"/>
+                            <ColumnDefinition Width="10*"/>
+                            <ColumnDefinition Width="10*"/>
+                            <ColumnDefinition Width="10*"/>
                         </Grid.ColumnDefinitions>
-                        <Button x:Name="ConveyRun"  Content="컨베이어 정회전" Height="45" Width="130" Grid.Column="0" Style="{StaticResource MahApps.Styles.Button.Square.Accent}"  Click="ConveyRun_Click"  Grid.ColumnSpan="3" Margin="0,14,125.2,13.8">
+
+
+                        <Border Grid.Row="2" Grid.Column="0" BorderBrush="White" BorderThickness="1" CornerRadius="5" Background="#b5b8bd" />
+                        <Border Grid.Row="2" Grid.Column="1" BorderBrush="White" BorderThickness="1" CornerRadius="5" Background="#b5b8bd"  />
+                        <Border Grid.Row="2" Grid.Column="2" BorderBrush="White" BorderThickness="1" CornerRadius="5" Background="#b5b8bd"  />
+                        <Button x:Name="ConveyRun"  Content="Conveybelt Run" Height="45" Width="130" Grid.Row="1" Grid.Column="0" Style="{StaticResource MahApps.Styles.Button.Square.Accent}"  Click="ConveyRun_Click" >
                             <Button.Background>
                                 <LinearGradientBrush  StartPoint="0,0" EndPoint="1,1">
                                     <GradientStop Color="#FF93B4F6" Offset="0.0" />
@@ -191,7 +271,7 @@
                                 </LinearGradientBrush>
                             </Button.Background>
                         </Button>
-                        <Button x:Name="ConveyStop" Content="컨베이어 정지" Height="45" Width="130" Grid.Column="1" Style="{StaticResource MahApps.Styles.Button.Square.Accent}"  Click="ConveyStop_Click"  Grid.ColumnSpan="3" Margin="84.5,14,125.4,13.8">
+                        <Button x:Name="ConveyStop" Content="Conveybelt Stop" Height="45" Width="130" Grid.Column="1" Style="{StaticResource MahApps.Styles.Button.Square.Accent}"  Click="ConveyStop_Click" >
                             <Button.Background>
                                 <LinearGradientBrush  StartPoint="0,0" EndPoint="1,1">
                                     <GradientStop Color="#FF93B4F6" Offset="0.0" />
@@ -200,7 +280,7 @@
                                 </LinearGradientBrush>
                             </Button.Background>
                         </Button>
-                        <Button x:Name="ConveyBack" Content="컨베이어 역회전 " Height="45" Width="130" Grid.Column="2" Style="{StaticResource MahApps.Styles.Button.Square.Accent}"  Click="ConveyBack_Click"  Grid.ColumnSpan="2" Margin="127.8,14,-2.6,13.8">
+                        <Button x:Name="ConveyBack" Content="Conveybelt Back" Height="45" Width="130" Grid.Column="2" Style="{StaticResource MahApps.Styles.Button.Square.Accent}"  Click="ConveyBack_Click"  >
                             <Button.Background>
                                 <LinearGradientBrush  StartPoint="0,0" EndPoint="1,1">
                                     <GradientStop Color="#FF93B4F6" Offset="0.0" />
@@ -239,6 +319,7 @@
                     <Button Content="test" Click="Button_Click" Height="30" Width="80" FontSize="14" Background="Yellow" Margin="138,109,370,105.8" />
                     <Label x:Name="LblResult" FontSize="14" FontWeight="Bold" Foreground="Red" Width="200" Height="50" Content="구멍 갯수 : " HorizontalAlignment="Left" VerticalAlignment="Top" />
                     <Label x:Name="LblResult2" FontSize="14" FontWeight="Bold" Foreground="Red" Width="200" Height="50" Content="제품 판별 : " HorizontalAlignment="Right" VerticalAlignment="Top" />
+
 
                 </Grid>
             </GroupBox>

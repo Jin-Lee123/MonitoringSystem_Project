@@ -62,7 +62,7 @@ namespace MonitoringSystem.Views
         public BindableCollection<TB_Line> Line;
         public BindableCollection<TB_Line> Line2;
 
-        private void GetEmployees() // 1. SELECT 문
+        private void GetEmployees() // 로봇팔 SELECT 문
         {
             using (SqlConnection conn = new SqlConnection(Common.CONNSTRING))
             {
@@ -84,7 +84,7 @@ namespace MonitoringSystem.Views
                 }
             }
         }
-        private void GetEmployees2() // 1. SELECT 문
+        private void GetEmployees2() // 컨베이어 SELECT 문
         {
             using (SqlConnection conn = new SqlConnection(Common.CONNSTRING))
             {

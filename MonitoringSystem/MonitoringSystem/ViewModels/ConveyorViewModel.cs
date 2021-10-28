@@ -448,12 +448,6 @@ namespace MonitoringSystem.ViewModels
             //
         } // 로봇팔 우회전
 
-        //public void LoadLineTemp()
-        //{
-        //    MainViewModel.ShowWindow(new LineTempViewModel());
-        //} // 온도 그래프 창 띠우기
-
-
         #region ### MQTT Subscribe ###   // Subscribe 한 값을 바인딩 해주는 곳
         private void Client_MqttMsgPublishReceived(object sender, MqttMsgPublishEventArgs e)
         {
