@@ -30,11 +30,12 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Label Grid.Row="0" Grid.Column="2" Content="Log 조회"
+                <Border Grid.Row="0" Grid.Column="2" >
+                <Label  Content="Log 조회" 
                    HorizontalAlignment="Center" VerticalAlignment="Center"
                    FontWeight="Bold" FontSize="20"
                    Style="{StaticResource MahApps.Styles.Label}"/>
-
+                </Border>
             </Grid>
             <Grid Grid.Column="0" Grid.Row="1">
                 <Grid.ColumnDefinitions>
@@ -52,15 +53,16 @@
 />
                 <ComboBox  HorizontalAlignment="Left"  Grid.Column="1" Width="150" Height="30"
                           ItemsSource="{Binding Path=Types}" 
-                          SelectedItem="{Binding Path=SelectedType}" SelectedIndex="0">
+                          SelectedItem="{Binding Path=SelectedType}" SelectedIndex="0" Style="{StaticResource MahApps.Styles.ComboBox}">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding Type}"/>
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>
-                <Grid Grid.Column="2">
-                    <Grid.ColumnDefinitions>
+                <Border Grid.Column="2" BorderBrush="#9FC6EE">
+                    <Grid >
+                        <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
@@ -70,23 +72,33 @@
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <Label Content="공장" Grid.Column="0"/>
-                    <Label Content="펌프" Grid.Column="3"/>
-                    <Label Content="컨베이어" Grid.Column="1"/>
-                    <Label Content="로봇팔" Grid.Column="2"/>
-                    <CheckBox x:Name="Plant" Grid.Row="2" Grid.Column="0" IsChecked="{Binding IsChecked1}" HorizontalAlignment="Center"/>
-                    <CheckBox x:Name="Pump" Grid.Row="2" Grid.Column="1"  IsChecked="{Binding IsChecked2}" HorizontalAlignment="Center"/>
-                    <CheckBox x:Name="Conveyor" Grid.Row="2" Grid.Column="2" IsChecked="{Binding IsChecked3}" HorizontalAlignment="Center"/>
-                    <CheckBox x:Name="Robot" Grid.Row="2" Grid.Column="3" IsChecked="{Binding IsChecked4}" HorizontalAlignment="Center"/>
-                </Grid>
-                
+
+                        <Label Content="공장" HorizontalAlignment="Center" Grid.Column="0" VerticalAlignment="Bottom" 
+                               FontWeight="Black" FontSize="15"/>
+                        <Label Content="컨베이어" HorizontalAlignment="Center" Grid.Column="1" VerticalAlignment="Bottom" 
+                               FontWeight="Black" FontSize="15"/>
+                        <Label Content="로봇팔"  HorizontalAlignment="Center" Grid.Column="2" VerticalAlignment="Bottom" 
+                               FontWeight="Black" FontSize="15"/>
+                        <Label Content="펌프" HorizontalAlignment="Center" Grid.Column="3" VerticalAlignment="Bottom" 
+                               FontWeight="Black" FontSize="15"/>
+                        
+                        <CheckBox  Grid.Row="2" Grid.Column="0" IsChecked="{Binding IsChecked1}" HorizontalAlignment="Center" Style="{StaticResource MahApps.Styles.CheckBox.DataGrid.Win10 }"/>
+                        <CheckBox  Grid.Row="2" Grid.Column="1" IsChecked="{Binding IsChecked2}" HorizontalAlignment="Center" Style="{StaticResource MahApps.Styles.CheckBox.DataGrid.Win10 }"/>
+                        <CheckBox  Grid.Row="2" Grid.Column="2" IsChecked="{Binding IsChecked3}" HorizontalAlignment="Center" Style="{StaticResource MahApps.Styles.CheckBox.DataGrid.Win10}"/>
+                        <CheckBox  Grid.Row="2" Grid.Column="3" IsChecked="{Binding IsChecked4}" HorizontalAlignment="Center" Style="{StaticResource MahApps.Styles.CheckBox.DataGrid.Win10}"/>
+                        
+                    </Grid>
+                </Border>
                 <Grid Grid.Column="3">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <Label Content="기간 선택" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                    <DatePicker x:Name="StartDate" SelectedDate="{Binding StartDate}" VerticalAlignment="Center"  Grid.Column="1"/>
+                    <Label Content="기간 선택" 
+                           VerticalAlignment="Center" HorizontalAlignment="Center" 
+                           Style="{StaticResource MahApps.Styles.Label}"
+                           FontWeight="Black" FontSize="15"/>
+                    <DatePicker x:Name="StartDate" SelectedDate="{Binding StartDate}" VerticalAlignment="Center"  HorizontalAlignment="Center" Grid.Column="1" Style="{StaticResource MahApps.Styles.DatePicker}" />
 
                 </Grid>
                 <Grid Grid.Column="4">
@@ -94,8 +106,12 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="3*"/>
                     </Grid.ColumnDefinitions>
-                    <Label Content=" ~ " VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                    <DatePicker x:Name="EndDate" Grid.Column="1" SelectedDate="{Binding EndDate}" VerticalAlignment="Center" />
+                    <Label Content=" ~ " 
+                           VerticalAlignment="Center" HorizontalAlignment="Center" 
+                           Style="{StaticResource MahApps.Styles.Label}"
+                           FontWeight="Black" FontSize="15"/>
+
+                    <DatePicker x:Name="EndDate" Grid.Column="1" SelectedDate="{Binding EndDate}" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource MahApps.Styles.DatePicker}" />
                 </Grid>
 
             </Grid>
@@ -104,11 +120,11 @@
                       AutoGenerateColumns="False" IsReadOnly="True"
                       SelectedItem="{Binding SelectedEmployee}">
                     <DataGrid.Columns >
-                        <DataGridTextColumn Header="번호" Binding="{Binding ID}"             Width="*"/>
+                        <DataGridTextColumn Header="번호"   Binding="{Binding ID}"             Width="*"/>
                         <DataGridTextColumn Header="심각도" Binding="{Binding Level}"        Width="*"/>
-                        <DataGridTextColumn Header="오류" Binding="{Binding Message}"        Width="1.5*"/>
-                        <DataGridTextColumn Header="내용" Binding="{Binding AdditionalInfo}" Width="4*"/>
-                        <DataGridTextColumn Header="시간" Binding="{Binding LoggedOnDate}"   Width="4*" />
+                        <DataGridTextColumn Header="오류"   Binding="{Binding Message}"        Width="1.5*"/>
+                        <DataGridTextColumn Header="내용"   Binding="{Binding AdditionalInfo}" Width="4*"/>
+                        <DataGridTextColumn Header="시간"   Binding="{Binding LoggedOnDate}"   Width="4*" />
                     </DataGrid.Columns>
                 </DataGrid>
 

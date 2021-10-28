@@ -39,7 +39,7 @@
                    FontSize="20"
                    Style="{StaticResource MahApps.Styles.Label}"/>
 
-            <Label Grid.Row="1" Grid.Column="0" Content="온도" VerticalAlignment="Center"
+            <Label Grid.Row="1" Grid.Column="0" Content="Temperature" VerticalAlignment="Center"
                    FontWeight="Bold"
                    Style="{StaticResource MahApps.Styles.Label}"/>
             <TextBox x:Name="SPlantT" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center"
@@ -47,7 +47,7 @@
                      mah:TextBoxHelper.ClearTextButton="True"
             Style="{StaticResource MahApps.Styles.TextBox}"/>
 
-            <Label Grid.Row="2" Grid.Column="0" Content="습도" VerticalAlignment="Center"
+            <Label Grid.Row="2" Grid.Column="0" Content="Huminity" VerticalAlignment="Center"
                    FontWeight="Bold"
                    Style="{StaticResource MahApps.Styles.Label}"/>
             <TextBox x:Name="SPlantH" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center"
@@ -56,44 +56,44 @@
                      mah:TextBoxHelper.ClearTextButton="True"
                      Style="{StaticResource MahApps.Styles.TextBox}"/>
 
-            <Label Grid.Row="3" Grid.Column="0" Content="라인설비" VerticalAlignment="Center"
+            <Label Grid.Row="4" Grid.Column="0" Content="라인설비" VerticalAlignment="Center"
                    FontWeight="Bold"
                    FontSize="20"
                    Style="{StaticResource MahApps.Styles.Label}"/>
 
-            <Label Grid.Row="4" Grid.Column="0" Content="로봇팔" VerticalAlignment="Center"
+            <Label Grid.Row="5" Grid.Column="0" Content="RobotArm Temperature" VerticalAlignment="Center"
                    FontWeight="Bold"
                    Style="{StaticResource MahApps.Styles.Label}"/>
-            <TextBox x:Name="SRobotArm" Grid.Row="4" Grid.Column="1" VerticalAlignment="Center"
+            <TextBox x:Name="SRobotArm" Grid.Row="5" Grid.Column="1" VerticalAlignment="Center"
                      mah:TextBoxHelper.Watermark="값 입력"
                      mah:TextBoxHelper.UseFloatingWatermark="True"
                      mah:TextBoxHelper.ClearTextButton="True"
                      Style="{StaticResource MahApps.Styles.TextBox}"/>
 
-            <Label Grid.Row="5" Grid.Column="0" Content="컨베이어" VerticalAlignment="Center"
+            <Label Grid.Row="6" Grid.Column="0" Content="Conveyer Temperature" VerticalAlignment="Center"
                    FontWeight="Bold"
-                   Style="{StaticResource MahApps.Styles.Label}"/>
-            <TextBox x:Name="SConveyor" Grid.Row="5" Grid.Column="1" VerticalAlignment="Center"
+                   Style="{StaticResource MahApps.Styles.Label}" HorizontalAlignment="Left" Margin="0,6,0,5" Width="117"/>
+            <TextBox x:Name="SConveyor" Grid.Row="6" Grid.Column="1" VerticalAlignment="Center"
                      mah:TextBoxHelper.Watermark="값 입력"
                      mah:TextBoxHelper.UseFloatingWatermark ="True"
                      mah:TextBoxHelper.ClearTextButton="True"
                      Style="{StaticResource MahApps.Styles.TextBox}"/>
 
-            <Label Grid.Row="6" Grid.Column="0" Content="펌프" VerticalAlignment="Center"
+            <Label Grid.Row="7" Grid.Column="0" Content="펌프" VerticalAlignment="Center"
                    FontWeight="Bold"
                    FontSize="20"
                    Style="{StaticResource MahApps.Styles.Label}"/>
 
-            <Label Grid.Row="7" Grid.Column="0" Content="온도" VerticalAlignment="Center"
+            <Label Grid.Row="3" Grid.Column="0" Content="Fine Dust Concentration" VerticalAlignment="Center"
                    FontWeight="Bold"
                    Style="{StaticResource MahApps.Styles.Label}"/>
-            <TextBox x:Name="SPumpT" Grid.Row="7" Grid.Column="1" VerticalAlignment="Center"
+            <TextBox x:Name="SPumpT" Grid.Row="3" Grid.Column="1" VerticalAlignment="Center"
                      mah:TextBoxHelper.Watermark="값 입력"
                      mah:TextBoxHelper.UseFloatingWatermark="True"
                      mah:TextBoxHelper.ClearTextButton="True"
                      Style="{StaticResource MahApps.Styles.TextBox}"/>
 
-            <Label Grid.Row="8" Grid.Column="0" Content="유량" VerticalAlignment="Center"
+            <Label Grid.Row="8" Grid.Column="0" Content="Pump1 Water level" VerticalAlignment="Center"
                    FontWeight="Bold"
                    Style="{StaticResource MahApps.Styles.Label}"/>
             <TextBox x:Name="SFlowRate" Grid.Row="8" Grid.Column="1" VerticalAlignment="Center"
@@ -102,7 +102,7 @@
                      mah:TextBoxHelper.ClearTextButton="True"
                      Style="{StaticResource MahApps.Styles.TextBox}"/>
 
-            <Label Grid.Row="9" Grid.Column="0" Content="밀도" VerticalAlignment="Center"
+            <Label Grid.Row="9" Grid.Column="0" Content="Pump2 Water level" VerticalAlignment="Center"
                    FontWeight="Bold"
                    Style="{StaticResource MahApps.Styles.Label}"/>
             <TextBox x:Name="SDensity" Grid.Row="9" Grid.Column="1" VerticalAlignment="Center"

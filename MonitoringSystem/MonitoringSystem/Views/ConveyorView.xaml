@@ -164,7 +164,7 @@
                         <Label Content="emergency control button" HorizontalContentAlignment="Center" VerticalAlignment="Center" FontSize="14" FontWeight="Bold" Foreground="Red"/>
                     </Grid>
                     
-                    <Border Grid.Row="1" Grid.Column="0" BorderBrush="White" BorderThickness="1" CornerRadius="5" Background="#b5b8bd" />
+                    <Border Grid.Row="1" Grid.Column="0" BorderBrush="White" BorderThickness="1" CornerRadius="5" Background="#b5b8bd" Margin="0,4,0,66" Grid.RowSpan="2" />
                     <Border Grid.Row="2" Grid.Column="0" BorderBrush="White" BorderThickness="1" CornerRadius="5" Background="#b5b8bd"  />
                     <Border Grid.Row="3" Grid.Column="0" BorderBrush="White" BorderThickness="1" CornerRadius="5" Background="#b5b8bd"  />
                     <!-- Style="{StaticResource MahApps.Styles.Button.Square.Accent}"  -->

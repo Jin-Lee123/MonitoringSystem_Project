@@ -36,6 +36,13 @@ namespace MonitoringSystem.Models
                                                          WHERE Level LIKE @type
                                                             AND Message LIKE @Message1
                                                             AND LoggedOnDate BETWEEN @SDATE AND @EDATE                              
-                                                         ORDER BY LoggedOnDate DESC"; 
+                                                         ORDER BY LoggedOnDate DESC";
+        public static readonly string SELECT_QUERY2 = @"SELECT  TOP 15
+                                                             Level
+                                                            , Message
+                                                            , AdditionalInfo
+                                                            , LoggedOnDate
+                                                         FROM Logs
+                                                         ORDER BY LoggedOnDate DESC";
     }
 }
