@@ -304,28 +304,27 @@ namespace MonitoringSystem.ViewModels
                         if (subTankTon < 300)
                         {
                             BtnClickOn();
+                            BtnClick2Off();
                             // subTank 수위가 낮아 mainpump 가동 시작
-                            App.Logger.Info("subTank 수위가 낮아 mainpump 가동 시작");
+                            App.Logger.Info(new Exception("펌프"),"subTank 수위가 낮아 mainpump 가동 시작");
 
                         }
                         else if (subTankTon > 630)
                         {
                             BtnClickOff();
                             // subTank 수위가 높아 mainpump 가동 시작
-                            App.Logger.Info("subTank 수위가 높아 mainpump 가동 시작");
-
+                            App.Logger.Info(new Exception("펌프"), "subTank 수위가 높아 mainpump 가동 시작");
                             BtnClick2On();
                             // subTank 수위가 높아 subpump 가동 시작
-                            App.Logger.Info("subTank 수위가 높아 subpump 가동 시작");
-                            Thread.Sleep(50000);
-                            BtnClick2Off();
+                            App.Logger.Info(new Exception("펌프"), "subTank 수위가 높아 subpump 가동 시작");
+                            Thread.Sleep(5000);
                         }
                         Thread.Sleep(1000);
                     }
                     else
                     {
                         Thread.Yield();
-                        App.Logger.Info("자동모드 종료");
+                        App.Logger.Info(new Exception("펌프"), "자동모드 종료");
                         BtnClickOff();
                         BtnClick2Off();
                         Thread.Sleep(60000);
@@ -336,9 +335,7 @@ namespace MonitoringSystem.ViewModels
             catch (Exception ex)
             {
                 BtnClickOff();
-                Debug.WriteLine($"Feedback() Excepteion  BtnClickOff() ");
                 BtnClick2Off();
-                Debug.WriteLine($"Feedback() Excepteion  BtnClick2Off() ");
                 MessageBox.Show("Feedback() Task 오류발생", ex.ToString());
             }
             finally
@@ -378,7 +375,7 @@ namespace MonitoringSystem.ViewModels
 
                 task.Start();
                 // 자동모드 시작
-                App.Logger.Info("자동모드 시작");
+                App.Logger.Info(new Exception("펌프"), "자동모드 시작");
             }
             catch (Exception ex)
             {
@@ -470,10 +467,8 @@ namespace MonitoringSystem.ViewModels
                                  "   \"sensor\" : \"0\" \n" +
                                  "}";
 
-                Dispatcher.CurrentDispatcher.Invoke(() =>
-                {
+
                     Client.Publish($"{factoryId2}/4005/", Encoding.UTF8.GetBytes(pubData), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
-                }, DispatcherPriority.Normal);
                 
             }
             catch (Exception ex)
