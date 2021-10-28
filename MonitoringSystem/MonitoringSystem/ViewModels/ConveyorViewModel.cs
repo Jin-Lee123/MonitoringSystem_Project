@@ -472,7 +472,7 @@ namespace MonitoringSystem.ViewModels
                     ConveyTemp = currData["sensor"];
                     InsertData(currData);
                 }
-
+                
                 //else if (currData["dev_addr"] == "4004" && currData["code"] == "Duty") // ConveyTemp 데이터 수신
                 //{
                 //    Duty = currData["sensor"];

@@ -7,10 +7,12 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Threading;
 using uPLibrary.Networking.M2Mqtt;
@@ -26,8 +28,11 @@ namespace MonitoringSystem.ViewModels
         private string clientId = "학원";
         private string factoryId = "Kasan01";            //  Kasan01/4001/  kasan01/4002/ 
         private string factoryId2 = "Kasan02";            //  Kasan01/4001/  kasan01/4002/ 
-        private string connectionString = "Data Source=hangaramit.iptime.org;Initial Catalog=1조_database;Persist Security Info=True;User ID=team1;Password=team1_1234";
-        public Task t;
+        private string connectionString = "Data Source=hangaramit.iptime.org;Initial Catalog=1조_database;Persist Security Info=True;User ID=team1;Password=team1_1234";        
+
+        private Thread task;
+        private Thread taskstop;
+        private readonly object _lock = new object();
 
         #endregion
 
@@ -89,6 +94,17 @@ namespace MonitoringSystem.ViewModels
             }
         }
 
+        // 펌프가 작동중인지 확인
+        private bool work = true;
+        public bool Work
+        {
+            get => work;
+            set
+            {
+                work = value;
+                NotifyOfPropertyChange(() => Work);
+            }
+        }
         private bool _isEnable = true;
         public bool isEnable
         {
@@ -278,31 +294,49 @@ namespace MonitoringSystem.ViewModels
         #region ### Tank 수위 실시간 감지 ###
         public void Feedback()
         {
-            Task t = new Task(Feedback);
             try
             {
-                IsStop = true;
-                while (isStop)
+                while (IsStop)
                 {
-                    // sub tank 수위가 높을경우 stop
-                    if (subTankTon < 300)
+                    if (work)
                     {
-                        BtnClickOn();
+                        // sub tank 수위가 높을경우 stop
+                        if (subTankTon < 300)
+                        {
+                            BtnClickOn();
+                            BtnClick2Off();
+                            // subTank 수위가 낮아 mainpump 가동 시작
+                            App.Logger.Info(new Exception("펌프"),"subTank 수위가 낮아 mainpump 가동 시작");
+
+                        }
+                        else if (subTankTon > 630)
+                        {
+                            BtnClickOff();
+                            // subTank 수위가 높아 mainpump 가동 시작
+                            App.Logger.Info(new Exception("펌프"), "subTank 수위가 높아 mainpump 가동 시작");
+                            BtnClick2On();
+                            // subTank 수위가 높아 subpump 가동 시작
+                            App.Logger.Info(new Exception("펌프"), "subTank 수위가 높아 subpump 가동 시작");
+                            Thread.Sleep(5000);
+                        }
+                        Thread.Sleep(1000);
                     }
-                    else if (subTankTon > 630)
+                    else
                     {
+                        Thread.Yield();
+                        App.Logger.Info(new Exception("펌프"), "자동모드 종료");
                         BtnClickOff();
-                        BtnClick2On();
+                        BtnClick2Off();
+                        Thread.Sleep(60000);
                     }
-                    t.Wait(10000);
-                    BtnClick2Off();
                 }
+
             }
             catch (Exception ex)
             {
                 BtnClickOff();
                 BtnClick2Off();
-                MessageBox.Show("Task 오류발생", ex.ToString());
+                MessageBox.Show("Feedback() Task 오류발생", ex.ToString());
             }
             finally
             {
@@ -310,9 +344,62 @@ namespace MonitoringSystem.ViewModels
                 BtnClick2Off();
             }
 
+            Debug.WriteLine("Out of While");
         }
         #endregion
 
+        #region ### AUTO ###
+        public void AutoRun()
+        {
+            // Publish 펌프 제어 ON
+            try
+            {
+                var currtime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                string pubData = "{ \n" +
+                                 "   \"dev_addr\" : \"4002\", \n" +
+                                 $"   \"currtime\" : \"{currtime}\" , \n" +
+                                 "   \"code\" : \"pump\", \n" +
+                                 "   \"value\" : \"1\", \n" +
+                                 "   \"sensor\" : \"0\" \n" +
+                                 "}";
+
+                Dispatcher.CurrentDispatcher.Invoke(() =>
+                {
+                    Client.Publish($"{factoryId}/4002/", Encoding.UTF8.GetBytes(pubData), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
+                    BtnColor = "Red";
+                }, DispatcherPriority.Normal);
+
+                IsStop = true;
+                work = true;
+                task = new Thread(Feedback);
+
+                task.Start();
+                // 자동모드 시작
+                App.Logger.Info(new Exception("펌프"), "자동모드 시작");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"main pump on 접속 오류 { ex.Message}");
+            }
+        }
+        #endregion
+
+        #region 정지 로직 구현 어찌할 지 고민
+        public void AutoStop()
+        {
+            // Thread 정지 이벤트 발생
+            //var t = Task.Run(() => { Feedback(); });
+            //t.Wait(60000);
+            taskstop = new Thread(ThreadStop);
+            taskstop.Start();
+        }
+
+        private void ThreadStop()
+        {
+            work = false;
+        }
+
+        #endregion
 
         #region ### 펌프제어 Publish ### 
         public void BtnClickOn()
@@ -329,9 +416,11 @@ namespace MonitoringSystem.ViewModels
                                  "   \"sensor\" : \"0\" \n" +
                                  "}";
 
-                Client.Publish($"{factoryId}/4002/", Encoding.UTF8.GetBytes(pubData), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
-                BtnColor = "Red";
-
+                Dispatcher.CurrentDispatcher.Invoke(() =>
+                {
+                    Client.Publish($"{factoryId}/4002/", Encoding.UTF8.GetBytes(pubData), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
+                    BtnColor = "Red";
+                }, DispatcherPriority.Normal);
             }
             catch (Exception ex)
             {
@@ -351,9 +440,12 @@ namespace MonitoringSystem.ViewModels
                                   "   \"value\" : \"0\", \n" +
                                   "   \"sensor\" : \"0\" \n" +
                                   "}";
-
-                Client.Publish($"{factoryId}/4002/", Encoding.UTF8.GetBytes(pubData), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
-                BtnColor = "Gray";
+                
+                Dispatcher.CurrentDispatcher.Invoke(() =>
+                {
+                    Client.Publish($"{factoryId}/4002/", Encoding.UTF8.GetBytes(pubData), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
+                    BtnColor = "Gray";
+                }, DispatcherPriority.Normal);
             }
             catch (Exception ex)
             {
@@ -375,7 +467,9 @@ namespace MonitoringSystem.ViewModels
                                  "   \"sensor\" : \"0\" \n" +
                                  "}";
 
-                Client.Publish($"{factoryId2}/4005/", Encoding.UTF8.GetBytes(pubData), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
+
+                    Client.Publish($"{factoryId2}/4005/", Encoding.UTF8.GetBytes(pubData), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
+                
             }
             catch (Exception ex)
             {
@@ -396,7 +490,11 @@ namespace MonitoringSystem.ViewModels
                                   "   \"sensor\" : \"0\" \n" +
                                   "}";
 
-                Client.Publish($"{factoryId2}/4005/", Encoding.UTF8.GetBytes(pubData), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
+                Dispatcher.CurrentDispatcher.Invoke(() =>
+                {
+                    Client.Publish($"{factoryId2}/4005/", Encoding.UTF8.GetBytes(pubData), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
+                }, DispatcherPriority.Normal);
+                
             }
             catch (Exception ex)
             {
@@ -423,15 +521,23 @@ namespace MonitoringSystem.ViewModels
 
                 if (currData["dev_addr"] == "4001" && currData["code"] == "MainTank") // MainTank에서 데이터 수신
                 {
-                    MainTankValue = int.Parse(currData["sensor"]);
-                    MainTankTon = int.Parse(currData["sensor"]);
-                    LblStatus = message;
+                    Dispatcher.CurrentDispatcher.Invoke(() =>
+                    {
+                        MainTankValue = int.Parse(currData["sensor"]);
+                        MainTankTon = int.Parse(currData["sensor"]);
+                        LblStatus = message;
+                    }, DispatcherPriority.Normal);
+                    
                 }
                 else if (currData["dev_addr"] == "4001" && currData["code"] == "SubTank")
                 {
-                    SubTankValue = int.Parse(currData["sensor"]);
-                    SubTankTon = int.Parse(currData["sensor"]);
-                    LblStatus1 = message;
+                    Dispatcher.CurrentDispatcher.Invoke(() =>
+                    {
+                        SubTankValue = int.Parse(currData["sensor"]);
+                        SubTankTon = int.Parse(currData["sensor"]);
+                        LblStatus1 = message;
+                    }, DispatcherPriority.Normal);
+                    
                 }
                 InsertData(currData);
             }
@@ -584,42 +690,5 @@ namespace MonitoringSystem.ViewModels
 
         #endregion
 
-        #region ### AUTO ###
-        public void AutoRun()
-        {
-            // Publish 펌프 제어 ON
-            try
-            {
-                var currtime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-                string pubData = "{ \n" +
-                                 "   \"dev_addr\" : \"4002\", \n" +
-                                 $"   \"currtime\" : \"{currtime}\" , \n" +
-                                 "   \"code\" : \"pump\", \n" +
-                                 "   \"value\" : \"1\", \n" +
-                                 "   \"sensor\" : \"0\" \n" +
-                                 "}";
-
-                Client.Publish($"{factoryId}/4002/", Encoding.UTF8.GetBytes(pubData), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
-                BtnColor = "Red";
-
-                var t = Task.Run(() => { Feedback(); });
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"main pump on 접속 오류 { ex.Message}");
-            }
-        }
-
-        #region 정지 로직 구현 어찌할 지 고민
-        public void AutoStop()
-        {
-            // Thread 정지 이벤트 발생
-            isStop = false;
-            var t = Task.Run(() => { Feedback(); });
-            t.Wait(60000);
-        } 
-        #endregion
-
-        #endregion
     }
 }

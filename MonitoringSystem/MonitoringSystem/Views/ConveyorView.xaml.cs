@@ -23,6 +23,7 @@ namespace MonitoringSystem.Views
         private string clientId = "SCADA_system";
         private string factoryId = "kasan01";
         private MqttClient client;
+        
 
         //opencv
         private const string windowName = "src";
@@ -58,10 +59,8 @@ namespace MonitoringSystem.Views
             client.Connect(clientId);
             client.Subscribe(new string[] { $"{factoryId}/4003/" }, new byte[] { MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE });
             //client.Subscribe(new string[] { $"{factoryId}/#" }, new byte[] { MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE });
-            //client1.Subscribe(new string[] { $"{factoryId}/4001/" }, new byte[] { MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE });
 
         }
-
         private void Client_ConnectionClosed(object sender, EventArgs e)
         {
 
@@ -119,14 +118,6 @@ namespace MonitoringSystem.Views
                     }
                     // 물체감지
                     App.Logger.Fatal(new Exception("컨베이어"), "물체감지 정지");
-                }
-                else if (currData["dev_addr"] == "4001" && currData["code"] == "Arm" && currData["value"] == "1")
-                {
-                    ArmStartAnimation();
-                }
-                else if (currData["dev_addr"] == "4001" && currData["code"] == "Arm" && currData["value"] == "2")
-                {
-                    ArmStartAnimation1();
                 }
             }
             catch (Exception ex)
@@ -444,7 +435,7 @@ namespace MonitoringSystem.Views
             Cv2.CvtColor(redChannel, src2, ColorConversionCodes.GRAY2BGR);
             Cv2.CvtColor(src2, image2, ColorConversionCodes.BGR2GRAY); // 회색 
 
-            Cv2.ImShow("image2", image2);
+            //Cv2.ImShow("image2", image2);
 
 
             Cv2.Dilate(image2, image2, kernel, new OpenCvSharp.Point(-1, -1), 3);
@@ -466,7 +457,7 @@ namespace MonitoringSystem.Views
                 Cv2.Circle(dst, center, (int)circles[i].Radius, Scalar.White, 3);
                 Cv2.Circle(dst, center, 5, Scalar.AntiqueWhite, Cv2.FILLED);
             }
-            Cv2.ImShow("구멍갯수", dst);
+            //Cv2.ImShow("구멍갯수", dst);
             #endregion
 
             #region 색상 분석!
@@ -524,7 +515,7 @@ namespace MonitoringSystem.Views
             //{
             //    this.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Background, new Action(() =>
             //    {
-            //        LblResult2.Content = "제품 판별 : 양품";
+            //        LblResult2.Content = "제품 판별 : 양품(구멍 3개이상)";
             //    }));
 
             //    var currtime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
@@ -539,8 +530,9 @@ namespace MonitoringSystem.Views
             //}
             //else
             //{
-            //    this.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Background, new Action(() => {
-            //        LblResult2.Content = "제품 판별 : 불량";
+            //    this.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Background, new Action(() =>
+            //    {
+            //        LblResult2.Content = "제품 판별 : 불량(구멍 부족)";
             //    }));
             //    var currtime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
             //    string pubData = "{ \n" +
@@ -555,8 +547,9 @@ namespace MonitoringSystem.Views
             //#endregion
 
             #region 색상 식별 후 로봇팔 로직!
-            if (pixels > 50)
+            if (pixels > 150)
             {
+
                 this.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Background, new Action(() =>
                 {
                     LblResult2.Content = "제품 판별 : 불량(빨간색)";
@@ -574,6 +567,7 @@ namespace MonitoringSystem.Views
             }
             else if (pixels2 > 50)
             {
+
                 this.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Background, new Action(() =>
                 {
                     LblResult2.Content = "제품 판별 : 양품(초록색)";
@@ -610,16 +604,16 @@ namespace MonitoringSystem.Views
             #endregion
             Cv2.WaitKey(0);
             Cv2.DestroyAllWindows();
-        } 
+        }
         #endregion
 
-        #region 공장 온도 차트그래프 버튼이벤트
-      /*  private void LoadLineTemp_Click(object sender, RoutedEventArgs e)
+        #region 컨베이어,로봇팔 온도 차트 열기 버튼
+        private void LoadLineTemp_Click(object sender, RoutedEventArgs e)
         {
             var win = new LineTempView();
             win.Topmost = true;
             win.ShowDialog();
-        }*/
+        }
         #endregion
     }
 }
