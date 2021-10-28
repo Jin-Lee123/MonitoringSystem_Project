@@ -515,7 +515,7 @@ namespace MonitoringSystem.Views
             //{
             //    this.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Background, new Action(() =>
             //    {
-            //        LblResult2.Content = "제품 판별 : 양품";
+            //        LblResult2.Content = "제품 판별 : 양품(구멍 3개이상)";
             //    }));
 
             //    var currtime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
@@ -530,8 +530,9 @@ namespace MonitoringSystem.Views
             //}
             //else
             //{
-            //    this.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Background, new Action(() => {
-            //        LblResult2.Content = "제품 판별 : 불량";
+            //    this.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Background, new Action(() =>
+            //    {
+            //        LblResult2.Content = "제품 판별 : 불량(구멍 부족)";
             //    }));
             //    var currtime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
             //    string pubData = "{ \n" +
@@ -546,9 +547,9 @@ namespace MonitoringSystem.Views
             //#endregion
 
             #region 색상 식별 후 로봇팔 로직!
-            if (pixels > 50)
+            if (pixels > 150)
             {
-               
+
                 this.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Background, new Action(() =>
                 {
                     LblResult2.Content = "제품 판별 : 불량(빨간색)";
@@ -566,7 +567,7 @@ namespace MonitoringSystem.Views
             }
             else if (pixels2 > 50)
             {
-               
+
                 this.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Background, new Action(() =>
                 {
                     LblResult2.Content = "제품 판별 : 양품(초록색)";

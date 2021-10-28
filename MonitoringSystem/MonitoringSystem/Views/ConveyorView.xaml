@@ -214,8 +214,8 @@
                           FontWeight="Bold" FontSize="13"
                           SectionsInnerRadius=".5">
                     <lvc:AngularGauge.Sections>
-                        <lvc:AngularSection FromValue="0" ToValue="30" Fill="#F8A725"/>
-                        <lvc:AngularSection FromValue="30" ToValue="100" Fill="#FF3939"/>
+                        <lvc:AngularSection FromValue="0" ToValue="40" Fill="#F8A725"/>
+                        <lvc:AngularSection FromValue="40" ToValue="100" Fill="#FF3939"/>
                     </lvc:AngularGauge.Sections>
                 </lvc:AngularGauge>
                 <StackPanel Orientation="Horizontal"  Grid.Column="2"  HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,120"  Background="AliceBlue">
