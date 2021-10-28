@@ -111,7 +111,7 @@
                             Foreground="White"
                             HorizontalAlignment="Center"/>
                     </Grid>
-                    <Button x:Name="LoadMonitoring"  Height="100" Style="{StaticResource MahApps.Styles.Button.Hamburger}" Margin="10,10,10,10" >
+                    <Button x:Name="LoadMonitoring"  Height="100" Style="{StaticResource MahApps.Styles.Button.Hamburger}" Margin="10,10,10,10">
                         <Button.Content>
                             <JIN:UC_Button1/>
                         </Button.Content>

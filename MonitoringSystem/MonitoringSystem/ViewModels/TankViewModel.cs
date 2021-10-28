@@ -27,7 +27,7 @@ namespace MonitoringSystem.ViewModels
         private string factoryId = "Kasan01";            //  Kasan01/4001/  kasan01/4002/ 
         private string factoryId2 = "Kasan02";            //  Kasan01/4001/  kasan01/4002/ 
         private string connectionString = "Data Source=hangaramit.iptime.org;Initial Catalog=1조_database;Persist Security Info=True;User ID=team1;Password=team1_1234";
-        Task t;
+        public Task t;
 
         #endregion
 
@@ -287,7 +287,6 @@ namespace MonitoringSystem.ViewModels
                     // sub tank 수위가 높을경우 stop
                     if (subTankTon < 300)
                     {
-                        t.Wait(1000);
                         BtnClickOn();
                     }
                     else if (subTankTon > 630)
@@ -295,14 +294,15 @@ namespace MonitoringSystem.ViewModels
                         BtnClickOff();
                         BtnClick2On();
                     }
-                    t.Wait(1000);
+                    t.Wait(10000);
+                    BtnClick2Off();
                 }
             }
             catch (Exception ex)
             {
                 BtnClickOff();
                 BtnClick2Off();
-                MessageBox.Show("Thread 오류발생", ex.ToString());
+                MessageBox.Show("Task 오류발생", ex.ToString());
             }
             finally
             {
@@ -332,8 +332,6 @@ namespace MonitoringSystem.ViewModels
                 Client.Publish($"{factoryId}/4002/", Encoding.UTF8.GetBytes(pubData), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
                 BtnColor = "Red";
 
-
-                var t = Task.Run(() => { Feedback(); });
             }
             catch (Exception ex)
             {
@@ -589,7 +587,27 @@ namespace MonitoringSystem.ViewModels
         #region ### AUTO ###
         public void AutoRun()
         {
-            BtnClickOn();
+            // Publish 펌프 제어 ON
+            try
+            {
+                var currtime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                string pubData = "{ \n" +
+                                 "   \"dev_addr\" : \"4002\", \n" +
+                                 $"   \"currtime\" : \"{currtime}\" , \n" +
+                                 "   \"code\" : \"pump\", \n" +
+                                 "   \"value\" : \"1\", \n" +
+                                 "   \"sensor\" : \"0\" \n" +
+                                 "}";
+
+                Client.Publish($"{factoryId}/4002/", Encoding.UTF8.GetBytes(pubData), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
+                BtnColor = "Red";
+
+                var t = Task.Run(() => { Feedback(); });
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"main pump on 접속 오류 { ex.Message}");
+            }
         }
 
         #region 정지 로직 구현 어찌할 지 고민
@@ -597,8 +615,8 @@ namespace MonitoringSystem.ViewModels
         {
             // Thread 정지 이벤트 발생
             isStop = false;
-            Task t = new Task(Feedback);
-            t.Wait(5000);
+            var t = Task.Run(() => { Feedback(); });
+            t.Wait(60000);
         } 
         #endregion
 

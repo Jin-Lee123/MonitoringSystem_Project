@@ -207,6 +207,9 @@
     <Compile Include="Views\MonitoringView.xaml.cs">
       <DependentUpon>MonitoringView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\PlantCCTVView.xaml.cs">
+      <DependentUpon>PlantCCTVView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SettingsView.xaml.cs">
       <DependentUpon>SettingsView.xaml</DependentUpon>
     </Compile>
@@ -327,6 +330,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\MainView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PlantCCTVView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
