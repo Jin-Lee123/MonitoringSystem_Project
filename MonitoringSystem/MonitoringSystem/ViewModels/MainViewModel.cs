@@ -35,9 +35,9 @@ namespace MonitoringSystem.ViewModels
             }
         }
 
-        private float plantT;
+        private double plantT;
 
-        public float PlantT
+        public double PlantT
         {
             get => plantT;
             set
@@ -46,7 +46,42 @@ namespace MonitoringSystem.ViewModels
                 NotifyOfPropertyChange(() => PlantT);
             }
         }
-        
+
+        private double plantH;
+
+        public double PlantH
+        {
+            get => plantH;
+            set
+            {
+                plantH = value;
+                NotifyOfPropertyChange(() => PlantH);
+            }
+        }
+        // RobotTemp
+        private double robotTemp;
+        public double RobotTemp
+        {
+            get => robotTemp;
+            set
+            {
+                robotTemp = value;
+                NotifyOfPropertyChange(() => RobotTemp);
+            }
+        }
+
+        // ConveyTemp
+        private double conveyTemp;
+        public double ConveyTemp
+        {
+            get => conveyTemp;
+            set
+            {
+                conveyTemp = value;
+                NotifyOfPropertyChange(() => ConveyTemp);
+            }
+        }
+
 
         private string _DisplayDateTextBlock;
 
@@ -84,9 +119,9 @@ namespace MonitoringSystem.ViewModels
             }
         }
 
-        private float SplantT;
+        private double SplantT;
 
-        public float SPlantT
+        public double SPlantT
         {
             get => SplantT;
             set
@@ -97,9 +132,9 @@ namespace MonitoringSystem.ViewModels
         }
 
 
-        private float SplantH;
+        private double SplantH;
 
-        public float SPlantH
+        public double SPlantH
         {
             get => SplantH;
             set
@@ -109,9 +144,9 @@ namespace MonitoringSystem.ViewModels
             }
         }
 
-        private float SrobotArm;
+        private double SrobotArm;
 
-        public float SRobotArm
+        public double SRobotArm
         {
             get => SrobotArm;
             set
@@ -121,9 +156,9 @@ namespace MonitoringSystem.ViewModels
             }
         }
 
-        private float Sconveyor;
+        private double Sconveyor;
 
-        public float SConveyor
+        public double SConveyor
         {
             get => Sconveyor;
             set
@@ -133,9 +168,9 @@ namespace MonitoringSystem.ViewModels
             }
         }
 
-        private float SpumpT;
+        private double SpumpT;
 
-        public float SPumpT
+        public double SPumpT
         {
             get => SpumpT;
             set
@@ -145,9 +180,9 @@ namespace MonitoringSystem.ViewModels
             }
         }
 
-        private float SflowRate;
+        private double SflowRate;
 
-        public float SFlowRate
+        public double SFlowRate
         {
             get => SflowRate;
             set
@@ -157,9 +192,9 @@ namespace MonitoringSystem.ViewModels
             }
         }
 
-        private float Sdensity;
+        private double Sdensity;
 
-        public float SDensity
+        public double SDensity
         {
             get => Sdensity;
             set
@@ -171,14 +206,14 @@ namespace MonitoringSystem.ViewModels
        
 
         #region Gas 변수
-        private float gas1;
-        private float gas2;
-        private float gas3;
-        private float gas4;
-        private float gas5;
-        private float gas6;
+        private double gas1;
+        private double gas2;
+        private double gas3;
+        private double gas4;
+        private double gas5;
+        private double gas6;
 
-        public float Gas1
+        public double Gas1
         {
             get => gas1;
             set
@@ -187,7 +222,7 @@ namespace MonitoringSystem.ViewModels
                 NotifyOfPropertyChange(() => Gas1);
             }
         }
-        public float Gas2
+        public double Gas2
         {
             get => gas2;
             set
@@ -196,7 +231,7 @@ namespace MonitoringSystem.ViewModels
                 NotifyOfPropertyChange(() => Gas2);
             }
         }
-        public float Gas3
+        public double Gas3
         {
             get => gas3;
             set
@@ -205,7 +240,7 @@ namespace MonitoringSystem.ViewModels
                 NotifyOfPropertyChange(() => Gas3);
             }
         }
-        public float Gas4
+        public double Gas4
         {
             get => gas4;
             set
@@ -214,7 +249,7 @@ namespace MonitoringSystem.ViewModels
                 NotifyOfPropertyChange(() => Gas4);
             }
         }
-        public float Gas5
+        public double Gas5
         {
             get => gas5;
             set
@@ -223,7 +258,7 @@ namespace MonitoringSystem.ViewModels
                 NotifyOfPropertyChange(() => Gas5);
             }
         }
-        public float Gas6
+        public double Gas6
         {
             get => gas6;
             set
@@ -310,13 +345,13 @@ namespace MonitoringSystem.ViewModels
                     conn.Open();
                     SqlDataReader reader = cmd.ExecuteReader();
                     reader.Read();
-                    SPlantT = float.Parse(reader["PlantT"].ToString());
-                    SPlantH = float.Parse(reader["PlantH"].ToString());
-                    SRobotArm = float.Parse(reader["RobotArm"].ToString());
-                    SConveyor = float.Parse(reader["Conveyor"].ToString());
-                    SPumpT = float.Parse(reader["PumpT"].ToString());
-                    SFlowRate = float.Parse(reader["FlowRate"].ToString());
-                    SDensity = float.Parse(reader["Density"].ToString());
+                    SPlantT = double.Parse(reader["PlantT"].ToString());
+                    SPlantH = double.Parse(reader["PlantH"].ToString());
+                    SRobotArm = double.Parse(reader["RobotArm"].ToString());
+                    SConveyor = double.Parse(reader["Conveyor"].ToString());
+                    SPumpT = double.Parse(reader["PumpT"].ToString());
+                    SFlowRate = double.Parse(reader["FlowRate"].ToString());
+                    SDensity = double.Parse(reader["Density"].ToString());
                 }
                 catch (Exception)
                 {
@@ -350,7 +385,10 @@ namespace MonitoringSystem.ViewModels
             DisplayDate = DateTime.Now.ToString(@"yyyy-MM-dd");
             DisplayDate1 = DateTime.Now.ToString(@"ddd"+"요일");
             // 값 재정의
-            PlantT = DataConnection.PlantT; 
+            PlantT = DataConnection.PlantT;
+            PlantH = DataConnection.PlantH;
+            ConveyTemp = DataConnection.ConveyTemp;
+            RobotTemp = DataConnection.RobotTemp;
             Gas1 = DataConnection.Gas1;
             Gas2 = DataConnection.Gas2;
             Gas3 = DataConnection.Gas3;
@@ -359,18 +397,25 @@ namespace MonitoringSystem.ViewModels
             Gas6 = DataConnection.Gas6;
             
             // Error 표시
-            if (Gas1 < 2.5 || Gas2 < 3.0 || PlantT < 25)
+            if (Gas1 < 2.5 || Gas2 < 3.0 || PlantT < SPlantT)
             {
                 DataConnection.EMessage = "위험 경보 : CO가 일정수치 이상입니다.";
                 DataConnection.Solution = "팬을 돌려서 Gas를 밖으로 내보냅니다.";
                // ShowVMDialog(new ErrorViewModel());
                 
             }
-            else
+            if (RobotTemp > SRobotArm)
             {
-
+                DataConnection.EMessage = "위험 경보 : 로봇팔의 온도가 30 보다 높습니다.";
+                DataConnection.Solution = "작동을 멈추고 30 보다 내려갔을 때 다시 작동해주세요.";
+                 ShowVMDialog(new ErrorViewModel());
             }
-
+            if (ConveyTemp > 30)
+            {
+                DataConnection.EMessage = "위험 경보 : 컨베이어의 온도가 30 보다 높습니다.";
+                DataConnection.Solution = "작동을 멈추고 30 보다 내려갔을 때 다시 작동해주세요.";
+                  ShowVMDialog(new ErrorViewModel());
+            }
 
         }
     }

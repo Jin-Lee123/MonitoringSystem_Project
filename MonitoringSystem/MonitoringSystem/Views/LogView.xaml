@@ -6,6 +6,7 @@
       xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
       xmlns:local="clr-namespace:MonitoringSystem.Views"
       mc:Ignorable="d" 
+      Background="#ecedee"
       d:DesignHeight="450" d:DesignWidth="800"
       >
 
@@ -16,6 +17,7 @@
         </Grid.ColumnDefinitions>
         <Grid Grid.ColumnSpan="2" Margin="0,0,0,-0.4">
             <Grid.RowDefinitions>
+                <RowDefinition Height="1*" />
                 <RowDefinition Height="1*" />
                 <RowDefinition Height="5*" />
                 <RowDefinition Height="1*" />
@@ -28,46 +30,93 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-
                 <Label Grid.Row="0" Grid.Column="2" Content="Log 조회"
                    HorizontalAlignment="Center" VerticalAlignment="Center"
                    FontWeight="Bold" FontSize="20"
                    Style="{StaticResource MahApps.Styles.Label}"/>
+
+            </Grid>
+            <Grid Grid.Column="0" Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+
                 <Label Grid.Column="0" Content="심각도 종류" 
                        HorizontalAlignment="Center" VerticalAlignment="Center"
                        FontWeight="Black" FontSize="15"
                        Style="{StaticResource MahApps.Styles.Label}"
 />
                 <ComboBox  HorizontalAlignment="Left"  Grid.Column="1" Width="150" Height="30"
-                          ItemsSource="{Binding Path=Types}"
-                          SelectedItem="{Binding Path=SelectedType}" SelectedIndex="1">
+                          ItemsSource="{Binding Path=Types}" 
+                          SelectedItem="{Binding Path=SelectedType}" SelectedIndex="0">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding Type}"/>
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>
+                <Grid Grid.Column="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Label Content="공장" Grid.Column="0"/>
+                    <Label Content="펌프" Grid.Column="3"/>
+                    <Label Content="컨베이어" Grid.Column="1"/>
+                    <Label Content="로봇팔" Grid.Column="2"/>
+                    <CheckBox x:Name="Plant" Grid.Row="2" Grid.Column="0" IsChecked="{Binding IsChecked1}" HorizontalAlignment="Center"/>
+                    <CheckBox x:Name="Pump" Grid.Row="2" Grid.Column="1"  IsChecked="{Binding IsChecked2}" HorizontalAlignment="Center"/>
+                    <CheckBox x:Name="Conveyor" Grid.Row="2" Grid.Column="2" IsChecked="{Binding IsChecked3}" HorizontalAlignment="Center"/>
+                    <CheckBox x:Name="Robot" Grid.Row="2" Grid.Column="3" IsChecked="{Binding IsChecked4}" HorizontalAlignment="Center"/>
+                </Grid>
+                
+                <Grid Grid.Column="3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Content="기간 선택" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    <DatePicker x:Name="StartDate" SelectedDate="{Binding StartDate}" VerticalAlignment="Center"  Grid.Column="1"/>
+
+                </Grid>
+                <Grid Grid.Column="4">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="3*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Content=" ~ " VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    <DatePicker x:Name="EndDate" Grid.Column="1" SelectedDate="{Binding EndDate}" VerticalAlignment="Center" />
+                </Grid>
 
             </Grid>
-
-
-            <DataGrid x:Name="Log" Grid.Row="1" Grid.Column="0"
+            <DataGrid x:Name="Log" Grid.Row="2" Grid.Column="0"
                       Style="{StaticResource MahApps.Styles.DataGrid.Azure}"
                       AutoGenerateColumns="False" IsReadOnly="True"
                       SelectedItem="{Binding SelectedEmployee}">
-                <DataGrid.Columns >
-                    <DataGridTextColumn Header="번호" Binding="{Binding ID}"             Width="*"/>
-                    <DataGridTextColumn Header="심각도" Binding="{Binding Level}"        Width="*"/>
-                    <DataGridTextColumn Header="오류" Binding="{Binding Message}"        Width="1.5*"/>
-                    <DataGridTextColumn Header="내용" Binding="{Binding AdditionalInfo}" Width="4*"/>
-                    <DataGridTextColumn Header="시간" Binding="{Binding LoggedOnDate}"   Width="4*" />
-                </DataGrid.Columns>
-            </DataGrid>
+                    <DataGrid.Columns >
+                        <DataGridTextColumn Header="번호" Binding="{Binding ID}"             Width="*"/>
+                        <DataGridTextColumn Header="심각도" Binding="{Binding Level}"        Width="*"/>
+                        <DataGridTextColumn Header="오류" Binding="{Binding Message}"        Width="1.5*"/>
+                        <DataGridTextColumn Header="내용" Binding="{Binding AdditionalInfo}" Width="4*"/>
+                        <DataGridTextColumn Header="시간" Binding="{Binding LoggedOnDate}"   Width="4*" />
+                    </DataGrid.Columns>
+                </DataGrid>
 
-            <Button x:Name="GetLogs" Grid.Row="2" Grid.Column="0" Content="조회"
+                <Button x:Name="GetLogs" Grid.Row="3" Grid.Column="0" Content="조회"
                     Width="120" Height="40" ToolTip="Log 가져오기 가져오기"
                     Style="{StaticResource MahApps.Styles.Button.Square.Accent}"/>
-        </Grid>
+            </Grid>
 
-    </Grid>
+        </Grid>
+    
 </UserControl>

@@ -59,6 +59,7 @@ namespace MonitoringSystem.ViewModels
                 NotifyOfPropertyChange(() => Value);
             }
         }
+
         private int seonsor;
         public int Sensor
         {
@@ -99,8 +100,8 @@ namespace MonitoringSystem.ViewModels
                         Dev_addr = (string)reader["Dev_addr"],
                         CurrTime = (string)reader["CurrTime"],
                         Code = (string)reader["Code"],
-                        Value = (float)reader["Value"],
-                        Sensor = (float)reader["Sensor"],
+                        Value = (double)reader["Value"],
+                        Sensor = (double)reader["Sensor"],
                     };
                     Line.Add(empTmp);
 

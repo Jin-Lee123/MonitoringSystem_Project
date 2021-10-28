@@ -186,6 +186,9 @@
     <Compile Include="ViewModels\ConveyorViewModel.cs" />
     <Compile Include="ViewModels\MonitoringViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
+    <Compile Include="Views\CCTV_View.xaml.cs">
+      <DependentUpon>CCTV_View.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ConveyorView.xaml.cs">
       <DependentUpon>ConveyorView.xaml</DependentUpon>
     </Compile>
@@ -242,6 +245,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ZoomBorder.cs" />
     <Page Include="Jang\UcControl\UcPipe.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -291,6 +295,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="JIN\UC_Robotic_Arm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CCTV_View.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -385,6 +393,7 @@
     <Resource Include="4137152_building_construction_industry_pipe_icon.png" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="CCTV.jpg" />
     <Content Include="Hong\img\Warning.jfif" />
     <Resource Include="Hong\img\WarningWarning.jpg" />
     <Content Include="OpenCvSharpExtern.dll">

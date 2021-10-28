@@ -23,8 +23,8 @@ namespace MonitoringSystem.Views
             GetEmployees();
             GetEmployees2();
 
-            ChartValues<float> values = new ChartValues<float>();
-            ChartValues<float> values2 = new ChartValues<float>();
+            ChartValues<double> values = new ChartValues<double>();
+            ChartValues<double> values2 = new ChartValues<double>();
             List<string> labels = new List<string>();
             List<string> labels2 = new List<string>();
 
@@ -79,7 +79,7 @@ namespace MonitoringSystem.Views
                     {
                         CurrTime = (string)reader["CurrTime"],
                         Code = (string)reader["Code"],
-                        Sensor = float.Parse(reader["Sensor"].ToString()),
+                        Sensor = double.Parse(reader["Sensor"].ToString()),
                     });
                 }
             }
@@ -101,7 +101,7 @@ namespace MonitoringSystem.Views
                     {
                         CurrTime = (string)reader2["CurrTime"],
                         Code = (string)reader2["Code"],
-                        Sensor = float.Parse(reader2["Sensor"].ToString()),
+                        Sensor = double.Parse(reader2["Sensor"].ToString()),
                     });
                 }
             }

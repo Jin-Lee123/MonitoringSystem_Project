@@ -46,7 +46,6 @@
                 HorizontalContentAlignment="Center"
                 Opacity="0.5"
                 mah:TextBoxHelper.Watermark="UserName"
-                mah:TextBoxHelper.UseFloatingWatermark="True"
                 mah:TextBoxHelper.ClearTextButton="True"
                 Style="{StaticResource MahApps.Styles.TextBox}"/>
             <Border
@@ -71,7 +70,6 @@
                 HorizontalContentAlignment="Center"
                 Opacity="0.5"
                 mah:TextBoxHelper.Watermark="PassWord"
-                mah:TextBoxHelper.UseFloatingWatermark="True"
                 mah:TextBoxHelper.ClearTextButton="True"
                 Style="{StaticResource MahApps.Styles.TextBox}"
             />

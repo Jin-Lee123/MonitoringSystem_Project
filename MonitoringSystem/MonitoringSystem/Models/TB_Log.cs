@@ -34,6 +34,8 @@ namespace MonitoringSystem.Models
                                                             , LoggedOnDate
                                                          FROM Logs
                                                          WHERE Level LIKE @type
+                                                            AND Message LIKE @Message1
+                                                            AND LoggedOnDate BETWEEN @SDATE AND @EDATE                              
                                                          ORDER BY LoggedOnDate DESC"; 
     }
 }

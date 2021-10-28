@@ -25,7 +25,7 @@ namespace MonitoringSystem.Views
         ThreadStart ts;
         Dispatcher dispatcher = Application.Current.Dispatcher;
 
-        private string RtspUrl = "rtsp://192.168.0.21:9000";
+        private string RtspUrl = "rtsp://192.168.0.10:9000";
         private DirectoryInfo libDirectory;
 
         private bool activeThread;
@@ -40,8 +40,8 @@ namespace MonitoringSystem.Views
 
         private void Play_Button_Click(object sender, RoutedEventArgs e)
         {
-            image.SourceProvider.CreatePlayer(libDirectory);
-            image.SourceProvider.MediaPlayer.Play(new Uri(RtspUrl));
+           // image.SourceProvider.CreatePlayer(libDirectory);
+           // image.SourceProvider.MediaPlayer.Play(new Uri(RtspUrl));
             MessageBox.Show("Warn Log 입력");
             App.Logger.Fatal(new Exception("MyWarning"), "Warning!!!!");
 

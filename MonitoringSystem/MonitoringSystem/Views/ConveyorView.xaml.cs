@@ -614,12 +614,12 @@ namespace MonitoringSystem.Views
         #endregion
 
         #region 공장 온도 차트그래프 버튼이벤트
-        private void LoadLineTemp_Click(object sender, RoutedEventArgs e)
+      /*  private void LoadLineTemp_Click(object sender, RoutedEventArgs e)
         {
             var win = new LineTempView();
             win.Topmost = true;
             win.ShowDialog();
-        }
+        }*/
         #endregion
     }
 }

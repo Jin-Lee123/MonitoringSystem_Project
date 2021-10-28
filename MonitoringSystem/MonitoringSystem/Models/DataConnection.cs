@@ -27,7 +27,7 @@ namespace MonitoringSystem.Models
         }
         #region ### 변수 생성 ###
 
-        private static string serverIpNum = "192.168.0.195";  // 윈도우(MQTT Broker, SQLServer) 아이피
+        private static string serverIpNum = "192.168.0.198";  // 윈도우(MQTT Broker, SQLServer) 아이피
         private static string clientId = "Monitoring";
         private static string factoryId = "kasan01";            //  Kasan01/4001/  kasan01/4002/ 
         private static string connectionString = "Data Source=hangaramit.iptime.org;Initial Catalog=1조_database;Persist Security Info=True;User ID=team1;Password=team1_1234";
@@ -43,9 +43,35 @@ namespace MonitoringSystem.Models
             }
         }
 
-        private static float plantT;
+        #region Conveyor 변수
+        private static double robotTemp;
+        public static double RobotTemp
+        {
+            get => robotTemp;
+            set
+            {
+                robotTemp = value;
+                NotifyPropertyChange(() => RobotTemp);
+            }
+        }
 
-        public static float PlantT
+        // ConveyTemp
+        private static double conveyTemp;
+        public static double ConveyTemp
+        {
+            get => conveyTemp;
+            set
+            {
+                conveyTemp = value;
+                NotifyPropertyChange(() => ConveyTemp);
+            }
+        }
+
+        #endregion
+
+        private static double plantT;
+
+        public static double PlantT
         {
             get => plantT;
             set
@@ -55,9 +81,9 @@ namespace MonitoringSystem.Models
             }
         }
 
-        private static float plantH;
+        private static double plantH;
 
-        public static float PlantH
+        public static double PlantH
         {
             get => plantH;
             set
@@ -67,17 +93,17 @@ namespace MonitoringSystem.Models
             }
         }
 
-        private static float duty;
+        private static double duty;
 
         #region Gas 변수
-        private static float gas1;
-        private static float gas2;
-        private static float gas3;
-        private static float gas4;
-        private static float gas5;
-        private static float gas6;
+        private static double gas1;
+        private static double gas2;
+        private static double gas3;
+        private static double gas4;
+        private static double gas5;
+        private static double gas6;
 
-        public static float Gas1
+        public static double Gas1
         {
             get => gas1;
             set
@@ -86,7 +112,7 @@ namespace MonitoringSystem.Models
                 NotifyPropertyChange(() => Gas1);
             }
         }
-        public static float Gas2
+        public static double Gas2
         {
             get => gas2;
             set
@@ -95,7 +121,7 @@ namespace MonitoringSystem.Models
                 NotifyPropertyChange(() => Gas2);
             }
         }
-        public static float Gas3
+        public static double Gas3
         {
             get => gas3;
             set
@@ -104,7 +130,7 @@ namespace MonitoringSystem.Models
                 NotifyPropertyChange(() => Gas3);
             }
         }
-        public static float Gas4
+        public static double Gas4
         {
             get => gas4;
             set
@@ -113,7 +139,7 @@ namespace MonitoringSystem.Models
                 NotifyPropertyChange(() => Gas4);
             }
         }
-        public static float Gas5
+        public static double Gas5
         {
             get => gas5;
             set
@@ -122,7 +148,7 @@ namespace MonitoringSystem.Models
                 NotifyPropertyChange(() => Gas5);
             }
         }
-        public static float Gas6
+        public static double Gas6
         {
             get => gas6;
             set
@@ -132,7 +158,7 @@ namespace MonitoringSystem.Models
             }
         }
         #endregion
-        public static float Duty
+        public static double Duty
         {
             get => duty;
             set
@@ -184,13 +210,29 @@ namespace MonitoringSystem.Models
 
                 if (currData["dev_addr"] == "4006" && currData["code"] == "PlantT") // DHT22에서 데이터 수신
                 {
-                    PlantT = float.Parse(currData["sensor"]);
+                    PlantT = double.Parse(currData["sensor"]);
                 }
-                else if (currData["dev_addr"] == "4004" && currData["code"] == "Duty") // ConveyTemp 데이터 수신
+                else if (currData["dev_addr"] == "4011" && currData["code"] == "Duty") // ConveyTemp 데이터 수신
                 {
-                    Duty = float.Parse(currData["sensor"]);
+                    Duty = double.Parse(currData["sensor"]);
                     
                 }
+
+                #region Conveyor
+                // Conveyor Temp 값 받아오기
+
+                else if (currData["dev_addr"] == "4004" && currData["code"] == "RobotTemp") // RobotTemp 데이터 수신
+                {
+                    RobotTemp = double.Parse(currData["sensor"]);
+                    InsertData(currData);
+
+                }
+                else if (currData["dev_addr"] == "4004" && currData["code"] == "ConveyTemp") // ConveyTemp 데이터 수신
+                {
+                    ConveyTemp = double.Parse(currData["sensor"]);
+                    InsertData(currData);
+                }
+                #endregion
 
                 #region 가스값 센서
                 else if (currData["dev_addr"] == "4010")
@@ -199,30 +241,30 @@ namespace MonitoringSystem.Models
                     switch (currData["value"])
                     {
                         case "1":
-                            Gas1 = float.Parse(currData["sensor"]);
+                            Gas1 = double.Parse(currData["sensor"]);
                             break;
                         case "2":
-                            Gas2 = float.Parse(currData["sensor"]);
+                            Gas2 = double.Parse(currData["sensor"]);
                             break;
                         case "3":
-                            Gas3 = float.Parse(currData["sensor"]);
+                            Gas3 = double.Parse(currData["sensor"]);
                             break;
                         case "4":
-                            Gas4 = float.Parse(currData["sensor"]);
+                            Gas4 = double.Parse(currData["sensor"]);
                             break;
 
                         case "5":
-                            Gas5 = float.Parse(currData["sensor"]);
+                            Gas5 = double.Parse(currData["sensor"]);
                             break;
 
                         case "6":
-                            Gas6 = float.Parse(currData["sensor"]);
+                            Gas6 = double.Parse(currData["sensor"]);
                             break;
                         case "7":
-                            PlantH = float.Parse(currData["sensor"]);
+                            PlantH = double.Parse(currData["sensor"]);
                             break;
                         case "8":
-                            PlantT = float.Parse(currData["sensor"]);
+                            PlantT = double.Parse(currData["sensor"]);
                             break;
 
                     }

@@ -6,6 +6,7 @@
       xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
       xmlns:local="clr-namespace:MonitoringSystem.Views"
       mc:Ignorable="d" 
+      Background="#ecedee"
       d:DesignHeight="450" d:DesignWidth="800"
       >
 
@@ -43,7 +44,6 @@
                    Style="{StaticResource MahApps.Styles.Label}"/>
             <TextBox x:Name="SPlantT" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center"
                      mah:TextBoxHelper.Watermark="값 입력" 
-                     mah:TextBoxHelper.UseFloatingWatermark="True"
                      mah:TextBoxHelper.ClearTextButton="True"
             Style="{StaticResource MahApps.Styles.TextBox}"/>
 
@@ -75,7 +75,7 @@
                    Style="{StaticResource MahApps.Styles.Label}"/>
             <TextBox x:Name="SConveyor" Grid.Row="5" Grid.Column="1" VerticalAlignment="Center"
                      mah:TextBoxHelper.Watermark="값 입력"
-                     mah:TextBoxHelper.UseFloatingWatermark="True"
+                     mah:TextBoxHelper.UseFloatingWatermark ="True"
                      mah:TextBoxHelper.ClearTextButton="True"
                      Style="{StaticResource MahApps.Styles.TextBox}"/>
 

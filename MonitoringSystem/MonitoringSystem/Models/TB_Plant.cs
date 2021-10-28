@@ -8,10 +8,10 @@ namespace MonitoringSystem.Models
 {
     public class TB_Plant
     { 
-    public float PlantT { get; set; }
-    public float PlantH { get; set; }
-    public float RobotArm { get; set; }
-    public float Conveyor { get; set; }
-    public float PumpT { get; set; }
+    public double PlantT { get; set; }
+    public double PlantH { get; set; }
+    public double RobotArm { get; set; }
+    public double Conveyor { get; set; }
+    public double PumpT { get; set; }
     }
 }

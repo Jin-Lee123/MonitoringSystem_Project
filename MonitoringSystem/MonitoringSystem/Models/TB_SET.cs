@@ -8,13 +8,13 @@ namespace MonitoringSystem.Models
 {
     public class TB_SET
     {
-        public float SPlantT { get; set; }
-        public float SPlantH { get; set; }
-        public float SRobotArm { get; set; }
-        public float SConveyor { get; set; }
-        public float SPumpT { get; set; }
-        public float SFlowRate { get; set; }
-        public float SDensity { get; set; }
+        public double SPlantT { get; set; }
+        public double SPlantH { get; set; }
+        public double SRobotArm { get; set; }
+        public double SConveyor { get; set; }
+        public double SPumpT { get; set; }
+        public double SFlowRate { get; set; }
+        public double SDensity { get; set; }
 
         public static readonly string SELECT_QUERY = @"SELECT PlantT
                                                             , PlantH

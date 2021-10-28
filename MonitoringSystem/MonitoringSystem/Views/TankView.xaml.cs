@@ -1,15 +1,12 @@
-﻿using MonitoringSystem.ViewModels;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.IO;
 using System.Reflection;
-using System.Text;
-using System.Windows;
+using System.Threading;
 using System.Windows.Controls;
-using System.Windows.Threading;
-using uPLibrary.Networking.M2Mqtt;
-using uPLibrary.Networking.M2Mqtt.Messages;
+using System.Windows;
+
+using OpenCvSharp;
+using System.Windows.Media.Imaging;
 
 namespace MonitoringSystem.Views
 {
@@ -18,22 +15,75 @@ namespace MonitoringSystem.Views
     /// </summary>
     public partial class TankView : UserControl
     {
-        private string RtspUrl = "rtsp://192.168.0.14:9000";   //아이피(라즈베리아이피) 바꿔줘야댐 192.168.191.185  
+        private string RtspUrl = "rtsp://192.168.0.7:9000";   //아이피(라즈베리아이피) 바꿔줘야댐 192.168.191.185  
         private DirectoryInfo libDirectory;
+        private const string windowName = "src";
+        Uri uri;
+
         public TankView()
         {
             InitializeComponent();
+            
             var currentAssembly = Assembly.GetEntryAssembly();
             var currentDirectory = new FileInfo(currentAssembly.Location).DirectoryName;
             libDirectory = new DirectoryInfo(System.IO.Path.Combine(currentDirectory, "libvlc", IntPtr.Size == 4 ? "win-x86" : "win-x64"));
-        }
-        // CCTV
-        private void Play_Button_Click(object sender, RoutedEventArgs e)
-        {
-            image.SourceProvider.CreatePlayer(libDirectory);
-            image.SourceProvider.MediaPlayer.Play(new Uri(RtspUrl));
-            
+            // 동영상 실행
+            CCTV.SourceProvider.CreatePlayer(libDirectory);
+            CCTV.SourceProvider.MediaPlayer.Play(new Uri(RtspUrl));
         }
 
+        #region 사진 캡쳐 로직 구현
+        private void Capture_Button_Click(object sender, RoutedEventArgs e)
+        {
+            FileInfo fi = new FileInfo("C:\\GitRepository\\MonitoringSystem_Project\\MonitoringSystem\\MonitoringSystem\\bin\\Image\\CCTV.jpg");
+
+            // 동영상 멈추면 다시 실행시키고 사진찍게함
+            if (CCTV.SourceProvider.MediaPlayer.IsPlaying())
+            {
+                CCTV.SourceProvider.MediaPlayer.TakeSnapshot(fi);
+            }
+            else
+            {
+                //MessageBox.Show("Not play");
+                CCTV.SourceProvider.MediaPlayer.Play(uri);
+                Thread.Sleep(2000);
+                CCTV.SourceProvider.MediaPlayer.TakeSnapshot(fi);
+            }
+            Mat src = Cv2.ImRead("../Image/CCTV.jpg", ImreadModes.AnyColor);
+
+        }
+        #endregion
+
+        #region 분석 로직 구현
+        private void Details_Button_Click(object sender, RoutedEventArgs e)
+        {
+            // Create Image and set its width and height  
+            Image dynamicImage = new Image();
+            dynamicImage.Width = 300;
+            dynamicImage.Height = 200;
+
+            // Create a BitmapSource  
+            BitmapImage bitmap = new BitmapImage();
+            bitmap.BeginInit();
+            bitmap.UriSource = new Uri(System.Environment.CurrentDirectory + @"/../Image/CCTV.jpg", UriKind.RelativeOrAbsolute);
+            bitmap.EndInit();
+
+            // Set Image.Source  
+            dynamicImage.Source = bitmap;
+
+            // Add Image to Window  
+            Captured_Image.Children.Add(dynamicImage);
+        }
+        #endregion
+
+        #region 팝업창 화면 오픈
+
+        private void Captured_Image_MouseRightButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            var win2 = new CCTV_View();
+            win2.Topmost = true;
+            win2.ShowDialog();
+        } 
+        #endregion
     }
 }
