@@ -28,7 +28,7 @@
                     <ColumnDefinition Width="50*"/>
                     <ColumnDefinition Width="50*"/>
                 </Grid.ColumnDefinitions>
-                <Button x:Name="AutoRun" Grid.Column="0" Grid.Row="0" Content="Automatic Production Mode Run" Width="250" FontSize="14" Style="{StaticResource MahApps.Styles.Button.Square.Accent}" >
+                <Button x:Name="AutoRun" Grid.Column="0" Grid.Row="0" Content="Automatic Mode Run" Width="250" FontSize="14" Style="{StaticResource MahApps.Styles.Button.Square.Accent}" >
                     <Button.Background>
                         <LinearGradientBrush  StartPoint="0,0" EndPoint="1,1">
                             <GradientStop Color="#FF93B4F6" Offset="0.0" />
@@ -37,7 +37,7 @@
                         </LinearGradientBrush>
                     </Button.Background>
                 </Button>
-                <Button x:Name="AutoStop" Grid.Column="1" Grid.Row="0" Content="Automatic Production Mode Stop"  Width="250" FontSize="14" Style="{StaticResource MahApps.Styles.Button.Square.Accent}" >
+                <Button x:Name="AutoStop" Grid.Column="1" Grid.Row="0" Content="Automatic Mode Stop"  Width="250" FontSize="14" Style="{StaticResource MahApps.Styles.Button.Square.Accent}" >
                     <Button.Background>
                         <LinearGradientBrush  StartPoint="0,0" EndPoint="1,1">
                             <GradientStop Color="#FF93B4F6" Offset="0.0" />
