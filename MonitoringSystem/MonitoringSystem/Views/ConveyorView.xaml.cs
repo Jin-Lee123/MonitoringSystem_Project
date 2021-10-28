@@ -435,7 +435,7 @@ namespace MonitoringSystem.Views
             Cv2.CvtColor(redChannel, src2, ColorConversionCodes.GRAY2BGR);
             Cv2.CvtColor(src2, image2, ColorConversionCodes.BGR2GRAY); // 회색 
 
-            Cv2.ImShow("image2", image2);
+            //Cv2.ImShow("image2", image2);
 
 
             Cv2.Dilate(image2, image2, kernel, new OpenCvSharp.Point(-1, -1), 3);
@@ -457,7 +457,7 @@ namespace MonitoringSystem.Views
                 Cv2.Circle(dst, center, (int)circles[i].Radius, Scalar.White, 3);
                 Cv2.Circle(dst, center, 5, Scalar.AntiqueWhite, Cv2.FILLED);
             }
-            Cv2.ImShow("구멍갯수", dst);
+            //Cv2.ImShow("구멍갯수", dst);
             #endregion
 
             #region 색상 분석!
@@ -548,7 +548,7 @@ namespace MonitoringSystem.Views
             #region 색상 식별 후 로봇팔 로직!
             if (pixels > 50)
             {
-                ArmStartAnimation();
+               
                 this.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Background, new Action(() =>
                 {
                     LblResult2.Content = "제품 판별 : 불량(빨간색)";
@@ -566,7 +566,7 @@ namespace MonitoringSystem.Views
             }
             else if (pixels2 > 50)
             {
-                ArmStartAnimation1();
+               
                 this.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Background, new Action(() =>
                 {
                     LblResult2.Content = "제품 판별 : 양품(초록색)";

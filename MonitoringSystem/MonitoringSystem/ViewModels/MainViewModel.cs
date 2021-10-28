@@ -385,6 +385,7 @@ namespace MonitoringSystem.ViewModels
             DisplayDate = DateTime.Now.ToString(@"yyyy-MM-dd");
             DisplayDate1 = DateTime.Now.ToString(@"ddd"+"요일");
             // 값 재정의
+            GetSettings();
             PlantT = DataConnection.PlantT;
             PlantH = DataConnection.PlantH;
             ConveyTemp = DataConnection.ConveyTemp;

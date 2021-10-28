@@ -315,8 +315,8 @@
             <GroupBox Header="【 Line CCTV 】" Style="{x:Null}" FontSize="16" BorderThickness="1.5">
                 <Grid>
                     <vlc:VlcControl x:Name="image" Grid.Column="1" Grid.Row="0" Margin="5"/>
-                    <Button x:Name="Play_Button" Content="Play"  Height="30" Width="80" FontSize="14" Background="Yellow" Margin="254,109,254,105.8" />
-                    <Button Content="test" Click="Button_Click" Height="30" Width="80" FontSize="14" Background="Yellow" Margin="138,109,370,105.8" />
+                    <!--<Button x:Name="Play_Button" Content="Play"  Height="30" Width="80" FontSize="14" Background="Yellow" Margin="254,109,254,105.8" />
+                    <Button Content="test" Click="Button_Click" Height="30" Width="80" FontSize="14" Background="Yellow" Margin="138,109,370,105.8" />-->
                     <Label x:Name="LblResult" FontSize="14" FontWeight="Bold" Foreground="Red" Width="200" Height="50" Content="구멍 갯수 : " HorizontalAlignment="Left" VerticalAlignment="Top" />
                     <Label x:Name="LblResult2" FontSize="14" FontWeight="Bold" Foreground="Red" Width="200" Height="50" Content="제품 판별 : " HorizontalAlignment="Right" VerticalAlignment="Top" />
 
