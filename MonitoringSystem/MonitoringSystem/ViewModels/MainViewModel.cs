@@ -204,6 +204,16 @@ namespace MonitoringSystem.ViewModels
             }
         }
        
+           public static int k1 = 0;
+           public static int k2 = 0;
+           public static int k3 = 0;
+           public static int k4 = 0;
+           public static int k5 = 0;
+           public static int k6 = 0;
+           public static int k7 = 0;
+           public static int k8 = 0;
+           public static int k9 = 0;
+           public static int k10 = 0;
 
         #region Gas 변수
         private double gas1;
@@ -316,22 +326,23 @@ namespace MonitoringSystem.ViewModels
 
             windowManager.ShowWindowAsync(viewmodel, null, settings);
         }
-
         public static void ShowVMDialog(PropertyChangedBase viewmodel)
         {
             WindowManager windowManager = new WindowManager();
             dynamic settings = new ExpandoObject();
-            settings.WindowStyle = WindowStyle.None;
+         //   settings.WindowStyle = WindowStyle.None;
             settings.ShowInTaskbar = false;
             settings.WindowState = WindowState.Maximized;
          //   settings.ResizeMode = ResizeMode.CanMinimize;
 
-            settings.Height = 1000;
-            settings.Width = 1000;
+            settings.Height = 300;
+            settings.Width = 400;
             settings.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-
             windowManager.ShowDialogAsync(viewmodel, null, settings);
+
         }
+
+        
         #endregion
 
         #region Setting 값 받아오기
@@ -380,6 +391,7 @@ namespace MonitoringSystem.ViewModels
 
         }
         private void UpdateTimer_Tick(object sender, EventArgs e)
+
         {
             DisplayDateTextBlock = DateTime.Now.ToString(@"HH:mm:ss");
             DisplayDate = DateTime.Now.ToString(@"yyyy-MM-dd");
@@ -397,85 +409,171 @@ namespace MonitoringSystem.ViewModels
             Gas6 = DataConnection.Gas6;
             
             // Error 표시
-            if (Gas1 > 2.5)
+            if (Gas1 > 6.0 && k1 == 0)
             {
                 DataConnection.EMessage = "위험 경보 : CO가 일정수치 이상입니다.";
                 DataConnection.Solution = "팬을 돌려서 Gas를 밖으로 내보냅니다.";
-                App.Logger.Warn("CO 가스 수치 이상");
+                App.Logger.Warn(new Exception("공장"),"CO 가스 수치 이상");
                 ShowVMDialog(new ErrorViewModel());
-                
+                k1++;
             }
-            if (Gas2 > 5.0)
+            else if (k1 == 20 )
             {
-                DataConnection.EMessage = "위험 경보 : CO가 일정수치 이상입니다.";
+                k1 = 0;
+            }
+            else
+            {
+                k1++;
+            }
+            if (Gas2 > 6.0 && k2 == 0)
+            {
+                DataConnection.EMessage = "위험 경보 : Alchohol가 일정수치 이상입니다.";
                 DataConnection.Solution = "팬을 돌려서 Gas를 밖으로 내보냅니다.";
-                App.Logger.Warn("CO 가스 수치 이상");
+                App.Logger.Warn(new Exception("공장"), "Alchohol 가스 수치 이상");
                 ShowVMDialog(new ErrorViewModel());
-
+                k2++;
             }
-            if (Gas3 > 5.0)
+            else if (k2 == 20)
             {
-                DataConnection.EMessage = "위험 경보 : CO가 일정수치 이상입니다.";
-                DataConnection.Solution = "팬을 돌려서 Gas를 밖으로 내보냅니다.";
-                App.Logger.Warn("CO 가스 수치 이상");
-                ShowVMDialog(new ErrorViewModel());
-
+                k2 = 0;
             }
-            if (Gas4 > 5.0)
+            else
             {
-                DataConnection.EMessage = "위험 경보 : CO가 일정수치 이상입니다.";
-                DataConnection.Solution = "팬을 돌려서 Gas를 밖으로 내보냅니다.";
-                App.Logger.Warn("CO 가스 수치 이상");
-                ShowVMDialog(new ErrorViewModel());
-
+                k2++;
             }
-            if (Gas5 > 5.0)
+            if (Gas3 > 6.0 && k3 == 0)
             {
-                DataConnection.EMessage = "위험 경보 : CO가 일정수치 이상입니다.";
+                DataConnection.EMessage = "위험 경보 : CO2가 일정수치 이상입니다.";
                 DataConnection.Solution = "팬을 돌려서 Gas를 밖으로 내보냅니다.";
-                App.Logger.Warn("CO 가스 수치 이상");
-                ShowVMDialog(new ErrorViewModel());
-
-            }
-            if (Gas6 > 5.0)
-            {
-                DataConnection.EMessage = "위험 경보 : CO가 일정수치 이상입니다.";
-                DataConnection.Solution = "팬을 돌려서 Gas를 밖으로 내보냅니다.";
-                App.Logger.Warn("CO 가스 수치 이상");
+                App.Logger.Warn(new Exception("공장"), "CO2 가스 수치 이상");
                 ShowVMDialog(new ErrorViewModel());
 
+                k3++;
             }
-            if (PlantH > SPlantH)
+            else if (k3 == 20)
             {
-                DataConnection.EMessage = "위험 경보 : CO가 일정수치 이상입니다.";
+                k3 = 0;
+            }
+            else
+            {
+                k3++;
+            }
+            if (Gas4 > 6.0 && k4 == 0)
+            {
+                DataConnection.EMessage = "위험 경보 : Tolueno가 일정수치 이상입니다.";
                 DataConnection.Solution = "팬을 돌려서 Gas를 밖으로 내보냅니다.";
-                App.Logger.Warn("CO 가스 수치 이상");
+                App.Logger.Warn(new Exception("공장"), "Tolueno 가스 수치 이상");
                 ShowVMDialog(new ErrorViewModel());
 
+                k4++;
             }
-            if (PlantT > SPlantT)
+            else if (k4 == 20)
             {
-                DataConnection.EMessage = "위험 경보 : CO가 일정수치 이상입니다.";
-                DataConnection.Solution = "팬을 돌려서 Gas를 밖으로 내보냅니다.";
-                App.Logger.Warn("CO 가스 수치 이상");
-                ShowVMDialog(new ErrorViewModel());
+                k4 = 0;
             }
+            else
+            {
+                k4++;
+            }
+            if (Gas5 > 6.0 && k5 == 0)
+            {
+                DataConnection.EMessage = "위험 경보 : NH4가 일정수치 이상입니다.";
+                DataConnection.Solution = "팬을 돌려서 Gas를 밖으로 내보냅니다.";
+                App.Logger.Warn(new Exception("공장"), "NH4 가스 수치 이상");
+                ShowVMDialog(new ErrorViewModel());
 
-            if (RobotTemp > SRobotArm)
+                k5++;
+            }
+            else if (k5 == 20)
+            {
+                k5 = 0;
+            }
+            else
+            {
+                k5++;
+            }
+            if (Gas6 > 6.0 && k6 == 0)
+            {
+                DataConnection.EMessage = "위험 경보 : Acetona가 일정수치 이상입니다.";
+                DataConnection.Solution = "팬을 돌려서 Gas를 밖으로 내보냅니다.";
+                App.Logger.Warn(new Exception("공장"), "Acetona 가스 수치 이상");
+                ShowVMDialog(new ErrorViewModel());
+
+                k6++;
+            }
+            else if (k6 == 20)
+            {
+                k6 = 0;
+            }
+            else
+            {
+                k6++;
+            }
+            if (PlantH > SPlantH && k7 == 0)
+            {
+                DataConnection.EMessage = "위험 경보 : 공장 내부 습도가 너무 높습니다.";
+                DataConnection.Solution = "팬을 돌려서 습도를 낮춥니다.";
+                App.Logger.Warn(new Exception("공장"), "공장 내부 온도 상승");
+                ShowVMDialog(new ErrorViewModel());
+
+                k7++;
+            }
+            else if (k7 == 20)
+            {
+                k7 = 0;
+            }
+            else
+            {
+                k7++;
+            }
+            if (PlantT > SPlantT && k8 == 0)
+            {
+                DataConnection.EMessage = "위험 경보 : 공장 내부 온도가 너무 높습니다.";
+                DataConnection.Solution = "펜을 돌려서 온도를 낮춥니다.";
+                App.Logger.Warn(new Exception("공장"), "공장 내부 습도 상승");
+                ShowVMDialog(new ErrorViewModel());
+                k8++;
+            }
+            else if (k8 == 20)
+            {
+                k8 = 0;
+            }
+            else
+            {
+                k8++;
+            }
+            if (RobotTemp > SRobotArm && k9 == 0)
             {
                 DataConnection.EMessage = "위험 경보 : 로봇팔의 온도가 30 보다 높습니다.";
                 DataConnection.Solution = "작동을 멈추고 30 보다 내려갔을 때 다시 작동해주세요.";
-                App.Logger.Warn("CO 가스 수치 이상");
+                App.Logger.Warn(new Exception("로봇팔"), "로봇팔 이상 감지");
                 ShowVMDialog(new ErrorViewModel());
+                k9++;
             }
-            if (ConveyTemp > SConveyor)
+            else if (k9 == 20)
+            {
+                k9 = 0;
+            }
+            else
+            {
+                k9++;
+            }
+            if (ConveyTemp > SConveyor && k10 == 0)
             {
                 DataConnection.EMessage = "위험 경보 : 컨베이어의 온도가 30 보다 높습니다.";
                 DataConnection.Solution = "작동을 멈추고 30 보다 내려갔을 때 다시 작동해주세요.";
-                App.Logger.Warn("CO 가스 수치 이상");
+                App.Logger.Warn(new Exception("컨베이어"), "컨베이어 이상 감지");
                 ShowVMDialog(new ErrorViewModel());
+                k10++;
             }
-
+            else if (k10 == 20)
+            {
+                k10 = 0;
+            }
+            else
+            {
+                k10++;
+            }
 
         }
     }

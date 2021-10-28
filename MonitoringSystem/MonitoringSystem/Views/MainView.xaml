@@ -11,6 +11,7 @@
         mc:Ignorable="d"
         Title="Window" 
         Topmost="True"
+        WindowState="Maximized"
         WindowStyle="ThreeDBorderWindow"
         WindowStartupLocation="CenterScreen" Background="Black"
         >

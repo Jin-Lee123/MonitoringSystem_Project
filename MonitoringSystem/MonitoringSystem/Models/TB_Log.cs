@@ -37,7 +37,7 @@ namespace MonitoringSystem.Models
                                                             AND Message LIKE @Message1
                                                             AND LoggedOnDate BETWEEN @SDATE AND @EDATE                              
                                                          ORDER BY LoggedOnDate DESC";
-        public static readonly string SELECT_QUERY2 = @"SELECT  TOP 15
+        public static readonly string SELECT_QUERY2 = @"SELECT  TOP 10
                                                              Level
                                                             , Message
                                                             , AdditionalInfo

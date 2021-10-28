@@ -68,7 +68,63 @@ namespace MonitoringSystem.Models
         }
 
         #endregion
+        #region ### Tank 변수 ###
+        // MainTankValue 계산
+        private static double mainTankValue;
+        public static double MainTankValue
+        {
+            get => mainTankValue;
+            set
+            {
+                if (value >= 1000)
+                {
+                    mainTankValue = 100;
+                }
+                else if (1000 > value && value >= 600)
+                {
+                    mainTankValue = Math.Round(value / 1000 * 100, 2);
+                }
+                else
+                {
+                    mainTankValue = Math.Round(value / 1200 * 100, 2);
+                }
+            }
+        }
 
+        // SubTankValue 계산
+        private static double subTankValue;
+        public static double SubTankValue
+        {
+            get => subTankValue;
+            set
+            {
+                if (value >= 1000)
+                {
+                    subTankValue = 100;
+                }
+                else if (1000 > value && value >= 600)
+                {
+                    subTankValue = Math.Round(value / 1000 * 100, 2);
+                }
+                else if (value < 300)
+                {
+                    subTankValue = 50;
+                }
+
+            }
+        }
+        private static string fan;
+        public static string Fan
+        {
+            get => fan;
+            set
+            {
+                fan = value;
+                NotifyPropertyChange(() => Fan);
+            }
+        }
+
+        #endregion
         private static double plantT;
 
         public static double PlantT
@@ -269,8 +325,16 @@ namespace MonitoringSystem.Models
 
                     }
                 }
-
                 #endregion
+                else if (currData["dev_addr"] == "4001" && currData["code"] == "MainTank") // MainTank에서 데이터 수신
+                {
+                    MainTankValue = int.Parse(currData["sensor"]);
+                }
+                else if (currData["dev_addr"] == "4001" && currData["code"] == "SubTank")
+                {
+                    SubTankValue = int.Parse(currData["sensor"]);
+                }
+
             }
             catch (Exception ex)
             {
@@ -312,7 +376,52 @@ namespace MonitoringSystem.Models
             }
         }
 
+        public static void FanOn()
+        {
+            // Publish 펌프 제어 ON
+            try
+            {
+                var currtime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                string pubData = "{ \n" +
+                                 "   \"dev_addr\" : \"4013\", \n" +
+                                 $"   \"currtime\" : \"{currtime}\" , \n" +
+                                 "   \"code\" : \"fan\", \n" +
+                                 "   \"value\" : \"1\", \n" +
+                                 "   \"sensor\" : \"0\" \n" +
+                                 "}";
 
+                Client.Publish($"{factoryId}/4013/", Encoding.UTF8.GetBytes(pubData), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
+                Fan = "Red";
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"접속 오류 { ex.Message}");
+            }
+        }
+
+        public static void FanOff()
+        {
+            // Publish 펌프 제어 OFF
+            try
+            {
+                var currtime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                string pubData = "{ \n" +
+                                  "   \"dev_addr\" : \"4013\", \n" +
+                                  $"   \"currtime\" : \"{currtime}\" , \n" +
+                                  "   \"code\" : \"fan\", \n" +
+                                  "   \"value\" : \"0\", \n" +
+                                  "   \"sensor\" : \"0\" \n" +
+                                  "}";
+
+                Client.Publish($"{factoryId}/4013/", Encoding.UTF8.GetBytes(pubData), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
+                Fan = "Gray";   
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"접속 오류 { ex.Message}");
+            }
+        }
         #endregion
     }
 }

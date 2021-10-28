@@ -70,6 +70,17 @@ namespace MonitoringSystem.ViewModels
             }
         }
 
+        private string fan;
+        public string Fan
+        {
+            get => fan;
+            set
+            {
+                fan = value;
+                NotifyOfPropertyChange(() => Fan);
+            }
+        }
+
         #region Gas 변수
         private double gas1;
         private double gas2;
@@ -216,12 +227,61 @@ namespace MonitoringSystem.ViewModels
                 NotifyOfPropertyChange(() => ConveyTemp);
             }
         }
+        private double mainTankValue;
+        public double MainTankValue
+        {
+            get => mainTankValue;
+            set
+            {
+                if (value >= 1000)
+                {
+                    mainTankValue = 100;
+                }
+                else if (1000 > value && value >= 600)
+                {
+                    mainTankValue = Math.Round(value / 1000 * 100, 2);
+                }
+                else
+                {
+                    mainTankValue = Math.Round(value / 1200 * 100, 2);
+                }
+            }
+        }
+
+        // SubTankValue 계산
+        private double subTankValue;
+        public double SubTankValue
+        {
+            get => subTankValue;
+            set
+            {
+                if (value >= 1000)
+                {
+                    subTankValue = 100;
+                }
+                else if (1000 > value && value >= 600)
+                {
+                    subTankValue = Math.Round(value / 1000 * 100, 2);
+                }
+                else if (value < 300)
+                {
+                    subTankValue = 50;
+                }
+             }
+        }
 
         public string[] GasName { get; set; }
         public Func<double, string> Formatter { get; set; }
 
-        #region Setting값 Property
-
+        #region ### Fan On/Off ###
+        public void FanOn()
+        {
+            DataConnection.FanOn();
+        }
+        public void FanOff()
+        {
+            DataConnection.FanOff();
+        }
         #endregion
         #endregion
 
@@ -229,6 +289,8 @@ namespace MonitoringSystem.ViewModels
         #region 차트 설정
         public MonitoringViewModel()
         {
+            
+
             SeriesCollection = new SeriesCollection
             {
                 new LiveCharts.Wpf.ColumnSeries
@@ -264,7 +326,6 @@ namespace MonitoringSystem.ViewModels
                         SeriesCollection[0].Values.Add(Gas6);
                     });
                 }
-
             });
         }
 
@@ -286,6 +347,9 @@ namespace MonitoringSystem.ViewModels
             Gas4 = DataConnection.Gas4;
             Gas5 = DataConnection.Gas5;
             Gas6 = DataConnection.Gas6;
+            Fan = DataConnection.Fan;
+            MainTankValue = DataConnection.MainTankValue;
+            SubTankValue = DataConnection.SubTankValue;
             GetLogs();
 
 

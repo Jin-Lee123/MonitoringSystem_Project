@@ -31,8 +31,16 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="6*"/>
             </Grid.RowDefinitions>
-            <GroupBox Grid.Row="0" Grid.Column="0" Header="【 Buttons 】" Style="{x:Null}" FontSize="12" BorderThickness="1.5">
-                <Button x:Name="Play_Button" Content="Plant Camera"  Width="250" Click="Play_Button_Click" 
+            <GroupBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Header="【 Buttons 】" Style="{x:Null}" FontSize="12" BorderThickness="1.5">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    
+                <Button x:Name="Play_Button" Grid.Column="0" Content="Plant Camera"  Width="250" Click="Play_Button_Click" 
                     FontSize="14" Style="{StaticResource MahApps.Styles.Button.Square.Accent}">
                     <Button.Background>
                         <LinearGradientBrush  StartPoint="0,0" EndPoint="1,1">
@@ -42,6 +50,31 @@
                         </LinearGradientBrush>
                     </Button.Background>
                 </Button>
+
+                    <Label Grid.Column="1" FontSize="12" Content="Fan On/Off"/>
+                    <Ellipse Grid.Column="1" Width="15" Height="15" Fill="{Binding Fan}"/>
+                    <Button x:Name="FanOn" Grid.Column="2" Content="Fan On"  Width="250" 
+                    FontSize="14" Style="{StaticResource MahApps.Styles.Button.Square.Accent}">
+                        <Button.Background>
+                            <LinearGradientBrush  StartPoint="0,0" EndPoint="1,1">
+                                <GradientStop Color="#FF93B4F6" Offset="0.0" />
+                                <GradientStop Color="Blue" Offset="0.5" />
+                                <GradientStop Color="#FF2245BA" Offset="1.0" />
+                            </LinearGradientBrush>
+                        </Button.Background>
+                    </Button>
+                    <Button x:Name="FanOff" Grid.Column="3" Content="Fan Off"  Width="250"
+                    FontSize="14" Style="{StaticResource MahApps.Styles.Button.Square.Accent}">
+                        <Button.Background>
+                            <LinearGradientBrush  StartPoint="0,0" EndPoint="1,1">
+                                <GradientStop Color="#FF93B4F6" Offset="0.0" />
+                                <GradientStop Color="Blue" Offset="0.5" />
+                                <GradientStop Color="#FF2245BA" Offset="1.0" />
+                            </LinearGradientBrush>
+                        </Button.Background>
+                    </Button>
+                </Grid>
+                
             </GroupBox>
 
             <GroupBox Grid.Row ="1" Grid.ColumnSpan="2" Header="【 통합 모니터링 】" Style="{x:Null}" FontSize="16" BorderThickness="1.5">
@@ -106,12 +139,13 @@
                 <Border Background="#b5b8bd" BorderThickness="5" BorderBrush="White" CornerRadius="5">
                     <StackPanel Margin="0, 20, 0, 0">
                         <Label Content="Plant Temperature"
-                   VerticalAlignment="Center" 
+                   VerticalAlignment="Top" 
                    HorizontalAlignment="Center" 
                    FontWeight="Bold"
                    Width="300"
                    HorizontalContentAlignment="Center"
-                   FontSize="25"
+                   VerticalContentAlignment="Top"
+                   FontSize="20"
                    Foreground="White"
                    Style="{StaticResource MahApps.Styles.Label}"/>
                         <TextBlock Text="{Binding PlantT}"
@@ -137,7 +171,7 @@
                    FontWeight="Bold"
                    Width="300"
                    HorizontalContentAlignment="Center"
-                   FontSize="25"
+                   FontSize="20"
                     Foreground="White"                   
 Style="{StaticResource MahApps.Styles.Label}"/>
                     <TextBlock Text="{Binding PlantH}"
@@ -162,7 +196,7 @@ Style="{StaticResource MahApps.Styles.Label}"/>
                    FontWeight="Bold"
                    Width="300" Foreground="White"
                    HorizontalContentAlignment="Center"
-                   FontSize="25"
+                   FontSize="20"
                    Style="{StaticResource MahApps.Styles.Label}"/>
                     <TextBlock Text="{Binding Duty}"
                        Style="{StaticResource MahApps.Styles.TextBlock}"
@@ -187,9 +221,9 @@ Style="{StaticResource MahApps.Styles.Label}"/>
                    FontWeight="Bold"
                    Width="300" Foreground="White"
                    HorizontalContentAlignment="Center"
-                   FontSize="25"
+                   FontSize="20"
                    Style="{StaticResource MahApps.Styles.Label}"/>
-                    <TextBlock Text="{Binding Gas2}"
+                    <TextBlock Text="{Binding MainTankValue}"
                        Style="{StaticResource MahApps.Styles.TextBlock}"
                        FontSize="30"
                         FontFamily="Bold"
@@ -211,9 +245,9 @@ Style="{StaticResource MahApps.Styles.Label}"/>
                    FontWeight="Bold"
                    Width="300" Foreground="White"
                    HorizontalContentAlignment="Center"
-                   FontSize="25"
+                   FontSize="20"
                    Style="{StaticResource MahApps.Styles.Label}"/>
-                        <TextBlock Text="{Binding Gas2}"
+                        <TextBlock Text="{Binding SubTankValue}"
                        Style="{StaticResource MahApps.Styles.TextBlock}"
                        FontSize="30"
                         FontFamily="Bold"
@@ -235,9 +269,9 @@ Style="{StaticResource MahApps.Styles.Label}"/>
                    FontWeight="Bold"
                    Width="300" Foreground="White"
                    HorizontalContentAlignment="Center"
-                   FontSize="25"
+                   FontSize="20"
                    Style="{StaticResource MahApps.Styles.Label}"/>
-                    <TextBlock Text="{Binding Gas3}"
+                    <TextBlock Text="{Binding ConveyTemp}"
                        Style="{StaticResource MahApps.Styles.TextBlock}"
                        FontSize="30"
                         FontFamily="Bold"
@@ -259,9 +293,9 @@ Style="{StaticResource MahApps.Styles.Label}"/>
                    FontWeight="Bold"
                    Width="300" Foreground="White"
                    HorizontalContentAlignment="Center"
-                   FontSize="25"
+                   FontSize="20"
                    Style="{StaticResource MahApps.Styles.Label}"/>
-                    <TextBlock Text="{Binding Gas4}"
+                        <TextBlock Text="{Binding RobotTemp}"
                        Style="{StaticResource MahApps.Styles.TextBlock}"
                        VerticalAlignment="Center" 
                    HorizontalAlignment="Center" 
@@ -272,7 +306,7 @@ Style="{StaticResource MahApps.Styles.Label}"/>
                        Foreground="Red"
                        TextAlignment="Center"
                        />
-                </StackPanel>
+                    </StackPanel>
                 </Border>
 
             </StackPanel>
