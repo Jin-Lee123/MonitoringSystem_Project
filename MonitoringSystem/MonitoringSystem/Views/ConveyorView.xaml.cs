@@ -23,6 +23,7 @@ namespace MonitoringSystem.Views
         private string clientId = "SCADA_system";
         private string factoryId = "kasan01";
         private MqttClient client;
+        
 
         //opencv
         private const string windowName = "src";
@@ -58,10 +59,8 @@ namespace MonitoringSystem.Views
             client.Connect(clientId);
             client.Subscribe(new string[] { $"{factoryId}/4003/" }, new byte[] { MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE });
             //client.Subscribe(new string[] { $"{factoryId}/#" }, new byte[] { MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE });
-            //client1.Subscribe(new string[] { $"{factoryId}/4001/" }, new byte[] { MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE });
 
         }
-
         private void Client_ConnectionClosed(object sender, EventArgs e)
         {
 
@@ -119,14 +118,6 @@ namespace MonitoringSystem.Views
                     }
                     // 물체감지
                     App.Logger.Fatal(new Exception("컨베이어"), "물체감지 정지");
-                }
-                else if (currData["dev_addr"] == "4001" && currData["code"] == "Arm" && currData["value"] == "1")
-                {
-                    ArmStartAnimation();
-                }
-                else if (currData["dev_addr"] == "4001" && currData["code"] == "Arm" && currData["value"] == "2")
-                {
-                    ArmStartAnimation1();
                 }
             }
             catch (Exception ex)
@@ -557,6 +548,7 @@ namespace MonitoringSystem.Views
             #region 색상 식별 후 로봇팔 로직!
             if (pixels > 50)
             {
+                ArmStartAnimation();
                 this.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Background, new Action(() =>
                 {
                     LblResult2.Content = "제품 판별 : 불량(빨간색)";
@@ -574,6 +566,7 @@ namespace MonitoringSystem.Views
             }
             else if (pixels2 > 50)
             {
+                ArmStartAnimation1();
                 this.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Background, new Action(() =>
                 {
                     LblResult2.Content = "제품 판별 : 양품(초록색)";
@@ -610,16 +603,16 @@ namespace MonitoringSystem.Views
             #endregion
             Cv2.WaitKey(0);
             Cv2.DestroyAllWindows();
-        } 
+        }
         #endregion
 
-        #region 공장 온도 차트그래프 버튼이벤트
-      /*  private void LoadLineTemp_Click(object sender, RoutedEventArgs e)
+        #region 컨베이어,로봇팔 온도 차트 열기 버튼
+        private void LoadLineTemp_Click(object sender, RoutedEventArgs e)
         {
             var win = new LineTempView();
             win.Topmost = true;
             win.ShowDialog();
-        }*/
+        }
         #endregion
     }
 }

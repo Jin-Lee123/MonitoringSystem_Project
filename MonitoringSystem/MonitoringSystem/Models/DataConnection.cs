@@ -27,7 +27,7 @@ namespace MonitoringSystem.Models
         }
         #region ### 변수 생성 ###
 
-        private static string serverIpNum = "192.168.0.198";  // 윈도우(MQTT Broker, SQLServer) 아이피
+        private static string serverIpNum = "192.168.0.195";  // 윈도우(MQTT Broker, SQLServer) 아이피
         private static string clientId = "Monitoring";
         private static string factoryId = "kasan01";            //  Kasan01/4001/  kasan01/4002/ 
         private static string connectionString = "Data Source=hangaramit.iptime.org;Initial Catalog=1조_database;Persist Security Info=True;User ID=team1;Password=team1_1234";
