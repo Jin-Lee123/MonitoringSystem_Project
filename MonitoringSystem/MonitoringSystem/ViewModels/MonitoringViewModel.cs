@@ -13,6 +13,7 @@ using LiveCharts;
 using LiveCharts.Wpf;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Data.SqlClient;
 
 namespace MonitoringSystem.ViewModels
 {
@@ -56,6 +57,19 @@ namespace MonitoringSystem.ViewModels
 
             }
         }
+
+        private BindableCollection<TB_Log> TB_log;
+
+        public BindableCollection<TB_Log> Log
+        {
+            get => TB_log;
+            set
+            {
+                TB_log = value;
+                NotifyOfPropertyChange(() => Log);
+            }
+        }
+
         #region Gas 변수
         private double gas1;
         private double gas2;
@@ -223,10 +237,11 @@ namespace MonitoringSystem.ViewModels
                 }
             };
 
-            GasName = new[] { "CO", "CO2", "FF", "AA", "BB", "DD" };
+            GasName = new[] { "CO", "Alcohol", "CO2", "Tolueno", "NH4", "Acetona" };
             Formatter = value => value.ToString("N");
 
-            //         App.LOGGER.Info($"예외발생, Client_MqttMsgPublishReceived : []");
+            
+
             DispatcherTimer timer = new DispatcherTimer();
 
             timer.Tick += new EventHandler(FunctionB);
@@ -271,11 +286,41 @@ namespace MonitoringSystem.ViewModels
             Gas4 = DataConnection.Gas4;
             Gas5 = DataConnection.Gas5;
             Gas6 = DataConnection.Gas6;
+            GetLogs();
 
 
             
         }
+        public void GetLogs()
+        {
+            using (SqlConnection conn = new SqlConnection(Common.CONNSTRING))
+            {
+               
+                conn.Open();
 
+
+                SqlCommand cmd = new SqlCommand(Models.TB_Log.SELECT_QUERY2, conn);
+                SqlDataReader reader = cmd.ExecuteReader();
+                Log = new BindableCollection<TB_Log>();
+
+                while (reader.Read())
+                {
+
+                    var empTmp = new TB_Log
+                    {
+
+                        Level = reader["Level"].ToString(),
+                        Message = reader["Message"].ToString(),
+                        AdditionalInfo = reader["AdditionalInfo"].ToString(),
+
+                    };
+                    Log.Add(empTmp);
+                }
+            }
+        }
     }
+
 }
+
+
 
